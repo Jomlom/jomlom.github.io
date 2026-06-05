@@ -1,0 +1,121 @@
+// bg-stars
+
+// fixed fullscreen canvas
+// draws background stars everywhere on the page
+// reads rotX and rotY from window._heroSim so stars match the hero exactly
+
+(function () {
+
+  const canvas = document.getElementById('bg-stars-canvas')
+  if (!canvas) return
+
+  const ctx = canvas.getContext('2d')
+
+  function resize() {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+  }
+  resize()
+  window.addEventListener('resize', resize)
+
+  // same star data layout as hero-sim starfield
+  const NSTARS = 2048
+  const dirs = new Float32Array(NSTARS * 3)
+  const props = new Float32Array(NSTARS * 4) // size, opacity, twinkleSpd, twinklePhase
+  const cols = new Float32Array(NSTARS * 3) // r g b 0..1
+
+  function genStars() {
+    for (let s = 0; s < NSTARS; s++) {
+      let x, y, z, l
+      do {
+        x = Math.random()*2-1; y = Math.random()*2-1; z = Math.random()*2-1
+        l = Math.sqrt(x*x + y*y + z*z)
+      } while (l > 1 || l < 0.001)
+      dirs[s*3] = x/l; dirs[s*3+1] = y/l; dirs[s*3+2] = z/l
+      props[s*4] = 1.5 + Math.random() * 1.4 // size
+      props[s*4+1] = 0.1 + Math.random() * 0.2 // base opacity
+      props[s*4+2] = 0.011 + Math.random() * 0.01 // twinkle speed
+      props[s*4+3] = Math.random() * Math.PI * 2 // twinkle phase
+      const t = Math.random()
+      if (t < 0.15) { cols[s*3]=0.85; cols[s*3+1]=0.90; cols[s*3+2]=1.00 }
+      else if (t < 0.28) { cols[s*3]=1.00; cols[s*3+1]=0.90; cols[s*3+2]=0.75 }
+      else { cols[s*3]=0.95; cols[s*3+1]=0.95; cols[s*3+2]=0.95 }
+    }
+  }
+  genStars()
+
+  // listen for hero reset so stars regenerate in sync
+  window.addEventListener('heroReset', genStars)
+
+  let frame = 0
+
+  function tick() {
+    requestAnimationFrame(tick)
+    frame++
+
+    const w = canvas.width, h = canvas.height
+    const px = Math.min(w, h) / 1080
+
+    // hero-sim sizes its canvas to the hero section width x height
+    // project stars using the HERO canvas aspect ratio so they match
+    const heroCanvas = document.getElementById('hero-canvas')
+    const heroAsp = heroCanvas ? (heroCanvas.width / heroCanvas.height) : (w / h)
+
+    // read camera from hero-sim — falls back to 0 if not loaded yet
+    const sim = window._heroSim || { rotX: 0, rotY: -0.5 }
+    const rotX = sim.rotX, rotY = sim.rotY
+
+    // projection witj same fov as hero-sim
+    const fov = Math.PI / 3.2
+    const asp = heroAsp  // match hero-sim projection exactly
+    const f = 1 / Math.tan(fov / 2)
+
+    // rotation matrix components, rotY then rotX
+    const cx = Math.cos(rotX), sx = Math.sin(rotX)
+    const cy = Math.cos(rotY), sy = Math.sin(rotY)
+
+    ctx.clearRect(0, 0, w, h)
+
+    for (let s = 0; s < NSTARS; s++) {
+      const dx = dirs[s*3], dy = dirs[s*3+1], dz = dirs[s*3+2]
+
+      // apply rotY then rotX
+      const rx1 = dx*cy + dz*sy
+      const ry1 = dy
+      const rz1 = -dx*sy + dz*cy
+      const vx = rx1
+      const vy = ry1*cx - rz1*sx
+      const vz = ry1*sx + rz1*cx
+
+      if (vz >= -0.1) continue // behind camera
+
+      const ndcX = (vx / -vz) * (f / asp)
+      const ndcY = (vy / -vz) * f
+      if (ndcX < -1.1 || ndcX > 1.1 || ndcY < -1.1 || ndcY > 1.1) continue
+
+      // twinkle
+      const tw = 1 + 0.28 * Math.sin(frame * props[s*4+2] + props[s*4+3])
+      const op = props[s*4+1] * tw
+      const sz = props[s*4] * px
+
+      // convert ndc to canvas pixels
+      const screenX = (ndcX + 1) * 0.5 * w
+      const screenY = (1 - (ndcY + 1) * 0.5) * h
+
+      const r = Math.round(cols[s*3] * 255)
+      const g = Math.round(cols[s*3+1] * 255)
+      const b = Math.round(cols[s*3+2] * 255)
+
+      ctx.globalAlpha = op
+      ctx.fillStyle = `rgb(${r},${g},${b})`
+      ctx.beginPath()
+      ctx.arc(screenX, screenY, sz * 0.5, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    ctx.globalAlpha = 1
+  }
+
+  tick()
+
+})()
