@@ -13,7 +13,6 @@
   <canvas id="bg-stars-canvas"></canvas>
 
   <div class="noise"></div>
-  <div class="grid-bg"></div>
 
   <nav>
     <span class="nav-logo">JA<span class="cursor-blink">_</span></span>
@@ -273,14 +272,12 @@
         const h3 = card.querySelector('h3')
         if (!h3) return
         const wrap = document.createElement('div')
-        wrap.style.cssText = 'display:flex;flex-direction:row;align-items:center;gap:0.75rem;margin-bottom:0.75rem;'
+        wrap.className = 'card-title-row'
         const icon = document.createElement('img')
         icon.src = src
+        icon.className = 'card-icon'
         icon.alt = ''
         icon.setAttribute('aria-hidden', 'true')
-        icon.style.cssText = 'width:2.8rem;height:2.8rem;object-fit:contain;flex-shrink:0;border-radius:4px;display:block;'
-        h3.style.margin = '0'
-        h3.style.lineHeight = '1.2'
         h3.parentNode.insertBefore(wrap, h3)
         wrap.appendChild(icon)
         wrap.appendChild(h3)
