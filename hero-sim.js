@@ -22,7 +22,6 @@ window.addEventListener("resize", () => {
 
 const W = () => canvas.width
 const H = () => canvas.height
-const PX = () => Math.min(canvas.width, canvas.height) / 1080
 
 function mkShader(type, src) {
   const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s)
@@ -129,8 +128,10 @@ precision highp float;in vec2 v_uv;
 uniform sampler2D u_sharp,u_bloom;uniform float u_alpha;out vec4 o;
 void main(){
   vec3 s=texture(u_sharp,v_uv).rgb,b=texture(u_bloom,v_uv).rgb;
-  vec3 col=s+b*.55;
-  col=col/(col+.5);col=pow(col,vec3(.92));
+  vec3 col=s+b*.75;
+  col=col/(col+.38);col=pow(col,vec3(.88));
+  float lum=dot(col,vec3(.299,.587,.114));
+  col=mix(vec3(lum),col,1.15);
   // alpha: galaxy pixels opaque, empty space transparent so bg-stars show through
   float a=clamp(dot(col,vec3(.299,.587,.114))*12.,0.,1.)*u_alpha;
   o=vec4(col,a);
@@ -272,7 +273,7 @@ heroEl.addEventListener('dblclick',()=>{fadingOut=true;pendingReset=false;sfFadi
 let frame=0
 function tick(){
   requestAnimationFrame(tick);frame++
-  const w=W(),h=H(),px=PX()
+  const w=W(),h=H()
 
   const tvel=drag?0:ROT_SPEED;rotVel+=(tvel-rotVel)*.04;rotY+=rotVel
 
@@ -290,6 +291,8 @@ function tick(){
   ping=pong
 
   const fov=Math.PI/3.2,asp=w/h
+  // on a narrow screen asp<1 so galaxy is magnified — scale particles up to match
+  const px=Math.min(w,h)/1080 * Math.max(1, 1/asp)
 
   gl.bindFramebuffer(gl.FRAMEBUFFER,sharpFBO);gl.viewport(0,0,w,h)
   gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT)
