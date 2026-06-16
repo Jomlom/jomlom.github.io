@@ -128,11 +128,12 @@ precision highp float;in vec2 v_uv;
 uniform sampler2D u_sharp,u_bloom;uniform float u_alpha;out vec4 o;
 void main(){
   vec3 s=texture(u_sharp,v_uv).rgb,b=texture(u_bloom,v_uv).rgb;
-  vec3 col=s+b*.75;
-  col=col/(col+.38);col=pow(col,vec3(.88));
+  vec3 col=s+b*.68;
+  col=col/(col+.44);col=pow(col,vec3(.90));
   float lum=dot(col,vec3(.299,.587,.114));
-  col=mix(vec3(lum),col,1.15);
   // alpha: galaxy pixels opaque, empty space transparent so bg-stars show through
+  col=mix(vec3(lum),col,1.08);
+  col=col*mix(vec3(1.0),vec3(0.612,0.439,1.0),0.13);
   float a=clamp(dot(col,vec3(.299,.587,.114))*12.,0.,1.)*u_alpha;
   o=vec4(col,a);
 }`
@@ -151,7 +152,6 @@ function dq(pi){
   const l=qLocs[pi];if(l>=0){gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0)}
   gl.drawArrays(gl.TRIANGLE_STRIP,0,4);gl.bindVertexArray(null)
 }
-
 
 let sharpTex,sharpFBO,blurTexA,blurTexB,blurFBOA,blurFBOB,BW,BH
 function resizeTargets(){
@@ -184,7 +184,7 @@ function pickTier() {
   return { N:4096, TW:128, TH:32 } // safe default for unknown desktop
 }
 const { N, TW, TH } = pickTier()
-const DT=0.0008,SOFT2=0.002,G=1.0,DTMULT=0.20,HUE=270
+const DT=0.0008,SOFT2=0.001,G=1.0,DTMULT=0.20,HUE=258
 let posTex=[mkF32(TW,TH,null),mkF32(TW,TH,null)]
 let velTex=[mkF32(TW,TH,null),mkF32(TW,TH,null)]
 let posFBO=[mkFBO(posTex[0]),mkFBO(posTex[1])]
@@ -195,18 +195,19 @@ function makeGalaxy(){
   const pos=new Float32Array(N*4),vel=new Float32Array(N*4),col=new Float32Array(N*4)
   const BH=40,SM=0.0008,DM=(N-1)*SM,RS=0.9
   pos[3]=BH;col[0]=5.5;col[1]=1;col[2]=.98;col[3]=1
-  const nA=2+Math.floor(Math.random()*3),tw=1.6+Math.random()*1.4
-  const aA=Array.from({length:nA},()=>Math.random()*Math.PI*2)
-  const aW=Array.from({length:nA},()=>.18+Math.random()*.25)
-  const nc=30+Math.floor(Math.random()*40),csMin=.04+Math.random()*.06,csRng=.08+Math.random()*.20,onA=.70+Math.random()*.25
+  const nA=2+Math.floor(Math.random()*2),tw=1.6+Math.random()*1.4
+  const aA=Array.from({length:nA},(_,i)=>i*(Math.PI*2/nA)+randn(0,0.18))
+  const aW=Array.from({length:nA},()=>.18+Math.random()*.20)
+  const nc=30+Math.floor(Math.random()*40),csMin=.04+Math.random()*.06,csRng=.08+Math.random()*.16,onA=.60+Math.random()*.18
   const clumps=[]
   for(let c=0;c<nc;c++){
+    const armIdx=c%nA
     let cr,ct
-    if(Math.random()<onA){const u=Math.random();cr=Math.max(.3,-RS*Math.log(1-u*.94));cr=Math.min(cr,4.5);const a=Math.floor(Math.random()*nA);ct=aA[a]-tw*Math.log(cr*2.5+1)+randn(0,aW[a]*.5)}
+    if(Math.random()<onA){const u=Math.random();cr=Math.max(.3,-RS*Math.log(1-u*.94));cr=Math.min(cr,4.5);ct=aA[armIdx]-tw*Math.log(cr*2.5+1)+randn(0,aW[armIdx]*.5)}
     else{const u=Math.random();cr=Math.max(.08,-RS*Math.log(1-u*.96));cr=Math.min(cr,4.5);ct=Math.random()*Math.PI*2}
     clumps.push({r:cr,t:ct,size:csMin+Math.random()*csRng})
   }
-  const cb=.80+Math.random()*.15,SL=20*Math.PI/180,cs=Math.cos(SL),ss=Math.sin(SL)
+  const cb=.72+Math.random()*.10,SL=20*Math.PI/180,cs=Math.cos(SL),ss=Math.sin(SL)
   const [hr,hg,hb]=hsl(HUE,100,52),[lr,lg,lb]=hsl(HUE,85,72)
   const [a1r,a1g,a1b]=hsl((HUE+120)%360,95,60),[a2r,a2g,a2b]=hsl((HUE+210)%360,90,55),[a3r,a3g,a3b]=hsl((HUE+60)%360,85,65)
   for(let i=1;i<N;i++){
@@ -232,13 +233,21 @@ function makeGalaxy(){
     else{
       const fd=1-radT*.15
       cr2=hr*fd+(lr-hr*fd)*cd+sc();cg2=hg*fd+(lg-hg*fd)*cd+sc();cb2=hb*fd+(lb-hb*fd)*cd+sc()
-      if(sp<.018){cr2=a1r+sc();cg2=a1g+sc();cb2=a1b+sc()}
-      else if(sp<.033){cr2=a2r+sc();cg2=a2g+sc();cb2=a2b+sc()}
-      else if(sp<.046){cr2=a3r+sc();cg2=a3g+sc();cb2=a3b+sc()}
-      else if(sp<.062){const w=.85+Math.random()*.15;cr2=w+sc();cg2=w+sc();cb2=w+sc()}
-      else if(sp<.074){cr2=.95+sc();cg2=.90+sc();cb2=.70+sc()}
+      if(sp<.033){cr2=a2r+sc();cg2=a2g+sc();cb2=a2b+sc()}
+      else if(sp<.043){cr2=a3r+sc();cg2=a3g+sc();cb2=a3b+sc()}
+      else if(sp<.073){cr2=.92+sc();cg2=.12+sc()*.5;cb2=.10+sc()*.5}
+      else if(sp<.089){const w=.85+Math.random()*.15;cr2=w+sc();cg2=w+sc();cb2=w+sc()}
     }
-    const bs=0.82+rSz*.14;col[i*4+1]=Math.max(0,cr2)*bs;col[i*4+2]=Math.max(0,cg2)*bs;col[i*4+3]=Math.max(0,cb2)*bs
+    // blend toward pink then white at centre
+    const coreT=Math.max(0,1-rC/0.2)
+    // pink midpoint: shift red up, blue slightly down before going fully white
+    const pinkR=Math.min(1,cr2*2.4+0.3),pinkG=cg2*0.3,pinkB=cb2*0.85
+    cr2=cr2+(pinkR+(1-pinkR)*coreT-cr2)*coreT
+    cg2=cg2+(pinkG+(1-pinkG)*coreT-cg2)*coreT
+    cb2=cb2+(pinkB+(1-pinkB)*coreT-cb2)*coreT
+    // boost particle size at centre for stronger bloom
+    const coreBoom=1+coreT*3.5
+    const bs=(0.82+rSz*.14)*coreBoom;col[i*4]=rSz*coreBoom;col[i*4+1]=Math.max(0,cr2)*bs;col[i*4+2]=Math.max(0,cg2)*bs;col[i*4+3]=Math.max(0,cb2)*bs
   }
   return {pos,vel,col}
 }
@@ -253,8 +262,8 @@ function loadGalaxy(g){
 loadGalaxy(makeGalaxy())
 
 // camera state - exposed globally for bg-stars.js
-let rotX=0.25,rotY=-0.75,rotVel=0
-const ROT_SPEED=0.00018
+let rotX=0.5,rotY=-1.75,rotVel=0.005
+const ROT_SPEED=0.0002
 window._heroSim = { get rotX(){return rotX}, get rotY(){return rotY} }
 
 const heroEl=document.querySelector('.hero')
