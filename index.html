@@ -17,8 +17,8 @@
   <nav>
     <span class="nav-logo">JA<span class="cursor-blink">_</span></span>
     <div class="nav-links">
-      <a href="#about">about</a>
-      <a href="#projects">projects</a>
+      <a href="projects/">projects</a>
+      <a href="background/">background</a>
       <a href="#contact">contact</a>
     </div>
   </nav>
@@ -27,226 +27,47 @@
     <canvas id="hero-canvas"></canvas>
     <div class="hero-content">
       <h1>Jonty Ali</h1>
-      <p class="hero-sub">First-year maths & physics student at Durham University.</p>
+      <p class="hero-sub">Maths &amp; Physics student at Durham University.</p>
       <div class="hero-links">
-        <a href="https://github.com/Jomlom" class="btn-primary" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/jonty-ali-722b8926a/" class="btn-secondary"
-        target="_blank" rel="noopener">LinkedIn</a>
+        <a href="projects/" class="btn-primary">my work</a>
+        <a href="background/" class="btn-standout">my background</a>
       </div>
-      <p class="scroll-hint">scroll down</p>
+    </div>
+    <div class="scroll-chevrons" id="scroll-chevrons">
+      <svg viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,2 12,10 22,2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,2 12,10 22,2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,2 12,10 22,2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
   </section>
   <script src="hero-sim.js"></script>
   <script src="bg-stars.js"></script>
 
-  <section id="about" class="section">
-    <div class="section-label">// about</div>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>I'm a first-year Maths &amp; Physics student at Durham University, 
-            I enjoy maths, simulating things, and finding satisfying solutions to problems. 
-            I also do a bit of pixel art!</p>
-        <p>Currently learning C++ and have some cool project ideas. 
-            I wanted a website to show them off as I make progress and get better.</p>
+  <section id="featured" class="section">
+    <div class="section-label">// featured project</div>
+    <a class="project-card featured-card" href="projects/nbody/">
+      <div class="project-status">in progress</div>
+      <h3>N-Body Gravity Simulator</h3>
+      <p>A real-time gravitational simulation of many bodies running on the GPU via WebGL2.
+         Ping-pong physics, bloom post-processing, and a galaxy initial condition -
+         the simulation you can see running behind this page.</p>
+      <div class="project-tags">
+        <span>WebGL2</span>
+        <span>Physics Simulation</span>
+        <span>Computer Graphics</span>
       </div>
-      <div class="about-stack">
-        <div class="stack-label">currently working with</div>
-        <div class="stack-items">
-          <span>Python</span>
-          <span>C++</span>
-          <span>Git</span>
-          <span>LaTeX</span>
-        </div>
-        <div class="stack-label" style="margin-top:1.5rem">interests</div>
-        <div class="stack-items">
-          <span>Simulations</span>
-          <span>Game Engines</span>
-          <span>Video Game Dev</span>
-          <span>Solving Problems</span>
-          <span>Computer Graphics</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects" class="section">
-    <div class="section-label">// projects</div>
-    <div class="projects-scroll-outer">
-    <div class="projects-grid" id="projects-grid">
-
-      <!-- data-gallery points to the folder containing gallery.json -->
-      <!-- JS fetches it automatically -->
-
-      <a class="project-card coming-soon" href="projects/chess/">
-        <div class="project-status">in progress</div>
-        <h3>Chess Platform & Engine</h3>
-        <p>A chess platform and engines written in C++, 
-            I will create bots of increasing difficulty as I improve since I am new to chess. 
-            Goal: Create an engine at the skill of 1600 ELO.</p>
-        <div class="project-tags">
-          <span>Game Engine</span>
-          <span>Game Theory</span>
-        </div>
-        <span class="card-arrow">→</span>
-      </a>
-
-      <a class="project-card coming-soon" href="projects/nbody/">
-        <div class="project-status">in progress</div>
-        <h3>N-Body Gravity Simulator</h3>
-        <p>A real-time gravitational simulation of many bodies using Newtonian gravitation. 
-            Should be a simple and beautiful visualisation, and I think this would look great on the front page of this site.</p>
-        <div class="project-tags">
-          <span>Physics Simulation</span>
-          <span>Computer Graphics</span>
-        </div>
-        <span class="card-arrow">→</span>
-      </a>
-
-      <a class="project-card coming-soon" href="projects/poker/">
-        <div class="project-status">idea</div>
-        <h3>Poker Platform &amp; Bots</h3>
-        <p>Texas Hold'em platform with bots of varying sophistication and strategies. 
-            Poker has very high variance so it is difficult to benchmark aginst myself, 
-            but I'd like to see an engine I create predict or fool me and my friends.</p>
-        <div class="project-tags">
-          <span>Game Engine</span>
-          <span>Game Theory</span>
-        </div>
-        <span class="card-arrow">→</span>
-      </a>
-
-      <div class="project-card coming-soon">
-        <div class="project-status">idea</div>
-        <h3>Coming Soon</h3>
-        <p>More projects coming... Check back later.</p>
-        <div class="project-tags">
-          <span>TBD</span>
-        </div>
-      </div>
-
-    </div>
-    </div>
+      <span class="card-arrow">→</span>
+    </a>
+    <a class="view-all-link" href="projects/">view all projects &rarr;</a>
   </section>
 
   <section id="contact" class="section">
-
-  <script>
-    const grid = document.getElementById('projects-grid')
-
-    let isDragging = false
-    let startX = 0
-    let startScroll = 0
-    let moved = false
-    let rafId = null
-    let velX = 0
-
-    // rolling history of recent scroll positions and timestamps
-    // use the last 80ms to estimate velocity
-    const HISTORY_MS = 80
-    let history = []  // [{t, x}]
-
-    function stopRaf() {
-      if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null }
-    }
-
-    function recordHistory() {
-      const now = performance.now()
-      history.push({ t: now, x: grid.scrollLeft })
-      // trim anything older than HISTORY_MS
-      const cutoff = now - HISTORY_MS
-      while (history.length > 1 && history[0].t < cutoff) history.shift()
-    }
-
-    function releaseVelocity() {
-      // use oldest and newest point in the window for estimate
-      if (history.length < 2) return 0
-      const oldest = history[0]
-      const newest = history[history.length - 1]
-      const dt = newest.t - oldest.t
-      if (dt < 1) return 0
-      return (newest.x - oldest.x) / dt * 16.67  // px/frame at 60fps
-    }
-
-    function momentum() {
-      const friction = Math.abs(velX) < 3 ? 0.88 : 0.97
-      velX *= friction
-      grid.scrollLeft += velX
-      if (Math.abs(velX) > 0.2) {
-        rafId = requestAnimationFrame(momentum)
-      } else {
-        velX = 0
-      }
-    }
-
-    // mouse 
-    grid.addEventListener('mousedown', e => {
-      stopRaf()
-      isDragging  = true
-      moved       = false
-      startX      = e.clientX
-      startScroll = grid.scrollLeft
-      history     = []
-      velX        = 0
-      grid.classList.add('dragging')
-      e.preventDefault()
-    })
-
-    window.addEventListener('mousemove', e => {
-      if (!isDragging) return
-      const dx = e.clientX - startX
-      if (Math.abs(dx) > 3) moved = true
-      grid.scrollLeft = startScroll - dx
-      recordHistory()
-    })
-
-    window.addEventListener('mouseup', () => {
-      if (!isDragging) return
-      isDragging = false
-      grid.classList.remove('dragging')
-      if (moved) {
-        velX = releaseVelocity()
-        momentum()
-      }
-    })
-
-    grid.addEventListener('click', e => {
-      if (moved) { e.preventDefault(); e.stopPropagation() }
-    }, true)
-
-    // touch
-    grid.addEventListener('touchstart', e => {
-      stopRaf()
-      moved       = false
-      startX      = e.touches[0].clientX
-      startScroll = grid.scrollLeft
-      history     = []
-      velX        = 0
-    }, { passive: true })
-
-    grid.addEventListener('touchmove', e => {
-      const dx = e.touches[0].clientX - startX
-      if (Math.abs(dx) > 3) moved = true
-      grid.scrollLeft = startScroll - dx
-      recordHistory()
-    }, { passive: true })
-
-    grid.addEventListener('touchend', () => {
-      if (moved) {
-        velX = releaseVelocity()
-        momentum()
-      }
-    })
-  </script>
     <div class="section-label">// contact</div>
     <div class="contact-block">
       <p>Open to conversations about my work, my studies, or anything interesting.</p>
       <div class="contact-links">
-        <a href="https://github.com/Jomlom" target="_blank" rel="noopener">github</a>
-        <a href="https://www.linkedin.com/in/jonty-ali-722b8926a/" target="_blank" rel="noopener">linkedin</a>
+        <a href="mailto:contact@jontyali.com">contact@jontyali.com</a>
+        <a href="https://github.com/Jomlom" target="_blank" rel="noopener">my github</a>
+        <a href="https://www.linkedin.com/in/jonty-ali-722b8926a/" target="_blank" rel="noopener">my linkedin</a>
       </div>
     </div>
   </section>
@@ -256,18 +77,20 @@
   </footer>
 
   <script>
-    // probe for project icon
-    // if found display it left of the project name
+    // scroll chevrons - fade out as user scrolls
+    const chevrons = document.getElementById('scroll-chevrons')
+    window.addEventListener('scroll', () => {
+      const pct = Math.min(window.scrollY / (window.innerHeight * 0.4), 1)
+      chevrons.style.opacity = 1 - pct
+    }, { passive: true })
+
+    // probe for project icon - derive from card href
     document.querySelectorAll('.project-card[href]').forEach(card => {
       const href = card.getAttribute('href')
       if (!href || href === '#') return
-
-      // derive icon path from card href 
-      // e.g. "projects/nbody/" -> "projects/nbody/nbody.png"
-      const folder = href.replace(/\/$/, '') // strip trailing slash
-      const name = folder.split('/').pop() // last segment = project name
+      const folder = href.replace(/\/$/, '')
+      const name = folder.split('/').pop()
       const src = folder + '/' + name + '.png'
-
       const img = new Image()
       img.onload = () => {
         const h3 = card.querySelector('h3')
@@ -283,7 +106,7 @@
         wrap.appendChild(icon)
         wrap.appendChild(h3)
       }
-      img.onerror = () => {} // silently ignore missing icon
+      img.onerror = () => {}
       img.src = src
     })
   </script>
