@@ -35,7 +35,7 @@ body {
   overflow-x: hidden;
 }
 
-/* background starfield canvas — fixed, always visible everywhere on page */
+/* background starfield canvas — fixed, always visible */
 #bg-stars-canvas {
   position: fixed;
   inset: 0;
@@ -75,6 +75,7 @@ nav {
   font-size: 1rem;
   color: var(--purple);
   letter-spacing: 0.05em;
+  text-decoration: none;
 }
 
 .cursor-blink {
@@ -114,7 +115,6 @@ nav {
   overflow: hidden;
 }
 
-/* galaxy sim canvas — sits inside hero, scrolls with page */
 #hero-canvas {
   position: absolute;
   inset: 0;
@@ -132,7 +132,6 @@ nav {
   max-width: 900px;
 }
 
-/* portrait layout — sim stays at top, text drops to bottom */
 @media (orientation: portrait) {
   .hero {
     justify-content: flex-end;
@@ -449,6 +448,7 @@ div.project-card { cursor: default; }
   letter-spacing: 0.04em;
 }
 
+/* featured card - centered, square-ish */
 .featured-card {
   flex: none;
   width: min(600px, 100%);
@@ -490,7 +490,7 @@ div.project-card { cursor: default; }
   width: 100%;
 }
 
-/* "view all projects" link below featured card */
+/* view all projects link */
 .view-all-link {
   display: inline-block;
   margin-top: 1.75rem;
