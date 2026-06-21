@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>This Website - Jonty Ali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../project.css">
+</head>
+<body>
+
+  <canvas id="bg-stars-canvas"></canvas>
+  <div class="noise"></div>
+
+  <site-nav></site-nav>
+
+  <div class="project-hero">
+    <a href="/projects/" class="back-link">← back to projects</a>
+    <div class="project-status">live</div>
+    <div class="hero-title-row">
+      <img src="live.png" class="hero-icon" alt="" aria-hidden="true"
+           onerror="this.style.display='none'">
+      <h1>This Website</h1>
+    </div>
+    <p class="lead">
+      This is the website you are currently on.
+      A personal site to showcase some of 
+      the things I do.
+    </p>
+    <a href="https://jontyali.com" class="try-btn" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="5,3 19,12 5,21"/>
+      </svg>
+      To the front page
+    </a>
+  </div>
+
+  <div class="project-meta">
+    <div class="meta-item">
+      <span class="meta-label">status</span>
+      <span class="meta-value">live</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">language</span>
+      <span class="meta-value">HTML</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">source</span>
+      <span class="meta-value">
+        <a href="https://github.com/Jomlom/jomlom.github.io" target="_blank" rel="noopener"
+           style="color:var(--purple);text-decoration:none">github</a>
+      </span>
+    </div>
+  </div>
+
+  <div class="gallery-section">
+    <div class="section-label">// gallery</div>
+    <div class="carousel" id="carousel">
+      <div class="carousel-track" id="carousel-track"></div>
+      <button class="carousel-btn carousel-prev" id="prev" aria-label="previous">&#8249;</button>
+      <button class="carousel-btn carousel-next" id="next" aria-label="next">&#8250;</button>
+      <div class="carousel-dots" id="dots"></div>
+    </div>
+    <div class="gallery-placeholder-msg" id="gallery-placeholder">
+      <div class="gallery-placeholder-grid">
+        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
+        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
+        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <button class="lightbox-close" id="lb-close" aria-label="close">✕</button>
+    <img id="lb-img" src="" alt="">
+  </div>
+
+  <div class="docs-section">
+    <div class="section-label">// about</div>
+
+    <div class="doc-block">
+      <h3>Overview</h3>
+      <p>Page coming soon.</p>
+    </div>
+
+    <div class="project-links">
+      <a href="/projects/" class="btn-secondary">← back to projects</a>
+    </div>
+  </div>
+
+  <site-footer></site-footer>
+
+<script src="../../bg-stars.js"></script>
+<script src="../components.js"></script>
+<script src="../project.js"></script>
+
+</body>
+</html>
