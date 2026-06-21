@@ -37,9 +37,9 @@
       props[s*4+2] = 0.011 + Math.random() * 0.01 // twinkle speed
       props[s*4+3] = Math.random() * Math.PI * 2 // twinkle phase
       const t = Math.random()
-      if (t < 0.15)      { cols[s*3]=0.85; cols[s*3+1]=0.90; cols[s*3+2]=1.00 }
+      if (t < 0.15) { cols[s*3]=0.85; cols[s*3+1]=0.90; cols[s*3+2]=1.00 }
       else if (t < 0.28) { cols[s*3]=1.00; cols[s*3+1]=0.90; cols[s*3+2]=0.75 }
-      else               { cols[s*3]=0.95; cols[s*3+1]=0.95; cols[s*3+2]=0.95 }
+      else { cols[s*3]=0.95; cols[s*3+1]=0.95; cols[s*3+2]=0.95 }
     }
   }
   genStars()

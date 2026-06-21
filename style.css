@@ -282,16 +282,20 @@ nav {
 .section {
   position: relative;
   z-index: 1;
-  padding: 6rem 3rem;
+  padding: 6rem 3rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
+}
+
+.section + .section {
+  padding-top: 2rem;
 }
 
 .section-label {
   font-size: 0.8rem;
   color: var(--purple);
   letter-spacing: 0.12em;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
 }
