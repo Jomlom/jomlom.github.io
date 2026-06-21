@@ -573,6 +573,7 @@ footer {
   .section { padding: 4rem 1.5rem; }
   footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; text-align: center; }
   .featured-card { padding: 1.75rem; aspect-ratio: auto; min-height: 480px; }
+}
 
 /* featured tag */
 .project-tag-featured {
