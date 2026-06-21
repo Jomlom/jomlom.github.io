@@ -7,11 +7,194 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
+  <style>
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      align-items: flex-start;
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .filter-group-label {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .filter-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+    .filter-pill:hover {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .filter-pill.active {
+      color: var(--purple);
+      border-color: var(--purple-border);
+      background: var(--purple-glow);
+    }
+
+    .projects-wrap { position: relative; }
+
+    .projects-wrap-sizer { width: calc(33.333% - 14px); }
+
+    .project-entry {
+      width: calc(33.333% - 14px);
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 1000px) {
+      .projects-wrap-sizer,
+      .project-entry { width: calc(50% - 10px); }
+    }
+    @media (max-width: 600px) {
+      .projects-wrap-sizer,
+      .project-entry { width: 100%; }
+    }
+
+    .project-card-lg {
+      position: relative;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg2);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .project-card-lg:hover {
+      border-color: var(--purple-border);
+      background: var(--bg3);
+    }
+    .project-card-lg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 6px;
+      background: radial-gradient(ellipse at top left, var(--purple-glow), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .project-card-lg:hover::before { opacity: 1; }
+    .project-card-lg .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .project-card-lg .card-icon {
+      width: 4.5rem;
+      height: 4.5rem;
+      object-fit: contain;
+      flex: 0 0 4.5rem;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    .project-card-lg h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+    .project-card-lg p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .project-card-lg .project-tags { margin-top: auto; }
+    .project-card-lg .card-arrow {
+      position: absolute;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      color: var(--purple-dim);
+      font-size: 0.9rem;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .project-card-lg:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+    .project-card-sm {
+      position: relative;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg2);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0.65;
+      transition: border-color 0.25s, background 0.25s, opacity 0.2s;
+    }
+    a.project-card-sm:hover {
+      border-color: var(--purple-border);
+      background: var(--bg3);
+      opacity: 1;
+    }
+    a.project-card-sm:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .project-card-sm .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .project-card-sm .card-icon {
+      width: 3rem;
+      height: 3rem;
+      object-fit: contain;
+      flex: 0 0 3rem;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    .project-card-sm h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+    .project-card-sm p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+    .project-card-sm .project-tags { margin-top: auto; }
+  </style>
 </head>
 <body>
 
   <canvas id="bg-stars-canvas"></canvas>
-
   <div class="noise"></div>
 
   <nav>
@@ -23,7 +206,247 @@
     </div>
   </nav>
 
+  <main class="page-main">
+    <section class="section">
+      <div class="section-label">// projects</div>
+
+      <div class="filter-bar">
+        <div class="filter-group">
+          <div class="filter-group-label">Status</div>
+          <div class="filter-pills" id="filter-status">
+            <button class="filter-pill" data-filter="in progress">In Progress</button>
+            <button class="filter-pill" data-filter="idea">Idea</button>
+            <button class="filter-pill" data-filter="live">Live</button>
+            <button class="filter-pill" data-filter="on hold">On Hold</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <div class="filter-group-label">Language</div>
+          <div class="filter-pills" id="filter-lang">
+            <button class="filter-pill" data-filter="c++">C++</button>
+            <button class="filter-pill" data-filter="java">Java</button>
+            <button class="filter-pill" data-filter="python">Python</button>
+            <button class="filter-pill" data-filter="webgl2">WebGL2</button>
+            <button class="filter-pill" data-filter="javascript">JavaScript</button>
+            <button class="filter-pill" data-filter="gdscript">GDScript</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="projects-wrap" id="projects-wrap">
+        <div class="projects-wrap-sizer"></div>
+
+        <div class="project-entry" data-folder="nbody">
+          <a class="project-card-lg" href="nbody/">
+            <div class="project-status">live</div>
+            <h3>N-Body Gravity Simulator</h3>
+            <p>A real-time gravitational simulation of many 
+              bodies using Newtonian gravitation.
+              A simple and beautiful visualisation,
+              mainly done to showcase on the front page 
+              of this site.</p>
+            <div class="project-tags">
+              <span>WebGL2</span>
+              <span>JavaScript</span>
+              <span>Physics Simulation</span>
+              <span>Computer Graphics</span>
+            </div>
+            <span class="card-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="project-entry" data-folder="itm">
+          <a class="project-card-lg" href="itm/">
+            <div class="project-status">in progress</div>
+            <h3>Into The Maze</h3>
+            <p>An indie game dev organisation with me and 
+              my friend, where we are actively 
+              developing a playable demo for a game in Godot.</p>
+            <div class="project-tags">
+              <span>GDScript</span>
+              <span>Game Dev</span>
+              <span>Computer Graphics</span>
+            </div>
+            <span class="card-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="project-entry" data-folder="chess">
+          <a class="project-card-lg" href="chess/">
+            <div class="project-status">in progress</div>
+            <h3>Chess Platform & Engine</h3>
+            <p>A chess platform and engines written in C++,
+              I will create bots of increasing difficulty 
+              as I improve since I am new to chess.
+              This also lets me teach myself C++.
+              Goal: Create an engine at the skill of 
+              1600 ELO.</p>
+            <div class="project-tags">
+              <span>C++</span>
+              <span>Game Engine</span>
+              <span>Game Theory</span>
+            </div>
+            <span class="card-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="project-entry" data-folder="mcmods">
+          <a class="project-card-lg" href="mcmods/">
+            <div class="project-status">live</div>
+            <h3>Minecraft Mods</h3>
+            <p>A small collection of Minecraft mods I have 
+              released online and actively maintain, 
+              mainly for fun.
+              Personally at 400k downloads. 
+              Part of a small organisation with over 130M 
+              total downloads.</p>
+            <div class="project-tags">
+              <span>Java</span>
+              <span>Game Dev</span>
+            </div>
+            <span class="card-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="project-entry" data-folder="poker">
+          <a class="project-card-sm" href="poker/">
+            <div class="project-status">idea</div>
+            <h3>Poker Platform & Bots</h3>
+            <p>Texas Hold'em platform with bots of varying sophistication and strategies.
+               Poker has very high variance so it is difficult to benchmark against myself,
+               but I'd like to see an engine I create predict or fool me and my friends.</p>
+            <div class="project-tags">
+              <span>C++</span>
+              <span>Game Engine</span>
+              <span>Game Theory</span>
+            </div>
+            <span class="card-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="project-entry" data-folder="">
+          <div class="project-card-sm">
+            <div class="project-status">idea</div>
+            <h3>Fluid Simulation</h3>
+            <p>GPU-accelerated fluid dynamics using a 
+              Navier-Stokes solver. Interested in
+              the visual results and the physics.</p>
+            <div class="project-tags">
+              <span>WebGL2</span>
+              <span>Physics Simulation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-entry" data-folder="">
+          <div class="project-card-sm">
+            <div class="project-status">idea</div>
+            <h3>Ray Tracer</h3>
+            <p>A GPU ray tracer built from scratch. 
+              A classic and cool looking project 
+              I want to do properly with path tracing.</p>
+            <div class="project-tags">
+              <span>C++</span>
+              <span>Computer Graphics</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
   <script src="../bg-stars.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+
+  <script>
+    const wrap = document.getElementById('projects-wrap')
+    const allProjects = [...document.querySelectorAll('.project-entry')]
+
+    const msnry = new Masonry(wrap, {
+      itemSelector: '.project-entry',
+      columnWidth: '.projects-wrap-sizer',
+      percentPosition: true,
+      gutter: 20,
+      transitionDuration: 0
+    })
+
+    // read tags from the card itself - single source of truth
+    function getCardTags(entry) {
+      return [...entry.querySelectorAll('.project-tags span')]
+        .map(s => s.textContent.trim().toLowerCase())
+    }
+
+    function getCardStatus(entry) {
+      const el = entry.querySelector('.project-status')
+      return el ? el.textContent.trim().toLowerCase() : ''
+    }
+
+    // auto-detect icons from data-folder
+    allProjects.forEach(entry => {
+      const folder = entry.dataset.folder
+      if (!folder) return
+      const name = folder.split('/').pop()
+      const src = folder + '/' + name + '.png'
+      const card = entry.querySelector('.project-card-lg, .project-card-sm')
+      if (!card) return
+      const img = new Image()
+      img.onload = () => {
+        const h3 = card.querySelector('h3')
+        if (!h3) return
+        const wrap = document.createElement('div')
+        wrap.className = 'card-title-row'
+        const icon = document.createElement('img')
+        icon.src = src
+        icon.className = 'card-icon'
+        icon.alt = ''
+        icon.setAttribute('aria-hidden', 'true')
+        h3.parentNode.insertBefore(wrap, h3)
+        wrap.appendChild(icon)
+        wrap.appendChild(h3)
+        msnry.layout()
+      }
+      img.onerror = () => {}
+      img.src = src
+    })
+
+    // filtering - reads from card tags and status element directly
+    const activeFilters = { status: null, lang: null }
+
+    function applyFilters() {
+      allProjects.forEach(entry => {
+        const status = getCardStatus(entry)
+        const tags = getCardTags(entry)
+        const statusOk = !activeFilters.status || status === activeFilters.status
+        const langOk = !activeFilters.lang || tags.includes(activeFilters.lang)
+        entry.style.display = (statusOk && langOk) ? '' : 'none'
+      })
+      requestAnimationFrame(() => {
+        msnry.reloadItems()
+        msnry.layout()
+      })
+    }
+
+    function bindPills(groupId, filterKey) {
+      document.querySelectorAll(`#${groupId} .filter-pill`).forEach(pill => {
+        pill.addEventListener('click', () => {
+          const val = pill.dataset.filter
+          if (activeFilters[filterKey] === val) {
+            activeFilters[filterKey] = null
+            pill.classList.remove('active')
+          } else {
+            document.querySelectorAll(`#${groupId} .filter-pill`).forEach(p => p.classList.remove('active'))
+            activeFilters[filterKey] = val
+            pill.classList.add('active')
+          }
+          applyFilters()
+        })
+      })
+    }
+
+    bindPills('filter-status', 'status')
+    bindPills('filter-lang', 'lang')
+  </script>
 
 </body>
 </html>

@@ -3,6 +3,7 @@
 // fixed fullscreen canvas
 // draws background stars everywhere on the page
 // reads rotX and rotY from window._heroSim so stars match the hero exactly
+// on pages without hero-sim, rotates slowly on its own
 
 (function () {
 
@@ -18,11 +19,10 @@
   resize()
   window.addEventListener('resize', resize)
 
-  // same star data layout as hero-sim starfield
   const NSTARS = 2048
   const dirs = new Float32Array(NSTARS * 3)
   const props = new Float32Array(NSTARS * 4) // size, opacity, twinkleSpd, twinklePhase
-  const cols = new Float32Array(NSTARS * 3) // r g b 0..1
+  const cols = new Float32Array(NSTARS * 3)  // r g b 0..1
 
   function genStars() {
     for (let s = 0; s < NSTARS; s++) {
@@ -37,15 +37,20 @@
       props[s*4+2] = 0.011 + Math.random() * 0.01 // twinkle speed
       props[s*4+3] = Math.random() * Math.PI * 2 // twinkle phase
       const t = Math.random()
-      if (t < 0.15) { cols[s*3]=0.85; cols[s*3+1]=0.90; cols[s*3+2]=1.00 }
+      if (t < 0.15)      { cols[s*3]=0.85; cols[s*3+1]=0.90; cols[s*3+2]=1.00 }
       else if (t < 0.28) { cols[s*3]=1.00; cols[s*3+1]=0.90; cols[s*3+2]=0.75 }
-      else { cols[s*3]=0.95; cols[s*3+1]=0.95; cols[s*3+2]=0.95 }
+      else               { cols[s*3]=0.95; cols[s*3+1]=0.95; cols[s*3+2]=0.95 }
     }
   }
   genStars()
 
   // listen for hero reset so stars regenerate in sync
   window.addEventListener('heroReset', genStars)
+
+  // autonomous rotation used on pages without hero-sim
+  const AUTO_ROT_X = 0.25
+  let autoRotY = -0.75
+  const AUTO_ROT_SPEED = 0.00018
 
   let frame = 0
 
@@ -62,8 +67,16 @@
     const heroAsp = heroCanvas ? (heroCanvas.width / heroCanvas.height) : (w / h)
 
     // read camera from hero-sim — falls back to 0 if not loaded yet
-    const sim = window._heroSim || { rotX: 0, rotY: -0.5 }
-    const rotX = sim.rotX, rotY = sim.rotY
+    let rotX, rotY
+    if (window._heroSim) {
+      rotX = window._heroSim.rotX
+      rotY = window._heroSim.rotY
+    } else {
+      // no hero sim - rotate slowly on own
+      autoRotY += AUTO_ROT_SPEED
+      rotX = AUTO_ROT_X
+      rotY = autoRotY
+    }
 
     // projection witj same fov as hero-sim
     const fov = Math.PI / 3.2
