@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log - Jonty Ali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .log-bubble a {
+      color: var(--purple);
+      text-decoration: underline;
+    }
+
+    .log-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .log-feed {
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 0 auto;
+    }
+
+    .log-entry {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .log-bubble {
+      background: var(--bg2);
+      border: 1px solid var(--purple-border);
+      border-radius: 16px;
+      padding: 0.9rem 1.2rem;
+      width: 100%;
+      color: var(--text);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .log-bubble p {
+      margin: 0;
+    }
+
+    .log-bubble-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+    }
+
+    .log-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+      object-fit: contain;
+      flex: 0 0 2.75rem;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      margin-top: 0.1rem;
+    }
+
+    .log-meta {
+      display: flex;
+      align-items: center;
+      margin-top: 0.3rem;
+      align-self: flex-end;
+      padding-right: 0.25rem;
+    }
+
+    .log-date {
+      font-size: 0.63rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+    }
+
+    .log-divider {
+      text-align: center;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      margin: 1rem 0 0.25rem;
+      position: relative;
+    }
+
+    .log-divider::before,
+    .log-divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .log-divider::before { left: 0; }
+    .log-divider::after { right: 0; }
+  </style>
+</head>
+<body>
+
+  <canvas id="bg-stars-canvas"></canvas>
+  <div class="noise"></div>
+
+  <nav>
+    <a href="../" class="nav-logo">JA<span class="cursor-blink">_</span></a>
+    <div class="nav-links">
+      <a href="../projects/">Projects</a>
+      <a href="../background/">Background</a>
+      <a href="../log/">Log</a>
+      <a href="../#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main class="page-main">
+    <section class="section">
+      <div class="section-label">// log</div>
+      <p class="log-desc">I occasionally log when I start something new, finish something, or do anything interesting.</p>
+      <div class="log-feed" id="log-feed"></div>
+    </section>
+  </main>
+
+  <script src="../bg-stars.js"></script>
+
+  <script>
+    fetch('entries.json')
+      .then(r => r.json())
+      .then(entries => {
+        const feed = document.getElementById('log-feed')
+        let lastMonth = null
+
+        entries.forEach(entry => {
+          // insert month divider when month changes
+          if (entry.month !== lastMonth) {
+            const div = document.createElement('div')
+            div.className = 'log-divider'
+            div.textContent = entry.month
+            feed.appendChild(div)
+            lastMonth = entry.month
+          }
+
+          // build entry
+          const wrap = document.createElement('div')
+          wrap.className = 'log-entry'
+
+          const bubble = document.createElement('div')
+          bubble.className = 'log-bubble'
+
+          const p = document.createElement('p')
+          p.innerHTML = entry.text
+          bubble.appendChild(p)
+
+          const meta = document.createElement('div')
+          meta.className = 'log-meta'
+          const date = document.createElement('span')
+          date.className = 'log-date'
+          date.textContent = entry.date
+          meta.appendChild(date)
+
+          wrap.appendChild(bubble)
+          wrap.appendChild(meta)
+          feed.appendChild(wrap)
+
+          // inject icon if provided and loads successfully
+          if (entry.icon) {
+            const img = new Image()
+            img.onload = () => {
+              img.className = 'log-icon'
+              img.alt = ''
+              img.setAttribute('aria-hidden', 'true')
+              const inner = document.createElement('div')
+              inner.className = 'log-bubble-inner'
+              inner.appendChild(img)
+              while (bubble.firstChild) inner.appendChild(bubble.firstChild)
+              bubble.appendChild(inner)
+            }
+            img.onerror = () => {}
+            img.src = entry.icon
+          }
+        })
+      })
+  </script>
+
+</body>
+</html>
