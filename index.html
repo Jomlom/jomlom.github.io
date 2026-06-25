@@ -11,18 +11,9 @@
 <body>
 
   <canvas id="bg-stars-canvas"></canvas>
-
   <div class="noise"></div>
 
-  <nav>
-    <span class="nav-logo">JA<span class="cursor-blink">_</span></span>
-    <div class="nav-links">
-      <a href="projects/">Projects</a>
-      <a href="background/">Background</a>
-      <a href="log/">Log</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
+  <home-nav></home-nav>
 
   <section class="hero">
     <canvas id="hero-canvas"></canvas>
@@ -75,9 +66,7 @@
     </div>
   </section>
 
-  <footer>
-    <span>Jonty Ali · Durham · 2026</span>
-  </footer>
+  <site-footer></site-footer>
 
   <script>
     // scroll chevrons - fade out as user scrolls
@@ -113,5 +102,7 @@
       img.src = src
     })
   </script>
+  <script src="components.js"></script>
+
 </body>
 </html>
