@@ -272,9 +272,6 @@ function inHero(cy){const r=heroEl.getBoundingClientRect();return cy>=r.top&&cy<
 window.addEventListener('mousedown',e=>{if(!inHero(e.clientY))return;drag=true;lx=e.clientX;ly=e.clientY;e.preventDefault()})
 window.addEventListener('mouseup',()=>drag=false)
 window.addEventListener('mousemove',e=>{if(!drag)return;rotY+=(e.clientX-lx)*.005;lx=e.clientX;rotX+=(e.clientY-ly)*.005;ly=e.clientY})
-window.addEventListener('touchstart',e=>{if(!inHero(e.touches[0].clientY))return;drag=true;lx=e.touches[0].clientX;ly=e.touches[0].clientY},{passive:true})
-window.addEventListener('touchend',()=>drag=false)
-window.addEventListener('touchmove',e=>{if(!drag)return;rotY+=(e.touches[0].clientX-lx)*.005;lx=e.touches[0].clientX;rotX+=(e.touches[0].clientY-ly)*.005;ly=e.touches[0].clientY},{passive:true})
 
 let fadeAlpha=1,fadingOut=false,pendingReset=false
 heroEl.addEventListener('dblclick',()=>{fadingOut=true;pendingReset=false;sfFading=true})
