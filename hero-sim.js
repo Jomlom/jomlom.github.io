@@ -128,7 +128,7 @@ precision highp float;in vec2 v_uv;
 uniform sampler2D u_sharp,u_bloom;uniform float u_alpha;out vec4 o;
 void main(){
   vec3 s=texture(u_sharp,v_uv).rgb,b=texture(u_bloom,v_uv).rgb;
-  vec3 col=s+b*.68;
+  vec3 col=s+b*.78;
   col=col/(col+.44);col=pow(col,vec3(.90));
   float lum=dot(col,vec3(.299,.587,.114));
   // alpha: galaxy pixels opaque, empty space transparent so bg-stars show through
@@ -305,9 +305,8 @@ function tick(){
   gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.useProgram(partProg)
   st(partProg,'u_pos',0,posTex[ping]);st(partProg,'u_col',1,colTex)
   u1i(partProg,'u_tw',TW);u1i(partProg,'u_th',TH);u1f(partProg,'u_pxScale',px)
-  const proj=persp(fov,asp,.01,300),view=mul(mT(0,0,-6),mul(mRX(rotX),mRY(rotY)))
   const portrait = window.matchMedia('(orientation: portrait)').matches
-  const proj=persp(fov,asp,.01,300),view=mul(mT(0,portrait?0.6:0,-6),mul(mRX(rotX),mRY(rotY)))
+  const proj=persp(fov,asp,.01,300),view=mul(mT(0,portrait?0.6:0,portrait?-6:-4),mul(mRX(rotX),mRY(rotY)))
   uM4(partProg,'u_mvp',mul(proj,view));gl.drawArrays(gl.POINTS,0,N);gl.disable(gl.BLEND)
 
   const B1=2.2,B2=4.4;gl.useProgram(blurProg)
