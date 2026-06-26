@@ -231,7 +231,6 @@
             <button class="filter-pill" data-filter="in progress">In Progress</button>
             <button class="filter-pill" data-filter="idea">Idea</button>
             <button class="filter-pill" data-filter="live">Live</button>
-            <button class="filter-pill" data-filter="on hold">On Hold</button>
           </div>
         </div>
         <div class="filter-group">
@@ -389,17 +388,32 @@
 
   <script src="../bg-stars.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+  <style>
+    .project-entry {
+      transition: opacity 0.2s linear;
+    }
+    .project-entry.is-hidden {
+      opacity: 0 !important;
+      pointer-events: none;
+      position: absolute !important;
+      visibility: hidden;
+    }
+    .project-entry.fading-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
 
   <script>
     const wrap = document.getElementById('projects-wrap')
     const allProjects = [...document.querySelectorAll('.project-entry')]
 
     const msnry = new Masonry(wrap, {
-      itemSelector: '.project-entry',
+      itemSelector: '.project-entry:not(.is-hidden)',
       columnWidth: '.projects-wrap-sizer',
       percentPosition: true,
       gutter: 20,
-      transitionDuration: 0
+      transitionDuration: '0.2s'
     })
 
     // read tags from the card itself - single source of truth
@@ -443,24 +457,63 @@
 
     // filtering - reads from card tags and status element directly
     const activeFilters = { status: null, lang: null }
+    let pendingFilter = null
+    let filterTimer = null
 
-    function applyFilters() {
-      allProjects.forEach(entry => {
+    function computeVisible() {
+      return allProjects.map(entry => {
         const status = getCardStatus(entry)
         const tags = getCardTags(entry)
         const statusOk = !activeFilters.status || status === activeFilters.status
         const langOk = !activeFilters.lang || tags.includes(activeFilters.lang)
-        entry.style.display = (statusOk && langOk) ? '' : 'none'
-      })
-      requestAnimationFrame(() => {
-        msnry.reloadItems()
-        msnry.layout()
+        return { entry, visible: statusOk && langOk }
       })
     }
+
+    function applyFilters() {
+      clearTimeout(filterTimer)
+
+      const results = computeVisible()
+      const toHide = results.filter(r => !r.visible).map(r => r.entry)
+      const toShow = results.filter(r => r.visible).map(r => r.entry)
+
+      // fade out disappearing cards
+      toHide.forEach(e => {
+        e.classList.remove('is-hidden')
+        e.classList.add('fading-out')
+      })
+      // fade in appearing cards (remove hidden so they take space but start transparent)
+      toShow.forEach(e => {
+        if (e.classList.contains('is-hidden')) {
+          e.classList.remove('is-hidden')
+          e.style.opacity = '0'
+        }
+        e.classList.remove('fading-out')
+      })
+
+      // after fade completes, commit hidden state and relayout
+      filterTimer = setTimeout(() => {
+        toHide.forEach(e => {
+          e.classList.remove('fading-out')
+          e.classList.add('is-hidden')
+        })
+        toShow.forEach(e => {
+          e.style.opacity = ''
+        })
+        msnry.options.itemSelector = '.project-entry:not(.is-hidden)'
+        msnry.reloadItems()
+        msnry.layout()
+      }, 180)
+    }
+
+    let filterCooldown = false
 
     function bindPills(groupId, filterKey) {
       document.querySelectorAll(`#${groupId} .filter-pill`).forEach(pill => {
         pill.addEventListener('click', () => {
+          if (filterCooldown) return
+          filterCooldown = true
+          setTimeout(() => { filterCooldown = false }, 250)
           const val = pill.dataset.filter
           if (activeFilters[filterKey] === val) {
             activeFilters[filterKey] = null
