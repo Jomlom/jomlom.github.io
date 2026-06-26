@@ -306,6 +306,8 @@ function tick(){
   st(partProg,'u_pos',0,posTex[ping]);st(partProg,'u_col',1,colTex)
   u1i(partProg,'u_tw',TW);u1i(partProg,'u_th',TH);u1f(partProg,'u_pxScale',px)
   const proj=persp(fov,asp,.01,300),view=mul(mT(0,0,-6),mul(mRX(rotX),mRY(rotY)))
+  const portrait = window.matchMedia('(orientation: portrait)').matches
+  const proj=persp(fov,asp,.01,300),view=mul(mT(0,portrait?0.6:0,-6),mul(mRX(rotX),mRY(rotY)))
   uM4(partProg,'u_mvp',mul(proj,view));gl.drawArrays(gl.POINTS,0,N);gl.disable(gl.BLEND)
 
   const B1=2.2,B2=4.4;gl.useProgram(blurProg)
