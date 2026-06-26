@@ -297,7 +297,7 @@ function tick(){
   ping=pong
 
   const fov=Math.PI/3.2,asp=w/h
-  // on a narrow screen asp<1 so galaxy is magnified — scale particles up to match
+  // on a narrow screen asp < 1 so galaxy is magnified
   const px=Math.min(w,h)/1080 * Math.max(1, 1/asp)
 
   gl.bindFramebuffer(gl.FRAMEBUFFER,sharpFBO);gl.viewport(0,0,w,h)
