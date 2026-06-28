@@ -68,8 +68,66 @@
     }
     @media (max-width: 600px) {
       .projects-wrap-sizer,
-      .project-entry { width: 100%; }
+      .project-entry { width: calc(50% - 10px); }
     }
+
+    /* compact view - hide descriptions */
+    .compact .project-card-lg p,
+    .compact .project-card-sm p { display: none; }
+    .compact .project-card-lg { padding: 1.25rem; }
+    .compact .project-card-sm { padding: 1rem 1.25rem; }
+    .compact .project-card-lg .card-title-row { margin-bottom: 0.6rem; }
+    .compact .project-card-sm .card-title-row { margin-bottom: 0.5rem; }
+    .compact .project-card-lg .card-icon { width: 3rem; height: 3rem; flex: 0 0 3rem; }
+    .compact .project-card-lg h3 { font-size: 1.1rem; }
+    .compact .project-tags span:not(:first-child) { display: none; }
+
+    /* compact toggle button */
+    .view-toggle {
+      margin-left: auto;
+      align-self: flex-end;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .view-toggle:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+    .view-toggle.active {
+      color: var(--purple);
+      border-color: var(--purple-border);
+      background: var(--purple-glow);
+    }
+    .view-toggle .toggle-track {
+      width: 24px;
+      height: 13px;
+      border-radius: 7px;
+      background: var(--border);
+      position: relative;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .view-toggle.active .toggle-track { background: var(--purple); }
+    .view-toggle .toggle-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      transition: left 0.15s, background 0.15s;
+    }
+    .view-toggle.active .toggle-thumb { left: 13px; background: #fff; }
 
     .project-card-lg {
       position: relative;
@@ -243,6 +301,8 @@
             <button class="filter-pill" data-filter="gdscript">GDScript</button>
           </div>
         </div>
+          Compact mode
+        </button>
       </div>
 
       <div class="projects-wrap" id="projects-wrap">
@@ -505,6 +565,21 @@
         msnry.layout()
       }, 180)
     }
+
+    // compact view - on by default on narrow screens
+    const compactToggle = document.getElementById('compact-toggle')
+    let compact = window.innerWidth < 700
+
+    function setCompact(on) {
+      compact = on
+      wrap.classList.toggle('compact', on)
+      compactToggle.classList.toggle('active', on)
+      requestAnimationFrame(() => { msnry.reloadItems(); msnry.layout() })
+    }
+
+    setCompact(compact)
+
+    compactToggle.addEventListener('click', () => setCompact(!compact))
 
     let filterCooldown = false
 
