@@ -26,35 +26,39 @@ const NAV_MAP = {
 
 class SiteNav extends HTMLElement {
   connectedCallback() {
-    const seg = window.location.pathname.split('/').filter(Boolean)[0] || ''
-    const key = Object.keys(NAV_MAP).find(k => NAV_MAP[k].path === '/' + seg + '/')
-    const page = NAV_MAP[key]
-    const cred = key === '1' ? ' cred' : ''
+    const segs = window.location.pathname.split('/').filter(Boolean)
+    const firstKey = Object.keys(NAV_MAP).find(k => NAV_MAP[k].path === '/' + (segs[0] || '') + '/')
+    const parent = segs.length <= 1 ? '/' : '/' + segs.slice(0, -1).join('/') + '/'
+    const trail = [`<a class="crt-item home" href="/"><span class="label">Jonty</span></a>`]
+    let acc = ''
+    segs.forEach((seg, i) => {
+      acc += '/' + seg
+      const cls = i === 0 && firstKey === '1' ? 'crt-item cred' : 'crt-item'
+      const label = i === 0 && firstKey ? NAV_MAP[firstKey].label : seg
+      trail.push(`<a class="${cls}" href="${acc}/"><span class="label">${label}</span></a>`)
+    })
     const keys = Object.keys(NAV_MAP).map(k => {
-      const c = (k === '0' ? ' home' : k === '1' ? ' cred' : '') + (k === key ? ' selected' : '')
+      const c = (k === '0' ? ' home' : k === '1' ? ' cred' : '') + (k === firstKey ? ' selected' : '')
       return `<a class="crt-key${c}" href="${NAV_MAP[k].path}">${k}</a>`
     }).join('')
     this.innerHTML = `
       <nav class="crumb">
         <div class="crumb-inner">
           <div class="crumb-bar">
-            <div class="crumb-trail">
-              <a class="crt-item home" href="/"><span class="label">Jonty</span></a>
-              <span class="crumb-sep">/</span>
-              <a class="crt-item${cred}" href="${page.path}"><span class="label">${page.label}</span></a>
-            </div>
+            <div class="crumb-trail">${trail.join('<span class="crumb-sep">/</span>')}</div>
             <div class="crumb-keys">${keys}</div>
           </div>
           <div class="crumb-hints">
-            <span class="crt-hint show"><span class="key">[0]</span> home</span>
-            <span class="crt-hint show"><span class="key">[esc]</span> back</span>
+            <a class="crt-hint show" href="/"><span class="key">[0]</span> home</a>
+            <a class="crt-hint show" href="${parent}"><span class="key">[esc]</span> back</a>
           </div>
         </div>
       </nav>
     `
     window.addEventListener('keydown', e => {
       const k = e.key
-      if (k === '0' || k === 'Escape') { e.preventDefault(); location.href = NAV_MAP[0].path }
+      if (k === 'Escape') { e.preventDefault(); location.href = parent }
+      else if (k === '0') { e.preventDefault(); location.href = NAV_MAP[0].path }
       else if (k >= '1' && k <= '5') { e.preventDefault(); location.href = NAV_MAP[k].path }
     })
   }

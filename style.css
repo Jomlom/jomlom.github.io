@@ -52,6 +52,11 @@ body {
   font-size: 16px;
   line-height: 1.7;
   overflow-x: hidden;
+  cursor: url('cursor.png') 0 0, auto;
+}
+
+a, button, .crt-item {
+  cursor: url('cursor.png') 0 0, auto;
 }
 
 /* background starfield canvas — fixed, always visible */
@@ -780,3 +785,6 @@ body{ font-size:var(--fz-base) !important; letter-spacing:0.01em; }
 .crt-key.home{color:#fff;text-shadow:var(--glow-white)}
 .crumb-hints{display:flex;flex-wrap:wrap;gap:1.75rem;margin-top:-0.25rem;padding-left:0.6rem}
 .crumb-hints .crt-hint{margin-top:0;font-size:1.4rem;letter-spacing:0.1em;opacity:1}
+.crumb-hints a{text-decoration:none;transition:color 0.15s}
+.crumb-hints a:hover{color:var(--text)}
+.crumb-hints a:hover .key{color:var(--purple)}
