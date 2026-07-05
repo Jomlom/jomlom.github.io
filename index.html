@@ -48,28 +48,6 @@ a,button,.crt-item{cursor:url('cursor.png') 0 0, auto}
 }
 
 .crt-menu{list-style:none;position:static;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:0.15rem;padding:0;border:0;background:none;backdrop-filter:none}
-.crt-item{
-  display:flex;align-items:center;
-  font-family:var(--font-crt);font-size:2.4rem;line-height:1;
-  color:var(--purple);letter-spacing:0.08em;text-transform:uppercase;
-  text-decoration:none;padding:3px 0.6rem;
-  width:34rem;max-width:100%;
-  text-shadow:var(--glow-purple);
-}
-.crt-item .num{
-  margin-left:auto;padding-left:1.2rem;
-  font-size:0.85em;opacity:0.55;letter-spacing:0;
-}
-.crt-item.selected .num{opacity:0.8}
-.crt-item.cred{color:var(--red);text-shadow:var(--glow-red)}
-.crt-item .arrow{display:inline-block;width:1.1rem;opacity:0;flex:0 0 1.1rem}
-.crt-item .label{flex:1}
-
-/* hard block highlight — fixed width, no radius, no gradient, instant */
-.crt-item.selected{background:var(--purple);color:#000;text-shadow:none}
-.crt-item.cred.selected{background:var(--red);color:#000}
-.crt-item.selected .arrow{opacity:1;animation:blockblink 0.8s step-end infinite}
-@keyframes blockblink{0%,100%{opacity:1}50%{opacity:0}}
 
 @media (max-width:900px){
   .hero{flex-direction:column}
@@ -77,21 +55,6 @@ a,button,.crt-item{cursor:url('cursor.png') 0 0, auto}
   .crt-panel{width:100%;min-width:0;padding:5rem 1.5rem 3rem;justify-content:flex-start}
   .crt-item{width:18rem}
 }
-
-/* typing caret */
-.name-caret{display:inline-block;color:#ffffff;font-weight:400;margin-left:0.02em;text-shadow:0 0 6px rgba(255,255,255,0.6)}
-.name-caret.blink{animation:caretblink 1s step-end infinite}
-.name-caret.gone{display:none}
-@keyframes caretblink{0%,100%{opacity:1}50%{opacity:0}}
-
-/* key hint under the menu */
-.crt-hint{
-  margin-top:1.8rem;font-family:var(--font-mono);font-size:1rem;
-  color:var(--text-dim);letter-spacing:0.15em;opacity:0;text-transform:uppercase;
-  transition:opacity 0.6s ease;
-}
-.crt-hint.show{opacity:0.7}
-.crt-hint .key{color:var(--text-muted)}
 </style>
 <script type="application/ld+json">
 {
