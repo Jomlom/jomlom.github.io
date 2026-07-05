@@ -13,7 +13,19 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jontyali.com/background/</loc>
+    <loc>https://jontyali.com/credentials/</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://jontyali.com/writeups/</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://jontyali.com/communications/</loc>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

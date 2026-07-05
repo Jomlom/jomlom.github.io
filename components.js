@@ -4,10 +4,11 @@ class HomeNav extends HTMLElement {
       <nav>
         <span class="nav-logo">JA<span class="cursor-blink">_</span></span>
         <div class="nav-links">
+          <a href="credentials/">Credentials</a>
           <a href="projects/">Projects</a>
-          <a href="background/">Background</a>
+          <a href="writeups/">Writeups</a>
           <a href="log/">Log</a>
-          <a href="#contact">Contact</a>
+          <a href="communications/">Comms</a>
         </div>
       </nav>
     `
@@ -20,10 +21,11 @@ class SiteNav extends HTMLElement {
       <nav>
         <a href="/" class="nav-logo">JA<span class="cursor-blink">_</span></a>
         <div class="nav-links">
+          <a href="/credentials/">Credentials</a>
           <a href="/projects/">Projects</a>
-          <a href="/background/">Background</a>
+          <a href="/writeups/">Writeups</a>
           <a href="/log/">Log</a>
-          <a href="/#contact">Contact</a>
+          <a href="/communications/">Comms</a>
         </div>
       </nav>
     `
@@ -41,6 +43,32 @@ class SiteFooter extends HTMLElement {
   }
 }
 
+class CrtOverlay extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `
+      <div class="crt-fx">
+        <div class="static"></div>
+        <div class="bloom"></div>
+        <div class="scanlines"></div>
+        ${this.hasAttribute('rollbar') ? '<div class="rollbar"></div>' : ''}
+        <div class="vignette"></div>
+        <div class="flicker"></div>
+      </div>
+    `
+  }
+}
+
 customElements.define('home-nav', HomeNav)
 customElements.define('site-nav', SiteNav)
 customElements.define('site-footer', SiteFooter)
+customElements.define('crt-overlay', CrtOverlay)
+
+;(function () {
+  function setScan() {
+    const dpr = window.devicePixelRatio || 1
+    const scan = Math.max(3, Math.min(7, Math.round(3 * dpr)))
+    document.documentElement.style.setProperty('--scan', scan + 'px')
+  }
+  setScan()
+  window.addEventListener('resize', setScan)
+})()

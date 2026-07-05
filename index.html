@@ -1,136 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Jonty Ali" />
-  <meta property="og:description" content="Maths and Physics student at Durham University, building physics simulations, game engines, and games." />
-  <meta property="og:url" content="https://jontyali.com/" />
-  <meta property="og:image" content="https://jontyali.com/favicon.png" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Jonty Ali" />
-  <meta name="twitter:description" content="Maths and Physics student at Durham University, building physics simulations, game engines, and games." />
-  <meta name="twitter:image" content="https://jontyali.com/favicon.png" />
-  <meta name="description" content="The personal site of Jonty Ali, a Maths and Physics student at Durham University, showcasing his featured project and how to reach him." />
-  <link rel="me" href="https://github.com/Jomlom" />
-  <link rel="me" href="https://www.linkedin.com/in/jonty-ali-722b8926a/" />
-  <link rel="me" href="mailto:contact@jontyali.com" />
-  <title>Jonty Ali</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Jonty Ali",
-    "url": "https://jontyali.com",
-    "sameAs": [
-      "https://github.com/Jomlom",
-      "https://www.linkedin.com/in/jonty-ali-722b8926a/",
-      "mailto:contact@jontyali.com"
-    ],
-    "jobTitle": "Maths and Physics Student",
-    "description": "Maths and Physics student at Durham University, building physics simulations, game engines, and games."
-  }
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Jonty Ali" />
+<meta property="og:description" content="Maths and Physics student at Durham University, building physics simulations, game engines, and games." />
+<meta property="og:url" content="https://jontyali.com/" />
+<meta property="og:image" content="https://jontyali.com/favicon.png" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Jonty Ali" />
+<meta name="twitter:description" content="Maths and Physics student at Durham University, building physics simulations, game engines, and games." />
+<meta name="twitter:image" content="https://jontyali.com/favicon.png" />
+<meta name="description" content="The personal site of Jonty Ali, a Maths and Physics student at Durham University." />
+<link rel="me" href="https://github.com/Jomlom" />
+<link rel="me" href="https://www.linkedin.com/in/jonty-ali-722b8926a/" />
+<link rel="me" href="mailto:contact@jontyali.com" />
+<title>Jonty Ali</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+body{
+  -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+  cursor:url('cursor.png') 0 0, auto;
+}
+a,button,.crt-item{cursor:url('cursor.png') 0 0, auto}
+
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:row;justify-content:flex-start;overflow:hidden}
+
+/* CRT panel — floating text, no box */
+.crt-panel{
+  position:relative;z-index:2;width:50%;min-width:420px;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:5rem 5rem;
+}
+
+.crt-panel .crt-name{
+  font-family:var(--font-crt);font-size:8.5rem;line-height:0.9;color:#ffffff;
+  letter-spacing:0.02em;margin-bottom:0.4rem;opacity:1;animation:none;
+  text-shadow:var(--glow-white);
+}
+.crt-tag{
+  font-family:var(--font-crt);font-size:1.7rem;color:var(--text-muted);
+  margin-bottom:2.2rem;letter-spacing:0.03em;
+  text-shadow:var(--glow-muted);
+}
+
+.crt-menu{list-style:none;position:static;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:0.15rem;padding:0;border:0;background:none;backdrop-filter:none}
+.crt-item{
+  display:flex;align-items:center;
+  font-family:var(--font-crt);font-size:2.4rem;line-height:1;
+  color:var(--purple);letter-spacing:0.08em;text-transform:uppercase;
+  text-decoration:none;padding:3px 0.6rem;
+  width:34rem;max-width:100%;
+  text-shadow:var(--glow-purple);
+}
+.crt-item .num{
+  margin-left:auto;padding-left:1.2rem;
+  font-size:0.85em;opacity:0.55;letter-spacing:0;
+}
+.crt-item.selected .num{opacity:0.8}
+.crt-item.cred{color:var(--red);text-shadow:var(--glow-red)}
+.crt-item .arrow{display:inline-block;width:1.1rem;opacity:0;flex:0 0 1.1rem}
+.crt-item .label{flex:1}
+
+/* hard block highlight — fixed width, no radius, no gradient, instant */
+.crt-item.selected{background:var(--purple);color:#000;text-shadow:none}
+.crt-item.cred.selected{background:var(--red);color:#000}
+.crt-item.selected .arrow{opacity:1;animation:blockblink 0.8s step-end infinite}
+@keyframes blockblink{0%,100%{opacity:1}50%{opacity:0}}
+
+@media (max-width:900px){
+  .hero{flex-direction:column}
+  #hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0.45}
+  .crt-panel{width:100%;min-width:0;padding:5rem 1.5rem 3rem;justify-content:flex-start}
+  .crt-item{width:18rem}
+}
+
+/* typing caret */
+.name-caret{display:inline-block;color:#ffffff;font-weight:400;margin-left:0.02em;text-shadow:0 0 6px rgba(255,255,255,0.6)}
+.name-caret.blink{animation:caretblink 1s step-end infinite}
+.name-caret.gone{display:none}
+@keyframes caretblink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* key hint under the menu */
+.crt-hint{
+  margin-top:1.8rem;font-family:var(--font-mono);font-size:1rem;
+  color:var(--text-dim);letter-spacing:0.15em;opacity:0;text-transform:uppercase;
+  transition:opacity 0.6s ease;
+}
+.crt-hint.show{opacity:0.7}
+.crt-hint .key{color:var(--text-muted)}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Jonty Ali",
+  "url": "https://jontyali.com",
+  "sameAs": [
+    "https://github.com/Jomlom",
+    "https://www.linkedin.com/in/jonty-ali-722b8926a/",
+    "mailto:contact@jontyali.com"
+  ],
+  "jobTitle": "Maths and Physics Student",
+  "description": "Maths and Physics student at Durham University, building physics simulations, game engines, and games."
+}
+</script>
 </head>
 <body>
+<canvas id="bg-stars-canvas"></canvas>
 
-  <canvas id="bg-stars-canvas"></canvas>
-  <div class="noise"></div>
-
-  <home-nav></home-nav>
-
-  <section class="hero">
-    <canvas id="hero-canvas"></canvas>
-    <div class="hero-content">
-      <h1>Jonty Ali</h1>
-      <p class="hero-sub">Maths &amp; Physics student at Durham University.</p>
-      <div class="hero-links">
-        <a href="projects/" class="btn-primary">My Work</a>
-        <a href="background/" class="btn-standout">My Background</a>
-      </div>
+<section class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="crt-panel">
+    <h1 class="crt-name"><span id="name-text"></span><span id="name-caret" class="name-caret">|</span></h1>
+    <div class="crt-tag">maths &amp; physics, durham</div>
+    <nav class="crt-menu" id="crt-menu">
+      <a class="crt-item cred selected" href="credentials/"><span class="arrow">&gt;</span><span class="label">Credentials</span><span class="num">1</span></a>
+      <a class="crt-item" href="projects/"><span class="arrow">&gt;</span><span class="label">Projects</span><span class="num">2</span></a>
+      <a class="crt-item" href="writeups/"><span class="arrow">&gt;</span><span class="label">Writeups</span><span class="num">3</span></a>
+      <a class="crt-item" href="log/"><span class="arrow">&gt;</span><span class="label">Log</span><span class="num">4</span></a>
+      <a class="crt-item" href="communications/"><span class="arrow">&gt;</span><span class="label">Comms</span><span class="num">5</span></a>
+    </nav>
+    <div class="crt-hint" id="crt-hint">
+<span class="key">&uarr;&darr;</span> navigate <span class="key">&crarr;</span> select
     </div>
-    <div class="scroll-chevrons" id="scroll-chevrons">
-      <svg viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,2 12,10 22,2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <svg viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,2 12,10 22,2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <svg viewBox="0 0 24 12" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="2,2 12,10 22,2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-  </section>
-  <script src="hero-sim.js"></script>
-  <script src="bg-stars.js"></script>
+  </div>
 
-  <section id="featured" class="section">
-    <div class="section-label">// featured project</div>
-    <a class="project-card featured-card" href="projects/nbody/">
-      <div>
-        <span class="project-tag-featured">featured</span><span class="project-status">try it now</span>
-      </div>
-      <h3>N-Body Gravity Simulator</h3>
-      <p>A real-time gravitational simulation of many bodies running on the GPU via WebGL2.
-         Ping-pong physics, bloom post-processing, and a galaxy initial condition -
-         the same simulation you can see running behind this page.</p>
-      <div class="project-tags">
-        <span>WebGL2</span>
-        <span>Physics Simulation</span>
-        <span>Computer Graphics</span>
-      </div>
-      <span class="card-arrow">→</span>
-    </a>
-    <a class="view-all-link" href="projects/">view all projects &rarr;</a>
-  </section>
+  <crt-overlay rollbar></crt-overlay>
+</section>
 
-  <section id="contact" class="section">
-    <div class="section-label">// contact</div>
-    <div class="contact-block">
-      <p>Open to conversations about my work, my studies, or anything interesting.</p>
-      <div class="contact-links">
-        <a href="mailto:contact@jontyali.com">contact@jontyali.com</a>
-        <a href="https://github.com/Jomlom" target="_blank" rel="noopener">Github</a>
-        <a href="https://www.linkedin.com/in/jonty-ali-722b8926a/" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-  </section>
+<script src="../hero-sim.js"></script>
+<script src="../bg-stars.js"></script>
+<script>
 
-  <site-footer></site-footer>
+// ---- type out the name, then drop the caret cleanly (no blink) ----
+(function(){
+  const target = 'JONTY ALI'
+  const el = document.getElementById('name-text')
+  const caret = document.getElementById('name-caret')
+  const hint = document.getElementById('crt-hint')
+  let i = 0
+  setTimeout(function step(){
+    if(i <= target.length){
+      el.textContent = target.slice(0, i)
+      i++
+      setTimeout(step, 50)
+    } else {
+      caret.classList.add('gone')
+      if(hint) hint.classList.add('show')
+    }
+  }, 430)
+})();
 
-  <script>
-    // scroll chevrons - fade out as user scrolls
-    const chevrons = document.getElementById('scroll-chevrons')
-    window.addEventListener('scroll', () => {
-      const pct = Math.min(window.scrollY / (window.innerHeight * 0.4), 1)
-      chevrons.style.opacity = 1 - pct
-    }, { passive: true })
-
-    // probe for project icon - derive from card href
-    document.querySelectorAll('.project-card[href]').forEach(card => {
-      const href = card.getAttribute('href')
-      if (!href || href === '#') return
-      const folder = href.replace(/\/$/, '')
-      const name = folder.split('/').pop()
-      const src = folder + '/' + name + '.png'
-      const img = new Image()
-      img.onload = () => {
-        const h3 = card.querySelector('h3')
-        if (!h3) return
-        const wrap = document.createElement('div')
-        wrap.className = 'card-title-row'
-        const icon = document.createElement('img')
-        icon.src = src
-        icon.className = 'card-icon'
-        icon.alt = ''
-        icon.setAttribute('aria-hidden', 'true')
-        h3.parentNode.insertBefore(wrap, h3)
-        wrap.appendChild(icon)
-        wrap.appendChild(h3)
-      }
-      img.onerror = () => {}
-      img.src = src
-    })
-  </script>
-  <script src="components.js"></script>
-
+// ---- menu navigation: arrows + WS + numbers + mouse ----
+const items = Array.from(document.querySelectorAll('.crt-item'))
+let sel = 0
+function setSel(i){ sel=(i+items.length)%items.length; items.forEach((it,idx)=>it.classList.toggle('selected',idx===sel)) }
+items.forEach((it,idx)=>it.addEventListener('mouseenter',()=>setSel(idx)))
+window.addEventListener('keydown',e=>{
+  const k=e.key.toLowerCase()
+  if(k==='arrowdown'||k==='s'){e.preventDefault();setSel(sel+1)}
+  else if(k==='arrowup'||k==='w'){e.preventDefault();setSel(sel-1)}
+  else if(k==='enter'||k===' '){e.preventDefault();items[sel].click()}
+  else if(k>='1' && k<='9'){const n=parseInt(k,10)-1; if(n<items.length){e.preventDefault();setSel(n);items[n].click()}}
+})
+</script>
+<script src="../components.js"></script>
 </body>
 </html>
