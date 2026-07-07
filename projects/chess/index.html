@@ -28,86 +28,32 @@
 
   <site-nav></site-nav>
 
-  <div class="project-hero">
-    <div class="project-status">in progress</div>
-    <div class="hero-title-row">
-      <img src="chess.png" class="hero-icon" alt="" aria-hidden="true"
-           onerror="this.style.display='none'">
-      <h1>Chess Platform & Engine</h1>
+  <main class="project-overview">
+    <div class="project-left">
+      <div class="project-status">in progress</div>
+      <div class="project-title">
+        <project-icon></project-icon>
+        <h1>Chess Platform & Engine</h1>
+      </div>
+      <p class="project-desc">
+        A chess platform and engine written in C++, where I build bots of increasing difficulty
+        while teaching myself the language. Goal: reach around 1600 ELO.
+      </p>
     </div>
-    <p class="lead">
-      A chess platform and engines written in C++, 
-      I will create bots of increasing difficulty 
-      as I improve since I am new to chess. 
-      This also lets me teach myself C++. 
-      Goal: Create an engine at the skill of 1600 ELO.
-    </p>
-    <!-- <a href="https://jomlom.github.io/N-Body-Gravity-Sim" class="try-btn" target="_blank" rel="noopener">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polygon points="5,3 19,12 5,21"/>
-      </svg>
-      Try it!
-    </a> -->
-  </div>
-
-  <div class="project-meta">
-    <div class="meta-item">
-      <span class="meta-label">status</span>
-      <span class="meta-value">in progress</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">language</span>
-      <span class="meta-value">C++</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">goal</span>
-      <span class="meta-value">1600 ELO</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">source</span>
-      <span class="meta-value">
-        <a href="https://github.com/Jomlom/Chess-Engine" target="_blank" rel="noopener"
-           style="color:var(--purple);text-decoration:none">github</a>
-      </span>
-    </div>
-  </div>
-
-  <div class="gallery-section">
-    <div class="section-label">// gallery</div>
-    <div class="carousel" id="carousel">
-      <div class="carousel-track" id="carousel-track"></div>
-      <button class="carousel-btn carousel-prev" id="prev" aria-label="previous">&#8249;</button>
-      <button class="carousel-btn carousel-next" id="next" aria-label="next">&#8250;</button>
-      <div class="carousel-dots" id="dots"></div>
-    </div>
-    <div class="gallery-placeholder-msg" id="gallery-placeholder">
-      <div class="gallery-placeholder-grid">
-        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
+    <div class="project-right">
+      <project-gallery></project-gallery>
+      <div class="project-info">
+        <span class="info-label">STATUS:</span><span class="info-value">in progress</span>
+        <span class="info-label">LANGUAGE:</span><span class="info-value">C++</span>
+        <span class="info-label">SOURCE:</span><span class="info-value"><a href="https://github.com/Jomlom/Chess-Engine" target="_blank" rel="noopener">github</a></span>
       </div>
     </div>
-  </div>
-
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
-    <button class="lightbox-close" id="lb-close" aria-label="close">✕</button>
-    <img id="lb-img" src="" alt="">
-  </div>
-
-  <div class="docs-section">
-    <div class="section-label">// about</div>
-
-    <div class="doc-block">
-      <h3>Overview</h3>
-      <p>Page coming soon.</p>
-    </div>
-  </div>
+  </main>
 
   <site-footer></site-footer>
 
 <script src="../../bg-stars.js"></script>
 <script src="../../components.js"></script>
-<script src="../project.js"></script>
 
 </body>
 </html>

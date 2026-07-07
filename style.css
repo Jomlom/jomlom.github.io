@@ -734,17 +734,20 @@ body{ font-size:var(--fz-base) !important; letter-spacing:0.01em; }
 .crt-item.selected,
 .crumb .crt-item:hover,
 .crt-key.selected,
-.crt-key:hover{background:var(--purple);color:#000;text-shadow:none}
+.crt-key:hover,
+.channel:hover{background:var(--purple);color:#000;text-shadow:none}
 .crt-item.cred.selected,
 .crumb .crt-item.cred:hover,
 .crt-key.cred.selected,
-.crt-key.cred:hover{background:var(--red);color:#000}
+.crt-key.cred:hover,
+.channel.email:hover{background:var(--red);color:#000}
 .crt-item.home.selected,
 .crumb .crt-item.home:hover,
 .crt-key.home.selected,
 .crt-key.home:hover{background:#fff;color:#000}
 .crt-item.selected .arrow,
-.crumb .crt-item:hover .arrow{opacity:1;animation:blockblink 0.8s step-end infinite}
+.crumb .crt-item:hover .arrow,
+.channel:hover .arrow{opacity:1;animation:blockblink 0.8s step-end infinite}
 @keyframes blockblink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* typing caret */

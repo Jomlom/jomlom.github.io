@@ -28,90 +28,33 @@
 
   <site-nav></site-nav>
 
-  <div class="project-hero">
-    <div class="project-status">live</div>
-    <div class="hero-title-row">
-      <img src="nbody.png" class="hero-icon" alt="" aria-hidden="true"
-           onerror="this.style.display='none'">
-      <h1>N-Body Gravity Simulator</h1>
+  <main class="project-overview">
+    <div class="project-left">
+      <div class="project-status">live</div>
+      <div class="project-title">
+        <project-icon></project-icon>
+        <h1>N-Body Gravity Simulator</h1>
+      </div>
+      <p class="project-desc">
+        A real-time gravitational simulation of thousands of bodies on the GPU,
+        where every body pulls on every other under Newton's law to form galactic structures.
+      </p>
+      <a class="project-cta" href="https://jomlom.github.io/N-Body-Gravity-Sim" target="_blank" rel="noopener">try it</a>
     </div>
-    <p class="lead">
-      A real-time gravitational simulation of thousands of bodies running on the GPU.
-      Every body attracts every other body each frame using Newton's law,
-      giving a time complexity of N².
-      I have the simulated bodies randomly distributed with initial velocities about a center point,
-      to create cool galactic structures.
-    </p>
-    <a href="https://jomlom.github.io/N-Body-Gravity-Sim" class="try-btn" target="_blank" rel="noopener">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polygon points="5,3 19,12 5,21"/>
-      </svg>
-      Try it
-    </a>
-  </div>
-
-  <div class="project-meta">
-    <div class="meta-item">
-      <span class="meta-label">status</span>
-      <span class="meta-value">live</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">language</span>
-      <span class="meta-value">JavaScript / GLSL</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">renderer</span>
-      <span class="meta-value">WebGL2 ping-pong</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">bodies</span>
-      <span class="meta-value">2,048 - 131,072</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">source</span>
-      <span class="meta-value">
-        <a href="https://github.com/Jomlom/N-Body-Gravity-Sim" target="_blank" rel="noopener"
-           style="color:var(--purple);text-decoration:none">github</a>
-      </span>
-    </div>
-  </div>
-
-  <div class="gallery-section">
-    <div class="section-label">// gallery</div>
-    <div class="carousel" id="carousel">
-      <div class="carousel-track" id="carousel-track"></div>
-      <button class="carousel-btn carousel-prev" id="prev" aria-label="previous">&#8249;</button>
-      <button class="carousel-btn carousel-next" id="next" aria-label="next">&#8250;</button>
-      <div class="carousel-dots" id="dots"></div>
-    </div>
-    <div class="gallery-placeholder-msg" id="gallery-placeholder">
-      <div class="gallery-placeholder-grid">
-        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
+    <div class="project-right">
+      <project-gallery></project-gallery>
+      <div class="project-info">
+        <span class="info-label">STATUS:</span><span class="info-value">live</span>
+        <span class="info-label">LANGUAGE:</span><span class="info-value">WebGL2</span>
+        <span class="info-label">SOURCE:</span><span class="info-value"><a href="https://github.com/Jomlom/N-Body-Gravity-Sim" target="_blank" rel="noopener">github</a></span>
       </div>
     </div>
-  </div>
-
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
-    <button class="lightbox-close" id="lb-close" aria-label="close">✕</button>
-    <img id="lb-img" src="" alt="">
-  </div>
-
-  <div class="docs-section">
-    <div class="section-label">// about</div>
-
-    <div class="doc-block">
-      <h3>Overview</h3>
-      <p>Page coming soon.</p>
-    </div>
-  </div>
+  </main>
 
   <site-footer></site-footer>
 
 <script src="../../bg-stars.js"></script>
 <script src="../../components.js"></script>
-<script src="../project.js"></script>
 
 </body>
 </html>

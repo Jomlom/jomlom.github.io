@@ -28,88 +28,32 @@
 
   <site-nav></site-nav>
 
-  <div class="project-hero">
-    <div class="project-status">in progress</div>
-    <div class="hero-title-row">
-      <img src="itm.png" class="hero-icon" alt="" aria-hidden="true"
-           onerror="this.style.display='none'">
-      <h1>Into The Maze</h1>
+  <main class="project-overview">
+    <div class="project-left">
+      <div class="project-status">in progress</div>
+      <div class="project-title">
+        <project-icon></project-icon>
+        <h1>Into The Maze</h1>
+      </div>
+      <p class="project-desc">
+        An indie game dev organisation with me and a friend, actively developing
+        a playable demo for a game in Godot.
+      </p>
     </div>
-    <p class="lead">
-      An indie game dev organisation with me and my friend. 
-      We are actively developing a playable demo 
-      for a game in godot.
-    </p>
-    <!-- <a href="https://github.com/Into-The-Maze" class="try-btn" target="_blank" rel="noopener">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polygon points="5,3 19,12 5,21"/>
-      </svg>
-      Try it
-    </a> -->
-  </div>
-
-  <div class="project-meta">
-    <div class="meta-item">
-      <span class="meta-label">status</span>
-      <span class="meta-value">in progress</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">language</span>
-      <span class="meta-value">GDScript</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">engine</span>
-      <span class="meta-value">Godot Engine</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">developers</span>
-      <span class="meta-value">2</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">source</span>
-      <span class="meta-value">
-        <a href="https://github.com/Into-The-Maze" target="_blank" rel="noopener"
-           style="color:var(--purple);text-decoration:none">github</a>
-      </span>
-    </div>
-  </div>
-
-  <div class="gallery-section">
-    <div class="section-label">// gallery</div>
-    <div class="carousel" id="carousel">
-      <div class="carousel-track" id="carousel-track"></div>
-      <button class="carousel-btn carousel-prev" id="prev" aria-label="previous">&#8249;</button>
-      <button class="carousel-btn carousel-next" id="next" aria-label="next">&#8250;</button>
-      <div class="carousel-dots" id="dots"></div>
-    </div>
-    <div class="gallery-placeholder-msg" id="gallery-placeholder">
-      <div class="gallery-placeholder-grid">
-        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
-        <div class="gallery-item"><div class="gallery-placeholder">screenshot coming soon</div></div>
+    <div class="project-right">
+      <project-gallery></project-gallery>
+      <div class="project-info">
+        <span class="info-label">STATUS:</span><span class="info-value">in progress</span>
+        <span class="info-label">LANGUAGE:</span><span class="info-value">GDScript</span>
+        <span class="info-label">SOURCE:</span><span class="info-value"><a href="https://github.com/Into-The-Maze" target="_blank" rel="noopener">github</a></span>
       </div>
     </div>
-  </div>
-
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
-    <button class="lightbox-close" id="lb-close" aria-label="close">✕</button>
-    <img id="lb-img" src="" alt="">
-  </div>
-
-  <div class="docs-section">
-    <div class="section-label">// about</div>
-
-    <div class="doc-block">
-      <h3>Overview</h3>
-      <p>Page coming soon.</p>
-    </div>
-  </div>
+  </main>
 
   <site-footer></site-footer>
 
 <script src="../../bg-stars.js"></script>
 <script src="../../components.js"></script>
-<script src="../project.js"></script>
 
 </body>
 </html>
