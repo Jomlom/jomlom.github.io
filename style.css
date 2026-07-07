@@ -43,6 +43,7 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -63,6 +64,12 @@ a, button, .crt-item {
 }
 
 main { flex: 1 0 auto; }
+
+main, footer { animation: contentIn 0.25s ease; }
+@keyframes contentIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 /* background starfield canvas — fixed, always visible */
 #bg-stars-canvas {

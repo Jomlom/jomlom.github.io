@@ -29,6 +29,7 @@ class SiteNav extends HTMLElement {
     const segs = window.location.pathname.split('/').filter(Boolean)
     const firstKey = Object.keys(NAV_MAP).find(k => NAV_MAP[k].path === '/' + (segs[0] || '') + '/')
     const parent = segs.length <= 1 ? '/' : '/' + segs.slice(0, -1).join('/') + '/'
+    const parentKey = Object.keys(NAV_MAP).find(k => NAV_MAP[k].path === parent)
     const trail = [`<a class="crt-item home" href="/"><span class="label">Jonty</span></a>`]
     let acc = ''
     segs.forEach((seg, i) => {
@@ -55,11 +56,33 @@ class SiteNav extends HTMLElement {
         </div>
       </nav>
     `
+    const preview = key => {
+      if (!key) return
+      let html = `<a class="crt-item home" href="/"><span class="label">Jonty</span></a>`
+      if (key !== '0') {
+        const cls = key === '1' ? 'crt-item cred' : 'crt-item'
+        html += `<span class="crumb-sep">/</span><a class="${cls}" href="${NAV_MAP[key].path}"><span class="label">${NAV_MAP[key].label}</span></a>`
+      }
+      this.querySelector('.crumb-trail').innerHTML = html
+      this.querySelectorAll('.crt-key').forEach(el => el.classList.toggle('selected', el.textContent === key))
+    }
+
+    const go = (key, path) => {
+      preview(key)
+      document.querySelectorAll('main, site-footer').forEach(el => el.style.visibility = 'hidden')
+      requestAnimationFrame(() => requestAnimationFrame(() => { location.href = path }))
+    }
+
+    this.querySelectorAll('.crt-key').forEach(el => el.addEventListener('click', e => { e.preventDefault(); go(el.textContent, el.href) }))
+    const hints = this.querySelectorAll('.crumb-hints a')
+    hints[0].addEventListener('click', e => { e.preventDefault(); go('0', hints[0].href) })
+    hints[1].addEventListener('click', e => { e.preventDefault(); go(parentKey, hints[1].href) })
+
     window.addEventListener('keydown', e => {
       const k = e.key
-      if (k === 'Escape') { e.preventDefault(); location.href = parent }
-      else if (k === '0') { e.preventDefault(); location.href = NAV_MAP[0].path }
-      else if (k >= '1' && k <= '5') { e.preventDefault(); location.href = NAV_MAP[k].path }
+      if (k === 'Escape') { e.preventDefault(); go(parentKey, parent) }
+      else if (k === '0') { e.preventDefault(); go('0', NAV_MAP[0].path) }
+      else if (k >= '1' && k <= '5') { e.preventDefault(); go(k, NAV_MAP[k].path) }
     })
   }
 }
