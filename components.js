@@ -8,7 +8,7 @@ class HomeNav extends HTMLElement {
           <a href="projects/">Projects</a>
           <a href="writeups/">Writeups</a>
           <a href="log/">Log</a>
-          <a href="communications/">Comms</a>
+          <a href="communications/">Communications</a>
         </div>
       </nav>
     `
@@ -21,7 +21,7 @@ const NAV_MAP = {
   2: { label: 'Projects', path: '/projects/' },
   3: { label: 'Writeups', path: '/writeups/' },
   4: { label: 'Log', path: '/log/' },
-  5: { label: 'Comms', path: '/communications/' }
+  5: { label: 'Communications', path: '/communications/' }
 }
 
 class SiteNav extends HTMLElement {

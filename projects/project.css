@@ -155,6 +155,12 @@
 
 project-icon { display: contents; }
 
+.project-title .card-icon {
+  width: clamp(4.5rem, 7vw, 6rem);
+  height: clamp(4.5rem, 7vw, 6rem);
+  flex-basis: clamp(4.5rem, 7vw, 6rem);
+}
+
 .project-desc {
   font-size: 1.4rem;
   color: var(--text-muted);

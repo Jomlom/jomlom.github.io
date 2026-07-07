@@ -12,11 +12,88 @@
   <meta name="twitter:title" content="Jonty Ali" />
   <meta name="twitter:description" content="Maths and Physics student at Durham University, building physics simulations, game engines, and games." />
   <meta name="twitter:image" content="https://jontyali.com/favicon.png" />
-  <meta name="description" content="How to get in touch with Jonty Ali. This page is still in progress." />
+  <meta name="description" content="How to get in touch with Jonty Ali by email, LinkedIn, or GitHub." />
   <title>Communications - Jonty Ali</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
+  <style>
+    .comms-intro {
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 2.5rem;
+    }
+    .channels {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+      max-width: 100%;
+    }
+    .channel-row {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      max-width: 100%;
+      flex-wrap: wrap;
+    }
+    .channel {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      width: 44rem;
+      max-width: 100%;
+      padding: 0.3rem 1rem;
+      font-family: var(--font-crt);
+      font-size: 2rem;
+      color: var(--purple);
+      text-shadow: var(--glow-purple);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .channel.email {
+      color: var(--red);
+      text-shadow: var(--glow-red);
+    }
+    .channel .arrow {
+      display: inline-block;
+      width: 1.2rem;
+      flex: 0 0 1.2rem;
+      opacity: 0;
+    }
+    .channel-icon {
+      width: 2.3rem;
+      height: 2.3rem;
+      flex: 0 0 2.3rem;
+      object-fit: contain;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    .channel-label {
+      min-width: 8rem;
+      text-transform: uppercase;
+    }
+    .channel-value {
+      flex: 1;
+      opacity: 0.7;
+    }
+    .channel-ext { opacity: 0.6; }
+    .channel-copy {
+      font-family: var(--font-crt);
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      color: var(--red);
+      background: none;
+      border: 1px solid currentColor;
+      padding: 0.25rem 0.9rem;
+      cursor: pointer;
+    }
+    .channel-copy:hover {
+      background: var(--red);
+      color: #000;
+    }
+  </style>
 </head>
 <body>
 
@@ -27,12 +104,51 @@
 
   <site-nav></site-nav>
 
-  <main class="wip">page still in progress</main>
+  <main class="page-main">
+    <section class="section">
+      <p class="comms-intro">> open to conversations about my work, studies, or anything interesting</p>
+      <div class="channels">
+        <div class="channel-row">
+          <a class="channel email" href="mailto:contact@jontyali.com">
+            <span class="arrow">&gt;</span>
+            <img class="channel-icon" src="mail.png" alt="">
+            <span class="channel-label">Email</span>
+            <span class="channel-value">contact@jontyali.com</span>
+            <span class="channel-ext">&#8599;</span>
+          </a>
+          <button type="button" class="channel-copy" data-copy="contact@jontyali.com">copy</button>
+        </div>
+        <a class="channel" href="https://www.linkedin.com/in/jonty-ali-722b8926a/" target="_blank" rel="noopener me">
+          <span class="arrow">&gt;</span>
+          <img class="channel-icon" src="linkedin.png" alt="">
+          <span class="channel-label">LinkedIn</span>
+          <span class="channel-value">jonty-ali</span>
+          <span class="channel-ext">&#8599;</span>
+        </a>
+        <a class="channel" href="https://github.com/Jomlom" target="_blank" rel="noopener me">
+          <span class="arrow">&gt;</span>
+          <img class="channel-icon" src="github.png" alt="">
+          <span class="channel-label">GitHub</span>
+          <span class="channel-value">Jomlom</span>
+          <span class="channel-ext">&#8599;</span>
+        </a>
+      </div>
+    </section>
+  </main>
 
   <site-footer></site-footer>
 
   <script src="../bg-stars.js"></script>
   <script src="../components.js"></script>
+  <script>
+    document.querySelectorAll('.channel-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        navigator.clipboard.writeText(btn.dataset.copy)
+        btn.textContent = 'copied'
+        setTimeout(() => { btn.textContent = 'copy' }, 1500)
+      })
+    })
+  </script>
 
 </body>
 </html>
