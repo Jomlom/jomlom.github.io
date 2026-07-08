@@ -47,11 +47,35 @@ body{
 
 .crt-menu{list-style:none;position:static;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:0.15rem;padding:0;border:0;background:none;backdrop-filter:none}
 
+.sim-pause{
+  position:absolute;top:1.2rem;right:1.2rem;z-index:3;
+  display:none;
+  font-family:var(--font-crt);font-size:1.1rem;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text-dim);background:rgba(0,0,0,0.3);border:1px solid var(--border);
+  padding:0.25rem 0.7rem;cursor:pointer;opacity:0.55;
+  transition:opacity 0.2s,color 0.2s,border-color 0.2s;
+}
+.sim-pause:hover{opacity:1;color:var(--purple);border-color:var(--purple-border)}
+
 @media (max-width:900px){
   .hero{flex-direction:column}
   #hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0.45}
   .crt-panel{width:100%;min-width:0;padding:5rem 1.5rem 3rem;justify-content:flex-start}
   .crt-item{width:18rem}
+}
+
+@media (max-width:600px){
+  .hero{justify-content:flex-end}
+  #hero-canvas{opacity:1}
+  .crt-panel{
+    padding:3rem 1.5rem 2.5rem;
+    justify-content:flex-end;
+    background:linear-gradient(to bottom,transparent,var(--bg) 24%,var(--bg));
+  }
+  .crt-panel .crt-name{font-size:clamp(2.8rem,16vw,5.5rem);white-space:nowrap;margin-bottom:0.3rem}
+  .crt-tag{font-size:1.2rem;margin-bottom:1.4rem}
+  .crt-item{width:100%;font-size:1.9rem}
+  .crt-hint{font-size:0.8rem}
 }
 </style>
 <script type="application/ld+json">
@@ -75,6 +99,7 @@ body{
 
 <section class="hero">
   <canvas id="hero-canvas"></canvas>
+  <button id="sim-pause" class="sim-pause" aria-label="pause simulation">pause</button>
   <div class="crt-panel">
     <h1 class="crt-name"><span id="name-text"></span><span id="name-caret" class="name-caret">|</span></h1>
     <div class="crt-tag">maths &amp; physics, durham</div>

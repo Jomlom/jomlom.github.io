@@ -30,6 +30,8 @@ class SiteNav extends HTMLElement {
     const firstKey = Object.keys(NAV_MAP).find(k => NAV_MAP[k].path === '/' + (segs[0] || '') + '/')
     const parent = segs.length <= 1 ? '/' : '/' + segs.slice(0, -1).join('/') + '/'
     const parentKey = Object.keys(NAV_MAP).find(k => NAV_MAP[k].path === parent)
+    const pageName = segs.length === 1 && firstKey ? NAV_MAP[firstKey].label : (segs[segs.length - 1] || '')
+    const pageCls = firstKey === '1' ? ' cred' : ''
     const trail = [`<a class="crt-item home" href="/"><span class="label">Jonty</span></a>`]
     let acc = ''
     segs.forEach((seg, i) => {
@@ -52,6 +54,10 @@ class SiteNav extends HTMLElement {
           <div class="crumb-hints">
             <a class="crt-hint show" href="/"><span class="key">[0]</span> home</a>
             <a class="crt-hint show" href="${parent}"><span class="key">[esc]</span> back</a>
+          </div>
+          <div class="crumb-mobile">
+            <a class="crumb-back" href="${parent}">&larr;</a>
+            <span class="crumb-page${pageCls}">${pageName}</span>
           </div>
         </div>
       </nav>
@@ -77,6 +83,8 @@ class SiteNav extends HTMLElement {
     const hints = this.querySelectorAll('.crumb-hints a')
     hints[0].addEventListener('click', e => { e.preventDefault(); go('0', hints[0].href) })
     hints[1].addEventListener('click', e => { e.preventDefault(); go(parentKey, hints[1].href) })
+    const back = this.querySelector('.crumb-back')
+    back.addEventListener('click', e => { e.preventDefault(); go(parentKey, back.href) })
 
     window.addEventListener('keydown', e => {
       const k = e.key

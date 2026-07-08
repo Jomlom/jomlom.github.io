@@ -273,11 +273,12 @@ window.addEventListener('mousedown',e=>{if(!inHero(e.clientY))return;drag=true;l
 window.addEventListener('mouseup',()=>drag=false)
 window.addEventListener('mousemove',e=>{if(!drag)return;rotY+=(e.clientX-lx)*.005;lx=e.clientX;rotX+=(e.clientY-ly)*.005;ly=e.clientY})
 
-let fadeAlpha=1,fadingOut=false,pendingReset=false
+let fadeAlpha=1,fadingOut=false,pendingReset=false,paused=false
 heroEl.addEventListener('dblclick',()=>{fadingOut=true;pendingReset=false;sfFading=true})
 
 let frame=0
 function tick(){
+  if(paused)return
   requestAnimationFrame(tick);frame++
   const w=W(),h=H()
 
@@ -305,8 +306,8 @@ function tick(){
   gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.useProgram(partProg)
   st(partProg,'u_pos',0,posTex[ping]);st(partProg,'u_col',1,colTex)
   u1i(partProg,'u_tw',TW);u1i(partProg,'u_th',TH);u1f(partProg,'u_pxScale',px)
-  const portrait = window.matchMedia('(orientation: portrait)').matches
-  const proj=persp(fov,asp,.01,300),view=mul(mT(0,portrait?0.6:0,portrait?-6:-4),mul(mRX(rotX),mRY(rotY)))
+  const mobile = window.matchMedia('(max-width: 600px)').matches
+  const proj=persp(fov,asp,.01,300),view=mul(mT(0,mobile?1.1:0,mobile?-4.5:-4),mul(mRX(rotX),mRY(rotY)))
   uM4(partProg,'u_mvp',mul(proj,view));gl.drawArrays(gl.POINTS,0,N);gl.disable(gl.BLEND)
 
   const B1=2.2,B2=4.4;gl.useProgram(blurProg)
@@ -322,6 +323,16 @@ function tick(){
   st(compProg,'u_sharp',0,sharpTex);st(compProg,'u_bloom',1,blurTexB)
   u1f(compProg,'u_alpha',fadeAlpha);dq(3)
   gl.disable(gl.BLEND)
+}
+
+const pauseBtn=document.getElementById('sim-pause')
+if(pauseBtn){
+  pauseBtn.style.display='block'
+  pauseBtn.addEventListener('click',()=>{
+    paused=!paused
+    pauseBtn.textContent=paused?'play':'pause'
+    if(!paused)tick()
+  })
 }
 tick()
 

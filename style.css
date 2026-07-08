@@ -803,3 +803,29 @@ body{ font-size:var(--fz-base) !important; letter-spacing:0.01em; }
 .crumb-hints a{text-decoration:none;transition:color 0.15s}
 .crumb-hints a:hover{color:var(--text)}
 .crumb-hints a:hover .key{color:var(--purple)}
+.crumb-mobile{display:none}
+
+@media (max-width: 600px) {
+  :root {
+    --fz-base: 1.05rem;
+    --fz-label: 1.3rem;
+    --fz-h3-lg: 1.7rem;
+    --fz-h3-sm: 1.5rem;
+    --fz-p-lg: 1.05rem;
+    --fz-p-sm: 1.02rem;
+    --fz-pill: 1rem;
+    --fz-group-label: 1rem;
+    --fz-tag: 1rem;
+    --fz-status: 0.95rem;
+  }
+  .wip { font-size: 1.6rem; }
+  .section { padding: 2rem 1.5rem; }
+  .crumb { padding: 1rem 0 0.8rem; }
+  .crumb-inner { padding: 0 1.5rem; }
+  .crumb-bar, .crumb-hints { display: none; }
+  .crumb-mobile { display: flex; align-items: center; gap: 0.9rem; }
+  .crumb-back { font-family: var(--font-crt); font-size: 1.9rem; line-height: 1; color: var(--purple); text-shadow: var(--glow-purple); text-decoration: none; padding: 0.1rem 0.7rem; border: 1px solid var(--purple-border); }
+  .crumb-back:active { background: var(--purple); color: #000; text-shadow: none; }
+  .crumb-page { font-family: var(--font-crt); font-size: 1.9rem; color: var(--purple); text-shadow: var(--glow-purple); text-transform: uppercase; letter-spacing: 0.04em; }
+  .crumb-page.cred { color: var(--red); text-shadow: var(--glow-red); }
+}
