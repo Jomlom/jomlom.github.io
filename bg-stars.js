@@ -33,7 +33,7 @@
       } while (l > 1 || l < 0.001)
       dirs[s*3] = x/l; dirs[s*3+1] = y/l; dirs[s*3+2] = z/l
       props[s*4] = 1.5 + Math.random() * 1.4 // size
-      props[s*4+1] = 0.1 + Math.random() * 0.2 // base opacity
+      props[s*4+1] = 0.22 + Math.random() * 0.35 // base opacity
       props[s*4+2] = 0.011 + Math.random() * 0.01 // twinkle speed
       props[s*4+3] = Math.random() * Math.PI * 2 // twinkle phase
       const t = Math.random()
@@ -59,12 +59,12 @@
     frame++
 
     const w = canvas.width, h = canvas.height
-    const px = Math.min(w, h) / 1080
+    const px = Math.max(Math.min(w, h) / 1080, 0.9)
 
     // hero-sim sizes its canvas to the hero section width x height
     // project stars using the HERO canvas aspect ratio so they match
     const heroCanvas = document.getElementById('hero-canvas')
-    const heroAsp = heroCanvas ? (heroCanvas.width / heroCanvas.height) : (w / h)
+    const heroAsp = heroCanvas ? (heroCanvas.width / heroCanvas.height) : Math.max(w / h, 1.3)
 
     // read camera from hero-sim — falls back to 0 if not loaded yet
     let rotX, rotY

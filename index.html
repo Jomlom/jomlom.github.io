@@ -47,6 +47,8 @@ body{
 
 .crt-menu{list-style:none;position:static;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:0.15rem;padding:0;border:0;background:none;backdrop-filter:none}
 
+.crt-item .jump{display:none;margin-left:auto;padding-left:1.2rem;font-size:0.85em;opacity:0.6}
+
 .sim-pause{
   position:absolute;top:1.2rem;right:1.2rem;z-index:3;
   display:none;
@@ -65,17 +67,23 @@ body{
 }
 
 @media (max-width:600px){
-  .hero{justify-content:flex-end}
+  body{min-height:100svh}
+  .hero{justify-content:flex-end;min-height:100svh}
   #hero-canvas{opacity:1}
   .crt-panel{
     padding:3rem 1.5rem 2.5rem;
     justify-content:flex-end;
-    background:linear-gradient(to bottom,transparent,var(--bg) 24%,var(--bg));
   }
   .crt-panel .crt-name{font-size:clamp(2.8rem,16vw,5.5rem);white-space:nowrap;margin-bottom:0.3rem}
   .crt-tag{font-size:1.2rem;margin-bottom:1.4rem}
   .crt-item{width:100%;font-size:1.9rem}
-  .crt-hint{font-size:0.8rem}
+  .crt-item .num{display:none}
+  .crt-item .jump{display:inline}
+  .crt-hint{display:none;font-size:0.8rem}
+  body.kbd .crt-hint{display:block;opacity:0.7}
+  body:not(.kbd) .crt-item.selected{background:none;color:var(--purple);text-shadow:var(--glow-purple)}
+  body:not(.kbd) .crt-item.cred.selected{background:none;color:var(--red);text-shadow:var(--glow-red)}
+  body:not(.kbd) .crt-item.selected .arrow{opacity:0;animation:none}
 }
 </style>
 <script type="application/ld+json">
@@ -104,11 +112,11 @@ body{
     <h1 class="crt-name"><span id="name-text"></span><span id="name-caret" class="name-caret">|</span></h1>
     <div class="crt-tag">maths &amp; physics, durham</div>
     <nav class="crt-menu" id="crt-menu">
-      <a class="crt-item cred selected" href="credentials/"><span class="arrow">&gt;</span><span class="label">Credentials</span><span class="num">1</span></a>
-      <a class="crt-item" href="projects/"><span class="arrow">&gt;</span><span class="label">Projects</span><span class="num">2</span></a>
-      <a class="crt-item" href="writeups/"><span class="arrow">&gt;</span><span class="label">Writeups</span><span class="num">3</span></a>
-      <a class="crt-item" href="log/"><span class="arrow">&gt;</span><span class="label">Log</span><span class="num">4</span></a>
-      <a class="crt-item" href="communications/"><span class="arrow">&gt;</span><span class="label">Communications</span><span class="num">5</span></a>
+      <a class="crt-item cred selected" href="credentials/"><span class="arrow">&gt;</span><span class="label">Credentials</span><span class="num">1</span><span class="jump">&#8599;</span></a>
+      <a class="crt-item" href="projects/"><span class="arrow">&gt;</span><span class="label">Projects</span><span class="num">2</span><span class="jump">&#8599;</span></a>
+      <a class="crt-item" href="writeups/"><span class="arrow">&gt;</span><span class="label">Writeups</span><span class="num">3</span><span class="jump">&#8599;</span></a>
+      <a class="crt-item" href="log/"><span class="arrow">&gt;</span><span class="label">Log</span><span class="num">4</span><span class="jump">&#8599;</span></a>
+      <a class="crt-item" href="communications/"><span class="arrow">&gt;</span><span class="label">Communications</span><span class="num">5</span><span class="jump">&#8599;</span></a>
     </nav>
     <div class="crt-hint" id="crt-hint">
 <span class="key">&uarr;&darr;</span> navigate <span class="key">&crarr;</span> select
@@ -144,10 +152,14 @@ body{
 // ---- menu navigation: arrows + WS + numbers + mouse ----
 const items = Array.from(document.querySelectorAll('.crt-item'))
 let sel = 0
+let kbd = !window.matchMedia('(max-width: 600px)').matches
 function setSel(i){ sel=(i+items.length)%items.length; items.forEach((it,idx)=>it.classList.toggle('selected',idx===sel)) }
-items.forEach((it,idx)=>it.addEventListener('mouseenter',()=>setSel(idx)))
+items.forEach((it,idx)=>it.addEventListener('mouseenter',()=>{ if(kbd) setSel(idx) }))
 window.addEventListener('keydown',e=>{
   const k=e.key.toLowerCase()
+  if(!kbd && (k==='arrowdown'||k==='arrowup'||k==='w'||k==='s')){
+    kbd=true; document.body.classList.add('kbd'); setSel(0); e.preventDefault(); return
+  }
   if(k==='arrowdown'||k==='s'){e.preventDefault();setSel(sel+1)}
   else if(k==='arrowup'||k==='w'){e.preventDefault();setSel(sel-1)}
   else if(k==='enter'||k===' '){e.preventDefault();items[sel].click()}
