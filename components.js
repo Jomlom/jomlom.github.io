@@ -106,21 +106,6 @@ class SiteFooter extends HTMLElement {
   }
 }
 
-class CrtOverlay extends HTMLElement {
-  connectedCallback() {
-    this.innerHTML = `
-      <div class="crt-fx">
-        <div class="static"></div>
-        <div class="bloom"></div>
-        <div class="scanlines"></div>
-        ${this.hasAttribute('rollbar') ? '<div class="rollbar"></div>' : ''}
-        <div class="vignette"></div>
-        <div class="flicker"></div>
-      </div>
-    `
-  }
-}
-
 class ProjectGallery extends HTMLElement {
   async connectedCallback() {
     const probe = src => new Promise(res => {
@@ -231,16 +216,5 @@ class ProjectIcon extends HTMLElement {
 customElements.define('home-nav', HomeNav)
 customElements.define('site-nav', SiteNav)
 customElements.define('site-footer', SiteFooter)
-customElements.define('crt-overlay', CrtOverlay)
 customElements.define('project-gallery', ProjectGallery)
 customElements.define('project-icon', ProjectIcon)
-
-;(function () {
-  function setScan() {
-    const dpr = window.devicePixelRatio || 1
-    const scan = Math.max(3, Math.min(7, Math.round(3 * dpr)))
-    document.documentElement.style.setProperty('--scan', scan + 'px')
-  }
-  setScan()
-  window.addEventListener('resize', setScan)
-})()

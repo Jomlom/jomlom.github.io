@@ -15,7 +15,7 @@
   <meta name="description" content="Everything Jonty Ali is building, from live projects and works in progress to ideas he still wants to try, filterable by status and language." />
   <title>Projects - Jonty Ali</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=Chivo+Mono:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
 
   <style>
@@ -174,7 +174,7 @@
       display: flex;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.35rem;
     }
     .project-card-lg .card-icon {
       width: 4.5rem;
@@ -237,7 +237,7 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1.05rem;
     }
     .project-card-sm .card-icon {
       width: 3rem;
@@ -288,8 +288,6 @@
 
   <canvas id="bg-stars-canvas"></canvas>
   <div class="noise"></div>
-
-  <crt-overlay></crt-overlay>
 
   <site-nav></site-nav>
 
@@ -502,33 +500,36 @@
       return el ? el.textContent.trim().toLowerCase() : ''
     }
 
-    // auto-detect icons from data-folder
+    // wrap every card title in a title-row (icon added only if one loads),
+    // so the title/description spacing is uniform whether or not there's an icon
     allProjects.forEach(entry => {
+      const card = entry.querySelector('.project-card-lg, .project-card-sm')
+      if (!card) return
+      const h3 = card.querySelector('h3')
+      if (!h3 || (h3.parentNode && h3.parentNode.classList.contains('card-title-row'))) return
+      const wrap = document.createElement('div')
+      wrap.className = 'card-title-row'
+      h3.parentNode.insertBefore(wrap, h3)
+      wrap.appendChild(h3)
+
       const folder = entry.dataset.folder
       if (!folder) return
       const name = folder.split('/').pop()
       const src = folder + '/' + name + '.png'
-      const card = entry.querySelector('.project-card-lg, .project-card-sm')
-      if (!card) return
       const img = new Image()
       img.onload = () => {
-        const h3 = card.querySelector('h3')
-        if (!h3) return
-        const wrap = document.createElement('div')
-        wrap.className = 'card-title-row'
         const icon = document.createElement('img')
         icon.src = src
         icon.className = 'card-icon'
         icon.alt = ''
         icon.setAttribute('aria-hidden', 'true')
-        h3.parentNode.insertBefore(wrap, h3)
-        wrap.appendChild(icon)
-        wrap.appendChild(h3)
+        wrap.insertBefore(icon, h3)
         msnry.layout()
       }
       img.onerror = () => {}
       img.src = src
     })
+    msnry.layout()
 
     // filtering - reads from card tags and status element directly
     const activeFilters = { status: null, lang: null }

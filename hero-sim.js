@@ -306,7 +306,7 @@ function tick(){
   gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.useProgram(partProg)
   st(partProg,'u_pos',0,posTex[ping]);st(partProg,'u_col',1,colTex)
   u1i(partProg,'u_tw',TW);u1i(partProg,'u_th',TH);u1f(partProg,'u_pxScale',px)
-  const mobile = window.matchMedia('(max-width: 600px)').matches
+  const mobile = window.matchMedia('(max-width: 900px)').matches
   const proj=persp(fov,asp,.01,300),view=mul(mT(0,mobile?1.1:0,mobile?-4.5:-4),mul(mRX(rotX),mRY(rotY)))
   uM4(partProg,'u_mvp',mul(proj,view));gl.drawArrays(gl.POINTS,0,N);gl.disable(gl.BLEND)
 

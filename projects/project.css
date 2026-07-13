@@ -177,7 +177,7 @@ project-icon { display: contents; }
   background: var(--purple);
   color: #fff;
   text-decoration: none;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -223,7 +223,7 @@ project-gallery .carousel { margin-top: 0; }
 .info-label {
   font-size: 1.1rem;
   color: var(--text-dim);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
 }
 
 .info-value {

@@ -18,7 +18,7 @@
 <link rel="me" href="mailto:contact@jontyali.com" />
 <title>Jonty Ali</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=Chivo+Mono:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
 body{
@@ -35,54 +35,44 @@ body{
 }
 
 .crt-panel .crt-name{
-  font-family:var(--font-crt);font-size:8.5rem;line-height:0.9;color:#ffffff;
-  letter-spacing:0.02em;margin-bottom:0.4rem;opacity:1;animation:none;
+  font-family:var(--font-ui);font-size:8.5rem;line-height:0.9;color:#ffffff;
+  letter-spacing:0.02em;margin-bottom:1.2rem;opacity:1;animation:none;
   text-shadow:var(--glow-white);
 }
 .crt-tag{
-  font-family:var(--font-crt);font-size:1.7rem;color:var(--text-muted);
-  margin-bottom:2.2rem;letter-spacing:0.03em;
-  text-shadow:var(--glow-muted);
+  font-family:var(--font-mono);font-size:1.7rem;color:var(--text-muted);
+  margin-bottom:3.4rem;letter-spacing:0.03em;
 }
 
-.crt-menu{list-style:none;position:static;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:0.15rem;padding:0;border:0;background:none;backdrop-filter:none}
+.crt-menu{list-style:none;position:static;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:0.4rem;padding:0;border:0;background:none;backdrop-filter:none}
 
 .crt-item .jump{display:none;margin-left:auto;padding-left:1.2rem;font-size:0.85em;opacity:0.6}
 
 .sim-pause{
   position:absolute;top:1.2rem;right:1.2rem;z-index:3;
   display:none;
-  font-family:var(--font-crt);font-size:1.1rem;letter-spacing:0.1em;text-transform:uppercase;
+  font-family:var(--font-ui);font-size:1.1rem;letter-spacing:0.1em;text-transform:uppercase;
   color:var(--text-dim);background:rgba(0,0,0,0.3);border:1px solid var(--border);
   padding:0.25rem 0.7rem;cursor:pointer;opacity:0.55;
   transition:opacity 0.2s,color 0.2s,border-color 0.2s;
 }
 .sim-pause:hover{opacity:1;color:var(--purple);border-color:var(--purple-border)}
 
+/* one clean switch from desktop row -> full vertical layout, no dimmed in-between state */
 @media (max-width:900px){
-  .hero{flex-direction:column}
-  #hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0.45}
-  .crt-panel{width:100%;min-width:0;padding:5rem 1.5rem 3rem;justify-content:flex-start}
-  .crt-item{width:18rem}
-}
-
-@media (max-width:600px){
   body{min-height:100svh}
-  .hero{justify-content:flex-end;min-height:100svh}
-  #hero-canvas{opacity:1}
-  .crt-panel{
-    padding:3rem 1.5rem 2.5rem;
-    justify-content:flex-end;
-  }
-  .crt-panel .crt-name{font-size:clamp(2.8rem,16vw,5.5rem);white-space:nowrap;margin-bottom:0.3rem}
+  .hero{flex-direction:column;justify-content:flex-end;min-height:100svh}
+  #hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:1}
+  .crt-panel{width:100%;min-width:0;padding:3rem 1.5rem 2.5rem;justify-content:flex-end}
+  .crt-panel .crt-name{font-size:clamp(2.8rem,16vw,6.5rem);white-space:nowrap;margin-bottom:0.3rem}
   .crt-tag{font-size:1.2rem;margin-bottom:1.4rem}
-  .crt-item{width:100%;font-size:1.9rem}
+  .crt-item{width:100%;font-size:2.1rem}
   .crt-item .num{display:none}
   .crt-item .jump{display:inline}
   .crt-hint{display:none;font-size:0.8rem}
   body.kbd .crt-hint{display:block;opacity:0.7}
-  body:not(.kbd) .crt-item.selected{background:none;color:var(--purple);text-shadow:var(--glow-purple)}
-  body:not(.kbd) .crt-item.cred.selected{background:none;color:var(--red);text-shadow:var(--glow-red)}
+  body:not(.kbd) .crt-item.selected{background:none;color:var(--purple)}
+  body:not(.kbd) .crt-item.cred.selected{background:none;color:var(--red)}
   body:not(.kbd) .crt-item.selected .arrow{opacity:0;animation:none}
 }
 </style>
@@ -123,7 +113,6 @@ body{
     </div>
   </div>
 
-  <crt-overlay rollbar></crt-overlay>
 </section>
 
 <script src="../hero-sim.js"></script>
@@ -152,7 +141,7 @@ body{
 // ---- menu navigation: arrows + WS + numbers + mouse ----
 const items = Array.from(document.querySelectorAll('.crt-item'))
 let sel = 0
-let kbd = !window.matchMedia('(max-width: 600px)').matches
+let kbd = !window.matchMedia('(max-width: 900px)').matches
 function setSel(i){ sel=(i+items.length)%items.length; items.forEach((it,idx)=>it.classList.toggle('selected',idx===sel)) }
 items.forEach((it,idx)=>it.addEventListener('mouseenter',()=>{ if(kbd) setSel(idx) }))
 window.addEventListener('keydown',e=>{
