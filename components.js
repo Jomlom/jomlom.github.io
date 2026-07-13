@@ -1,20 +1,3 @@
-class HomeNav extends HTMLElement {
-  connectedCallback() {
-    this.innerHTML = `
-      <nav>
-        <span class="nav-logo">JA<span class="cursor-blink">_</span></span>
-        <div class="nav-links">
-          <a href="credentials/">Credentials</a>
-          <a href="projects/">Projects</a>
-          <a href="writeups/">Writeups</a>
-          <a href="log/">Log</a>
-          <a href="communications/">Communications</a>
-        </div>
-      </nav>
-    `
-  }
-}
-
 const NAV_MAP = {
   0: { label: 'Home', path: '/' },
   1: { label: 'Credentials', path: '/credentials/' },
@@ -213,7 +196,6 @@ class ProjectIcon extends HTMLElement {
   }
 }
 
-customElements.define('home-nav', HomeNav)
 customElements.define('site-nav', SiteNav)
 customElements.define('site-footer', SiteFooter)
 customElements.define('project-gallery', ProjectGallery)

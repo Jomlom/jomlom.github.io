@@ -44,7 +44,7 @@
   }
   genStars()
 
-  // listen for hero reset so stars regenerate in sync
+  // re-randomise the star field when the hero galaxy is reset (double-click)
   window.addEventListener('heroReset', genStars)
 
   // autonomous rotation used on pages without hero-sim
@@ -78,6 +78,9 @@
       rotY = autoRotY
     }
 
+    // fade stars out/in together with the hero galaxy while it resets
+    const sfAlpha = (window._heroSim && typeof window._heroSim.fadeAlpha === 'number') ? window._heroSim.fadeAlpha : 1
+
     // projection witj same fov as hero-sim
     const fov = Math.PI / 3.2
     const asp = heroAsp  // match hero-sim projection exactly
@@ -108,7 +111,7 @@
 
       // twinkle
       const tw = 1 + 0.28 * Math.sin(frame * props[s*4+2] + props[s*4+3])
-      const op = props[s*4+1] * tw
+      const op = props[s*4+1] * tw * sfAlpha
       const sz = props[s*4] * px
 
       // convert ndc to canvas pixels

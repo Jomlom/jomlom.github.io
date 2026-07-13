@@ -264,7 +264,7 @@ loadGalaxy(makeGalaxy())
 // camera state - exposed globally for bg-stars.js
 let rotX=0.5,rotY=-1.75,rotVel=0.005
 const ROT_SPEED=0.0002
-window._heroSim = { get rotX(){return rotX}, get rotY(){return rotY} }
+window._heroSim = { get rotX(){return rotX}, get rotY(){return rotY}, get fadeAlpha(){return fadeAlpha} }
 
 const heroEl=document.querySelector('.hero')
 let drag=false,lx=0,ly=0
@@ -274,7 +274,7 @@ window.addEventListener('mouseup',()=>drag=false)
 window.addEventListener('mousemove',e=>{if(!drag)return;rotY+=(e.clientX-lx)*.005;lx=e.clientX;rotX+=(e.clientY-ly)*.005;ly=e.clientY})
 
 let fadeAlpha=1,fadingOut=false,pendingReset=false,paused=false
-heroEl.addEventListener('dblclick',()=>{fadingOut=true;pendingReset=false;sfFading=true})
+heroEl.addEventListener('dblclick',()=>{fadingOut=true;pendingReset=false})
 
 let frame=0
 function tick(){
@@ -284,7 +284,7 @@ function tick(){
 
   const tvel=drag?0:ROT_SPEED;rotVel+=(tvel-rotVel)*.04;rotY+=rotVel
 
-  if(fadingOut){fadeAlpha=Math.max(0,fadeAlpha-.055);if(fadeAlpha===0&&!pendingReset){loadGalaxy(makeGalaxy());pendingReset=true;fadingOut=false}}
+  if(fadingOut){fadeAlpha=Math.max(0,fadeAlpha-.055);if(fadeAlpha===0&&!pendingReset){loadGalaxy(makeGalaxy());window.dispatchEvent(new Event('heroReset'));pendingReset=true;fadingOut=false}}
   else if(pendingReset){fadeAlpha=Math.min(1,fadeAlpha+.055);if(fadeAlpha>=1)pendingReset=false}
 
   const pong=1-ping,dt=DT*DTMULT
