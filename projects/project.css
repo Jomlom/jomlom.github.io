@@ -4,7 +4,7 @@
   position: relative;
   margin-top: 2rem;
   background: var(--bg2);
-  border: 1px solid var(--border);
+  border: 1px solid var(--text-dim);
   border-radius: 6px;
   overflow: hidden;
   display: none;
@@ -195,6 +195,24 @@ project-icon { display: contents; }
   box-shadow: 0 8px 24px rgba(155,109,255,0.25);
 }
 
+/* optional row for a second cta */
+.project-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* optional red secondary cta */
+.project-cta.secondary {
+  background: var(--red);
+}
+
+.project-cta.secondary:hover {
+  background: #ff6b6b;
+  box-shadow: 0 8px 24px rgba(255,64,64,0.25);
+}
+
 .project-right {
   display: flex;
   flex-direction: column;
@@ -222,6 +240,71 @@ project-gallery .carousel { margin-top: 0; }
   grid-template-columns: auto 1fr;
   gap: calc(0.5rem + 0.9vh) 1.25rem;
   align-items: baseline;
+}
+
+/* optional ai-usage row, sits in the same meta grid as status/language/source */
+ai-usage { display: contents; }
+
+.ai-usage-cell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ai-usage-cell[data-level="none"] { --ai: #58aaff; }
+.ai-usage-cell[data-level="low"] { --ai: #3ed98e; }
+
+.ai-usage-trigger {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  border-bottom: 1px dotted currentColor;
+  padding: 0 0 0.1rem;
+  cursor: pointer;
+}
+
+.ai-usage-pop {
+  position: fixed;
+  top: auto;
+  left: 0;
+  right: auto;
+  z-index: 20;
+  width: 16rem;
+  max-width: calc(100vw - 1.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.85rem 1rem;
+  background: var(--bg2);
+  border: 1px solid var(--text-dim);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s;
+}
+
+.ai-usage-cell:hover .ai-usage-pop,
+.ai-usage-cell:focus-within .ai-usage-pop {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ai-usage-pop-head {
+  font-family: var(--font-ui);
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  color: var(--ai, var(--text));
+}
+
+.ai-usage-pop-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
 }
 
 .info-label {

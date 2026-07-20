@@ -196,7 +196,53 @@ class ProjectIcon extends HTMLElement {
   }
 }
 
+class AIUsage extends HTMLElement {
+  connectedCallback() {
+    const words = { none: 'NONE', low: 'LOW', high: 'HEAVY' }
+    const key = (this.getAttribute('level') || 'none').toLowerCase()
+    const level = words[key] ? key : 'none'
+    const desc = (this.getAttribute('desc') || '').replace(/\s+/g, ' ').trim()
+    const label = level === 'none' ? 'No AI Usage' : 'AI Usage'
+    this.innerHTML = `
+      <span class="ai-usage-cell" data-level="${level}">
+        <button type="button" class="ai-usage-trigger">${label}</button>
+        <span class="ai-usage-pop" role="tooltip">
+          <span class="ai-usage-pop-head">${words[level]}</span>
+          <span class="ai-usage-pop-desc"></span>
+        </span>
+      </span>
+    `
+    this.querySelector('.ai-usage-pop-desc').textContent = desc
+
+    const cell = this.querySelector('.ai-usage-cell')
+    const trigger = this.querySelector('.ai-usage-trigger')
+    const pop = this.querySelector('.ai-usage-pop')
+    const m = 8
+    const place = () => {
+      const t = trigger.getBoundingClientRect()
+      const pw = pop.offsetWidth
+      const ph = pop.offsetHeight
+      const left = Math.max(m, Math.min(t.left, window.innerWidth - m - pw))
+      let top = t.bottom + m
+      if (top + ph > window.innerHeight - m) top = t.top - ph - m
+      top = Math.max(m, Math.min(top, window.innerHeight - m - ph))
+      pop.style.left = left + 'px'
+      pop.style.top = top + 'px'
+    }
+    const reposition = () => { if (cell.matches(':hover, :focus-within')) place() }
+    cell.addEventListener('mouseenter', place)
+    cell.addEventListener('focusin', place)
+    window.addEventListener('resize', reposition)
+    window.addEventListener('scroll', reposition, true)
+  }
+}
+
 customElements.define('site-nav', SiteNav)
 customElements.define('site-footer', SiteFooter)
 customElements.define('project-gallery', ProjectGallery)
 customElements.define('project-icon', ProjectIcon)
+customElements.define('ai-usage', AIUsage)
+
+document.querySelectorAll('.project-status').forEach(el => {
+  if (el.textContent.trim().toLowerCase() === 'idea') el.classList.add('idea')
+})

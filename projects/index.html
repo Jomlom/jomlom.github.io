@@ -262,27 +262,6 @@
       margin-bottom: 1rem;
     }
     .project-card-sm .project-tags { margin-top: auto; }
-
-    /* featured tag */
-    .project-tag-featured {
-      display: inline-block;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      color: var(--red);
-      background: rgba(255, 64, 64, 0.1);
-      border: 1px solid rgba(255, 64, 64, 0.3);
-      padding: 0.2rem 0.6rem;
-      border-radius: 2px;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-      margin-right: 0.4rem;
-      animation: featured-pulse 4s ease-in-out infinite;
-    }
-
-    @keyframes featured-pulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(255, 64, 64, 0.25); }
-      50% { opacity: 1; box-shadow: 0 0 8px rgba(255, 64, 64, 0.35); }
-    }
   </style>
 </head>
 <body>
@@ -322,16 +301,73 @@
       <div class="projects-wrap" id="projects-wrap">
         <div class="projects-wrap-sizer"></div>
 
+        <!-- to feature a card, replace its status div with:
+        <div>
+          <span class="project-tag-featured">featured</span><span class="project-status">live</span>
+        </div>
+        -->
+
+        <div class="project-entry" data-folder="chess">
+          <a class="project-card-lg" href="chess/">
+            <div class="project-status">in progress</div>
+            <h3>Chess Platform & Engine</h3>
+            <p>A chess platform and engines written in C++,
+              I will create bots of increasing difficulty
+              as I improve since I am new to chess.
+              This also lets me teach myself C++.
+              Goal: Create an engine at the skill of
+              1600 ELO.</p>
+            <div class="project-tags">
+              <span>C++</span>
+              <span>Game Engine</span>
+              <span>Game Theory</span>
+            </div>
+            <span class="card-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="project-entry" data-folder="itm">
+          <a class="project-card-lg" href="itm/">
+            <div class="project-status">in progress</div>
+            <h3>Into The Maze</h3>
+            <p>An indie game dev organisation with me and
+              my friend, where we are actively
+              developing a playable demo for a game in Godot.</p>
+            <div class="project-tags">
+              <span>GDScript</span>
+              <span>Game Dev</span>
+              <span>Computer Graphics</span>
+            </div>
+            <span class="card-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="project-entry" data-folder="mcmods">
+          <a class="project-card-lg" href="mcmods/">
+            <div class="project-status">live</div>
+            <h3>Minecraft Mods</h3>
+            <p>A small collection of Minecraft mods I have
+              released online and actively maintain,
+              mainly for fun.
+              Personally at 400k downloads.
+              Part of a small organisation with over 130M
+              total downloads.</p>
+            <div class="project-tags">
+              <span>Java</span>
+              <span>Game Dev</span>
+            </div>
+            <span class="card-arrow">→</span>
+          </a>
+        </div>
+
         <div class="project-entry" data-folder="nbody">
           <a class="project-card-lg" href="nbody/">
-            <div>
-              <span class="project-tag-featured">featured</span><span class="project-status">live</span>
-            </div>
+            <div class="project-status">live</div>
             <h3>N-Body Gravity Simulator</h3>
-            <p>A real-time gravitational simulation of many 
+            <p>A real-time gravitational simulation of many
               bodies using Newtonian gravitation.
               A simple and beautiful visualisation,
-              mainly done to showcase on the front page 
+              mainly done to showcase on the front page
               of this site.</p>
             <div class="project-tags">
               <span>JavaScript</span>
@@ -347,65 +383,12 @@
             <div class="project-status">live</div>
             <h3>This Website!</h3>
             <p>This is the website you are currently on.
-              A personal site to showcase some of 
+              A personal site to showcase some of
               the things I do.
             </p>
             <div class="project-tags">
               <span>HTML</span>
               <span>JavaScript</span>
-            </div>
-            <span class="card-arrow">→</span>
-          </a>
-        </div>
-
-        <div class="project-entry" data-folder="itm">
-          <a class="project-card-lg" href="itm/">
-            <div class="project-status">in progress</div>
-            <h3>Into The Maze</h3>
-            <p>An indie game dev organisation with me and 
-              my friend, where we are actively 
-              developing a playable demo for a game in Godot.</p>
-            <div class="project-tags">
-              <span>GDScript</span>
-              <span>Game Dev</span>
-              <span>Computer Graphics</span>
-            </div>
-            <span class="card-arrow">→</span>
-          </a>
-        </div>
-
-        <div class="project-entry" data-folder="chess">
-          <a class="project-card-lg" href="chess/">
-            <div class="project-status">in progress</div>
-            <h3>Chess Platform & Engine</h3>
-            <p>A chess platform and engines written in C++,
-              I will create bots of increasing difficulty 
-              as I improve since I am new to chess.
-              This also lets me teach myself C++.
-              Goal: Create an engine at the skill of 
-              1600 ELO.</p>
-            <div class="project-tags">
-              <span>C++</span>
-              <span>Game Engine</span>
-              <span>Game Theory</span>
-            </div>
-            <span class="card-arrow">→</span>
-          </a>
-        </div>
-
-        <div class="project-entry" data-folder="mcmods">
-          <a class="project-card-lg" href="mcmods/">
-            <div class="project-status">live</div>
-            <h3>Minecraft Mods</h3>
-            <p>A small collection of Minecraft mods I have 
-              released online and actively maintain, 
-              mainly for fun.
-              Personally at 400k downloads. 
-              Part of a small organisation with over 130M 
-              total downloads.</p>
-            <div class="project-tags">
-              <span>Java</span>
-              <span>Game Dev</span>
             </div>
             <span class="card-arrow">→</span>
           </a>
