@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "imperial",
+    "title": "Imperial Summer School",
+    "type": "notes",
+    "date": "2026-07-24",
+    "read": 15,
+    "tags": ["maths", "analysis", "linear algebra"],
+    "summary": "Placeholder. Two weeks of maths at Imperial written up module by module, with a few visualisations and a glossary of the terms I picked up."
+  },
+  {
+    "slug": "nbody",
+    "title": "How the N-Body Simulator Runs on the GPU",
+    "type": "devlog",
+    "date": "2026-07-10",
+    "read": 6,
+    "tags": ["webgl", "physics", "javascript"],
+    "summary": "Placeholder. A devlog on the N-Body gravity simulator: ping-pong textures, the GLSL that moves every body, and the tricks behind the front-page graphic."
+  }
+]

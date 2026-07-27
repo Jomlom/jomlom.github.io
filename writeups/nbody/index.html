@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How the N-Body Simulator Runs on the GPU - Jonty Ali" />
+  <meta property="og:description" content="A devlog on how Jonty Ali's N-Body gravity simulator runs thousands of bodies on the GPU." />
+  <meta property="og:url" content="https://jontyali.com/writeups/nbody/" />
+  <link rel="canonical" href="https://jontyali.com/writeups/nbody/" />
+  <meta property="og:image" content="https://jontyali.com/favicon.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="How the N-Body Simulator Runs on the GPU - Jonty Ali" />
+  <meta name="twitter:description" content="A devlog on how Jonty Ali's N-Body gravity simulator runs thousands of bodies on the GPU." />
+  <meta name="twitter:image" content="https://jontyali.com/favicon.png" />
+  <meta name="description" content="A devlog on how Jonty Ali's N-Body gravity simulator runs thousands of bodies on the GPU." />
+  <title>How the N-Body Simulator Runs on the GPU - Jonty Ali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=Chivo+Mono:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../writeups.css">
+</head>
+<body>
+
+  <canvas id="bg-stars-canvas"></canvas>
+  <div class="noise"></div>
+
+  <site-nav></site-nav>
+
+  <main class="page-main">
+    <article class="wr-article">
+      <div class="wr-article-top">
+        <span class="wr-type wr-type-devlog">devlog</span>
+        <span class="wr-date">10 Jul 2026</span>
+        <span class="wr-read">~6 min</span>
+      </div>
+      <h1 class="wr-article-title">How the N-Body Simulator Runs on the GPU</h1>
+      <p class="wr-article-lead">Placeholder lead. A devlog on the gravity simulator behind the front page — what runs where, and why.</p>
+      <div class="wr-article-body">
+        <p>Writeup coming soon. This is a placeholder for the reading layout — the real piece will walk through the GPU approach: storing body state in textures, the GLSL that integrates every body each frame, and the ping-pong trick that makes it fast.</p>
+        <h2>Section heading</h2>
+        <p>Placeholder body text to show how a section reads in this column width and line height.</p>
+        <h3>Sub-section heading</h3>
+        <p>More placeholder body text.</p>
+      </div>
+    </article>
+  </main>
+
+  <site-footer></site-footer>
+
+  <script src="../../bg-stars.js"></script>
+  <script src="../../components.js"></script>
+
+</body>
+</html>
