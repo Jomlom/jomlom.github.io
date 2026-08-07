@@ -22,6 +22,13 @@
     .log-bubble a {
       color: var(--purple);
       text-decoration: underline;
+      text-decoration-color: var(--purple-border);
+      text-underline-offset: 0.15em;
+      transition: color 0.15s, text-decoration-color 0.15s;
+    }
+    .log-bubble a:hover {
+      color: #b388ff;
+      text-decoration-color: currentColor;
     }
 
     .log-desc {

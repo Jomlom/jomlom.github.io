@@ -70,6 +70,8 @@ class SiteNav extends HTMLElement {
     back.addEventListener('click', e => { e.preventDefault(); go(parentKey, back.href) })
 
     window.addEventListener('keydown', e => {
+      const el = document.activeElement
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return
       const k = e.key
       if (k === 'Escape') { e.preventDefault(); go(parentKey, parent) }
       else if (k === '0') { e.preventDefault(); go('0', NAV_MAP[0].path) }
