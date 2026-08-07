@@ -160,17 +160,6 @@
       border-color: var(--purple-border);
       background: var(--bg3);
     }
-    .project-card-lg::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 6px;
-      background: radial-gradient(ellipse at top left, var(--purple-glow), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-    .project-card-lg:hover::before { opacity: 1; }
     .project-card-lg .card-title-row {
       display: flex;
       align-items: center;

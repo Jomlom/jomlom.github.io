@@ -30,7 +30,7 @@
   <main class="page-main">
     <section class="section">
       <div class="wr-wrap">
-        <p class="wr-desc">Longer writeups on my projects and the things I learn — how they work, how I built them, and what I picked up.</p>
+        <p class="wr-desc">Longer writings on my projects, things I learn, and whatever I feel like.</p>
 
         <div class="wr-tools">
           <input type="text" class="wr-search" id="wr-search" placeholder="search writeups" aria-label="search writeups">
@@ -61,10 +61,28 @@
     let sortNewest = true
     let rows = []
     let sel = -1
+    const excerpts = {}
 
     const fmtDate = iso => {
       const [y, m, d] = iso.split('-').map(Number)
       return d + ' ' + months[m - 1] + ' ' + y
+    }
+
+    // pulls the writeup's own opening paragraph as its preview
+    function loadExcerpt(slug, el) {
+      if (excerpts[slug]) { el.textContent = excerpts[slug]; return }
+      fetch(slug + '/')
+        .then(r => r.text())
+        .then(html => {
+          const doc = new DOMParser().parseFromString(html, 'text/html')
+          const p = doc.querySelector('.wr-article-lead') || doc.querySelector('.wr-article-body p')
+          if (!p) return
+          let text = p.textContent.trim()
+          if (text.length > 200) text = text.slice(0, 200).replace(/\s+\S*$/, '') + '…'
+          excerpts[slug] = text
+          el.textContent = text
+        })
+        .catch(() => {})
     }
 
     function setSel(i) {
@@ -78,7 +96,7 @@
       const list = all.filter(w => {
         if (activeType && w.type !== activeType) return false
         if (!q) return true
-        return (w.title + ' ' + w.summary + ' ' + w.type + ' ' + w.tags.join(' ')).toLowerCase().includes(q)
+        return (w.title + ' ' + w.type + ' ' + w.tags.join(' ')).toLowerCase().includes(q)
       })
       list.sort((a, b) => sortNewest ? b.date.localeCompare(a.date) : a.date.localeCompare(b.date))
 
@@ -94,24 +112,33 @@
       emptyEl.style.display = 'none'
 
       list.forEach(w => {
-        const a = document.createElement('a')
-        a.className = 'wr-row'
-        a.href = w.slug + '/'
-        a.innerHTML = `
+        const href = w.slug + '/'
+        const row = document.createElement('div')
+        row.className = 'wr-row'
+        row.dataset.href = href
+        row.tabIndex = 0
+        row.innerHTML = `
           <div class="wr-rail">
             <span class="wr-type wr-type-${w.type}">${w.type}</span>
             <span class="wr-date">${fmtDate(w.date)}</span>
             <span class="wr-read">~${w.read} min</span>
+            ${w.pdf ? `<a class="wr-pdf-mini" href="${w.slug}/${w.slug}.pdf" download>&darr; PDF</a>` : ''}
           </div>
           <div class="wr-content">
             <div class="wr-title">${w.title}</div>
-            <p class="wr-summary">${w.summary}</p>
+            <p class="wr-summary"></p>
             <div class="wr-tags">${w.tags.map(t => `<span>${t}</span>`).join('')}</div>
           </div>
+          <span class="card-arrow">→</span>
         `
-        a.addEventListener('mouseenter', () => setSel(rows.indexOf(a)))
-        feed.appendChild(a)
-        rows.push(a)
+        row.addEventListener('mouseenter', () => setSel(rows.indexOf(row)))
+        row.addEventListener('click', e => { if (!e.target.closest('.wr-pdf-mini')) location.href = href })
+        row.addEventListener('keydown', e => {
+          if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('.wr-pdf-mini')) { e.preventDefault(); location.href = href }
+        })
+        feed.appendChild(row)
+        rows.push(row)
+        loadExcerpt(w.slug, row.querySelector('.wr-summary'))
       })
     }
 
@@ -155,7 +182,7 @@
       if (!rows.length) return
       if (e.key === 'ArrowDown') { e.preventDefault(); setSel((sel + 1) % rows.length) }
       else if (e.key === 'ArrowUp') { e.preventDefault(); setSel((sel - 1 + rows.length) % rows.length) }
-      else if (e.key === 'Enter' && rows[sel]) { e.preventDefault(); location.href = rows[sel].href }
+      else if (e.key === 'Enter' && rows[sel]) { e.preventDefault(); location.href = rows[sel].dataset.href }
     })
   </script>
 

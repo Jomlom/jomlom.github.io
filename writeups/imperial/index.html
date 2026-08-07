@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Imperial Summer School - Jonty Ali" />
-  <meta property="og:description" content="Jonty Ali's writeup of his maths summer school at Imperial College London." />
+  <meta property="og:title" content="Time Series and Systematic Trading - Jonty Ali" />
+  <meta property="og:description" content="Jonty Ali's notes from two Imperial summer-school modules: modern time series analysis and systematic trading, with the key equations and a few interactive figures." />
   <meta property="og:url" content="https://jontyali.com/writeups/imperial/" />
   <link rel="canonical" href="https://jontyali.com/writeups/imperial/" />
   <meta property="og:image" content="https://jontyali.com/favicon.png" />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Imperial Summer School - Jonty Ali" />
-  <meta name="twitter:description" content="Jonty Ali's writeup of his maths summer school at Imperial College London." />
+  <meta name="twitter:title" content="Time Series and Systematic Trading - Jonty Ali" />
+  <meta name="twitter:description" content="Jonty Ali's notes from two Imperial summer-school modules: modern time series analysis and systematic trading, with the key equations and a few interactive figures." />
   <meta name="twitter:image" content="https://jontyali.com/favicon.png" />
-  <meta name="description" content="Jonty Ali's writeup of his maths summer school at Imperial College London." />
-  <title>Imperial Summer School - Jonty Ali</title>
+  <meta name="description" content="Jonty Ali's notes from two Imperial summer-school modules: modern time series analysis and systematic trading, with the key equations and a few interactive figures." />
+  <title>Time Series and Systematic Trading - Jonty Ali</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=Chivo+Mono:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../style.css">
@@ -31,17 +31,133 @@
     <article class="wr-article">
       <div class="wr-article-top">
         <span class="wr-type wr-type-notes">notes</span>
-        <span class="wr-date">24 Jul 2026</span>
-        <span class="wr-read">~15 min</span>
+        <span class="wr-date">6 Aug 2026</span>
+        <span class="wr-read">~20 min</span>
+        <a class="wr-pdf" href="imperial.pdf" download>&darr; PDF Version</a>
       </div>
-      <h1 class="wr-article-title">Imperial Summer School</h1>
-      <p class="wr-article-lead">Placeholder lead. Two weeks of maths at Imperial College London, written up module by module.</p>
+      <h1 class="wr-article-title">Time Series and Systematic Trading</h1>
+      <p class="wr-article-lead">Two modules at Imperial College London's Summer School on Machine Learning, Applied Statistics, and Quantitative Finance. The first: <a href="https://sites.google.com/view/imperial-summer-school/module-2" target="_blank" rel="noopener">Machine Learning and Statistics for Time Series Analysis</a>, a "comprehensive exploration of probability theory and time series analysis". And the second: <a href="https://sites.google.com/view/imperial-summer-school/module-3?authuser=0" target="_blank" rel="noopener">Systematic Trading</a>, which introduces "the design and deployment of systematic trading strategies used by hedge funds and other 'smart money'".</p>
       <div class="wr-article-body">
-        <p>Writeup coming soon. This is a placeholder for the reading layout — the real piece will go through each module in detail, with a few visualisations and a glossary at the end.</p>
-        <h2>Section heading</h2>
-        <p>Placeholder body text to show how a section reads in this column width and line height.</p>
-        <h3>Sub-section heading</h3>
-        <p>More placeholder body text.</p>
+
+        <p>These are notes on some of what I learned, module by module, with the key points &amp; equations, shallow but broad technical coverage.</p>
+        <p class="wr-disclaimer">Reader should be comfortable with basic probability and a bit of undergraduate statistics. I skip the foundations and start from stationarity.</p>
+
+        <h2>Module One: Modern Time Series Analysis</h2>
+
+        <h3>Making a sequence tractable</h3>
+        <p>Say you have one observed time series e.g. a stock price, a temperature record, and you want to say something statistical about it. Normally, statistics wants many repeated observations of the same random thing. Here you only ever get one path, one series over time. So how do you estimate anything at all?</p>
+        <p>The answer is to assume the process behaves the same way at every point in time, we say its average value isn't drifting, and that how two points' covariance (how much they tend to move together) only depends on how far apart they are, not on which time these two points you picked are at. This assumption is called <a href="https://en.wikipedia.org/wiki/Stationary_process" target="_blank" rel="noopener">weak stationarity</a>, and it's what lets you treat different stretches of a single series as if they were separate samples from the same underlying process.</p>
+        <p>That's what finally lets us estimate real quantities from a single path: a mean, a variance, an autocorrelation.</p>
+        <p>Normally, computing the covariance between two points in a series would need both time indices: how X at time 5 relates to X at time 8 is potentially different from how it relates to X at time 30. Under stationarity, all that matters is the gap between them, called the lag, h. That gap-dependent covariance is the autocovariance function, written γ(h): the covariance between a point in the series and the point h steps later. Dividing by the variance γ(0) normalises this into the autocorrelation function ρ(h), a number between -1 and 1 that's always exactly 1 at lag 0, since a point matches itself perfectly.</p>
+        <div class="wr-math">
+          <span class="eq"><i>γ</i>(h) = Cov(<i>X</i><sub>t+h</sub>, <i>X</i><sub>t</sub>)&nbsp;&nbsp;&nbsp;&nbsp;<i>ρ</i>(h) = <i>γ</i>(h) / <i>γ</i>(0)</span>
+        </div>
+
+        <h3>Seeing what's underneath</h3>
+        <p>Let us look at a simple and ubiquitously important time series model, <a href="https://en.wikipedia.org/wiki/White_noise" target="_blank" rel="noopener">white noise</a>: a sequence of values that are completely independent of each other, with constant mean and variance, no trend, and no relationship between one point and the next.</p>
+        <p>Every diagnostic check later in this piece is really asking the same question: does this look like white noise, or is there structure left that our model should capture?</p>
+        <p>Practically, this means plotting the data first (trends and outliers are sometimes obvious just by eye) then dealing with any trend or seasonality before modelling anything, and finally checking afterwards that nothing structural got left behind in the residuals, which is our "does this look like white noise".</p>
+        <p>Removing a trend is usually done by <a href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average#Differencing" target="_blank" rel="noopener">differencing</a>: instead of modelling the series itself, you model the change from one point to the next. A straight-line trend has the same slope everywhere, so subtracting each value from the one before it cancels that slope out completely. One round is sometimes not enough, for example a curved trend, in which case you could difference multiple times.</p>
+        <div class="wr-math">
+          <span class="eq">&nabla;<i>X</i><sub>t</sub> = <i>X</i><sub>t</sub> &minus; <i>X</i><sub>t&minus;1</sub></span>
+          <span class="n">the lag-1 difference, removes a linear trend</span>
+        </div>
+
+        <div class="wr-fig">
+          <span class="wr-fig-cap-top" id="diff-cap">trending series</span>
+          <canvas id="fig-diff"></canvas>
+        </div>
+        <div class="wr-fig-controls">
+          <button type="button" class="wr-fig-btn active" id="diff-raw">Raw series</button>
+          <button type="button" class="wr-fig-btn" id="diff-differenced">Differenced</button>
+        </div>
+        <p class="wr-fig-caption">A trending series versus its lag-1 difference. The trend visibly disappears.</p>
+
+        <p>Seasonality works the same way, just at a different gap: instead of comparing each point to the one right before it, you compare it to the one a full cycle earlier e.g. 12 months back for a yearly pattern. If the cycle repeats reliably, that difference cancels it out for the same reason lag-1 differencing cancels a trend: whatever was consistent from cycle to cycle gets subtracted away.</p>
+
+        <h3>The model itself</h3>
+        <p>Once a series is stationary, you need an actual model for it: some process whose autocorrelation function (ACF) matches the shape you're seeing. Two simple models are very useful and real models often combine or build upon them.</p>
+        <p>The first is the first order <a href="https://en.wikipedia.org/wiki/Autoregressive_model" target="_blank" rel="noopener">autoregressive model</a>, AR(1): today's value is some fraction of the previous value, plus fresh noise.</p>
+        <div class="wr-math">
+          <span class="eq"><i>X</i><sub>t</sub> = <i>φ</i><i>X</i><sub>t&minus;1</sub> + <i>ε</i><sub>t</sub></span>
+          <span class="n">ε<sub>t</sub> is white noise; φ is some parameter; |φ| &lt; 1 for a well-behaved process</span>
+        </div>
+
+        <div class="wr-fig">
+          <span class="wr-fig-cap-top">simulated AR(1) path and its ACF</span>
+          <canvas id="fig-ar1"></canvas>
+        </div>
+        <div class="wr-fig-controls">
+          <label>φ <input type="range" id="phi-slider" min="-0.95" max="0.95" step="0.01" value="0.7"> <span class="val" id="phi-val">0.70</span></label>
+        </div>
+        <p class="wr-fig-caption">Drag φ. Higher |φ| means each point depends more strongly on the last, and the ACF decays more slowly.</p>
+
+        <p>The second is the first order <a href="https://en.wikipedia.org/wiki/Moving-average_model" target="_blank" rel="noopener">moving average model</a>, MA(1): today's value is just this period's noise plus a fraction of last period's noise. There's no dependence on past values, only on past shocks.</p>
+        <div class="wr-math">
+          <span class="eq"><i>X</i><sub>t</sub> = <i>ε</i><sub>t</sub> + <i>θ</i><i>ε</i><sub>t&minus;1</sub></span>
+          <span class="n">ε<sub>t</sub> is white noise; θ is some parameter</span>
+        </div>
+        <p>An <a href="https://en.wikipedia.org/wiki/Autoregressive%E2%80%93moving-average_model" target="_blank" rel="noopener">ARMA</a>(p, q) process is more general and combines both ideas at once, p autoregressive terms and q moving-average terms. AR(1) is really just ARMA(1, 0) and MA(1) is just ARMA(0, 1). If the raw series wasn't stationary to begin with, you difference it d times first (as in the last section) and fit ARMA to what's left. That's called <a href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average" target="_blank" rel="noopener">ARIMA</a>(p, d, q), an even more general model with one extra parameter for how much differencing it took. So, similarly, ARMA(p, q) is just ARIMA(p, 0, q).</p>
+        <p>Fitting one of these to real data means finding the parameters (φ's and θ's). Typically by <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation" target="_blank" rel="noopener">maximum likelihood</a>, we find the parameters that make the data you actually observed as likely as possible under the model.</p>
+        <p>Choosing p and q is a separate problem from fitting them: p is how many past values you include, q is how many past shocks (noise), so a bigger p means more history feeding into today's prediction, a bigger q means more past noise terms doing the same.</p>
+        <p>A bigger model can always fit the training data at least as well, so "best fit" alone isn't a fair way to choose, you need something that penalises unnecessary complexity too. For example, that's what <a href="https://en.wikipedia.org/wiki/Akaike_information_criterion" target="_blank" rel="noopener">AIC</a> and <a href="https://en.wikipedia.org/wiki/Bayesian_information_criterion" target="_blank" rel="noopener">BIC</a> do: each is a standard way of trading fit against model size, so the order you end up with is justified by the data rather than just whichever model had the most flexibility to bend to the data exactly.</p>
+        <p>Once a model is fitted, you still need to check it actually worked: whether what's left over in the residuals is genuinely just noise, or whether structure was missed, you also don't want to overfit your model. That's all a topic of its own, one I won't get into during this overview, but relevant tests to look up are Box-Pierce and <a href="https://en.wikipedia.org/wiki/Ljung%E2%80%93Box_test" target="_blank" rel="noopener">Ljung-Box</a>.</p>
+
+        <h3>Using the model</h3>
+        <p>Once a model is fitted and checked, the point of it is usually to look forward. Given everything observed up to now, what's the best guess for the value h timesteps from now?</p>
+        <p>The idea is simple: you already know the observed values and the fitted φ's and θ's, so you just apply the model's own equation forward, step by step, using your forecasts in place of the (unknown) future values as you go.</p>
+        <div class="wr-math">
+          <span class="eq"><i>X&#770;</i><sub>t+h</sub> = <i>φ</i><i>X&#770;</i><sub>t+h&minus;1</sub> + . . .</span>
+          <span class="n">each forecast feeds into the next, further out, using the same recursion the model was fitted on</span>
+        </div>
+        <p>A single number isn't the whole story though. Push the recursion far enough and the forecast stops changing, since each new step depends more on your previous forecast than on the actual data, and less and less of the original observed values are left in the calculation, the prediction just tends toward the series' long run average. It gets less certain the further out you go, too: more unknown noise terms have had a chance to accumulate in between, so the honest range of "where this could actually land" (the <a href="https://en.wikipedia.org/wiki/Prediction_interval" target="_blank" rel="noopener">prediction interval</a>) widens the further out you look.</p>
+
+        <h2>Module Two: From Signals to Trading</h2>
+
+        <h3>A good signal alone isn't enough</h3>
+        <p>Finding a signal that predicts something is only the start of the hard work. Testing a strategy on past data can make it look reliably and even massively profitable, but that same strategy often loses money once it's actually being traded. The main reason is that we have not considered <a href="https://en.wikipedia.org/wiki/Transaction_cost" target="_blank" rel="noopener">trading costs</a>, for example: brokers charge a fee just to place the trade; buying and selling prices are never quite the same (<a href="https://en.wikipedia.org/wiki/Bid%E2%80%93ask_spread" target="_blank" rel="noopener">the spread</a>), so simply crossing from one to the other costs you something; and your own order can move the price against you before it's even filled.</p>
+        <p>There's another hurdle on top of all this, even once a strategy is genuinely profitable after costs. Money isn't free: you could always just hold cash, or something close to it, and earn the <a href="https://en.wikipedia.org/wiki/Risk-free_interest_rate" target="_blank" rel="noopener">risk-free rate</a> for doing nothing at all. A strategy only really adds value if it beats that baseline, so the real bar isn't "is this profitable," it's "is this profitable by more than doing nothing would have been." That makes an already hard problem harder still: it's not enough for a signal to survive costs, it has to survive costs and clear a return that was available for free.</p>
+
+        <h3>Portfolio construction</h3>
+        <p>If you maximised for only expected return, we would only care about the one strategy with the highest return, but the standard way to think about this is a trade-off between return and risk: for a given amount of risk you're willing to take, what mix of positions gives you the highest expected return? You might expect this just means picking whichever single strategy has the best return per unit of risk and ignoring the rest, but combining strategies averages returns without averaging risk in the same way. As long as two strategies aren't highly correlated, some of their ups and downs cancel out when held together, so a portfolio of several decent strategies can end up with far less risk than any single one of them alone. Spreading weight across several imperfect, weakly-correlated strategies can raise your return per unit of risk even if none of them individually is the top performer.</p>
+        <p>A common and well-known metric used for this is the <a href="https://en.wikipedia.org/wiki/Sharpe_ratio" target="_blank" rel="noopener">Sharpe ratio</a>: your return above the risk-free rate, divided by your returns' standard deviation. A high Sharpe ratio means you're being well paid for the risk you're taking, not just making money by taking on a lot of it.</p>
+        <div class="wr-math">
+          <span class="eq">Sharpe = (<i>R</i> &minus; <i>R</i><sub>f</sub>) / <i>σ</i></span>
+          <span class="n">R is your return, R<sub>f</sub> the risk-free rate, σ the standard deviation of your returns</span>
+        </div>
+        <p>The <a href="https://en.wikipedia.org/wiki/Modern_portfolio_theory" target="_blank" rel="noopener">Markowitz portfolio</a> is the specific mix of weights that gets you the best possible trade-off between return and risk, the highest Sharpe ratio achievable from your set of strategies. In practice, though, this solution is notoriously unstable, since it's built from estimated returns and correlations rather than the true ones, and small errors in those estimates can propagate wildly into your final "optimal" weights.</p>
+
+        <h3>Newer approaches</h3>
+        <p>Everything so far assumes you already have a signal to trade and a sensible way to size it. Recent work applies <a href="https://en.wikipedia.org/wiki/Machine_learning" target="_blank" rel="noopener">machine learning</a> to both halves of that problem: finding signals in the first place, and deciding how to size and combine them once you have several.</p>
+        <p><a href="https://en.wikipedia.org/wiki/Reinforcement_learning" target="_blank" rel="noopener">Reinforcement learning</a> has also been used to treat execution itself as a control problem rather than a prediction problem, learning how to actually place trades over time rather than just what to trade. These are each substantial topics of their own, and ones I'd like to properly explore separately, rather than compress into a paragraph here.</p>
+
+        <h3>Risk</h3>
+        <p>A strategy is only as good as your understanding of how much you could lose. We touched on risk in Portfolio construction, but there's a lot more to it than a single standard deviation.</p>
+        <p>Two common and simple ways to measure it are <a href="https://en.wikipedia.org/wiki/Value_at_risk" target="_blank" rel="noopener">Value at Risk</a> (VaR) and <a href="https://en.wikipedia.org/wiki/Expected_shortfall" target="_blank" rel="noopener">Expected Shortfall</a> (ES). VaR asks: what's the worst loss I'd expect at some chosen confidence level, say 95% of the time? It tells you where that threshold sits, but nothing about how bad things get if you're unlucky enough to cross it. VaR also has an awkward mathematical property: combining two risky positions can sometimes look riskier under VaR than holding either one alone, the opposite of what diversification is supposed to achieve.</p>
+        <p>Expected Shortfall fixes both problems at once. It's the average loss given that you've crossed the VaR threshold, which gives an honest picture of the tail rather than just its edge, and it doesn't suffer from VaR's diversification quirk either. That combination is why ES is generally considered the more modern, transparent choice when presenting a risk model.</p>
+
+        <div class="wr-fig">
+          <span class="wr-fig-cap-top">return distribution, VaR and ES</span>
+          <canvas id="fig-var"></canvas>
+        </div>
+        <div class="wr-fig-controls">
+          <label>confidence <input type="range" id="conf-slider" min="0.90" max="0.99" step="0.01" value="0.95"> <span class="val" id="conf-val">95%</span></label>
+        </div>
+        <p class="wr-fig-caption">VaR (dashed) is a single quantile; ES (shaded) is the average of everything worse than it.</p>
+
+        <p>Both are usually estimated the simple way: a single standard deviation from historical returns, treated as roughly constant over time. But in practice, markets don't sit at one constant level of risk, they move between calmer and more volatile periods, and a risk estimate built this way has no way to notice volatility rising before a bad move actually happens. Getting this right, so the model actually adapts as volatility changes, is its own significant topic.</p>
+
+        <h2>Big Point on Both Modules</h2>
+        <p>The thing that surprised me was how often both modules came back to the same underlying question: not "does this model fit?", but "is there still structure it has failed to capture?" Whether looking at ARMA residuals or evaluating a trading strategy's risk model, you're constantly asking whether what's left behind really behaves the way your assumptions say it should.</p>
+        <p>I also expected most of the work to be finding and fitting models. Instead, a surprisingly large part is spent questioning whether the model is actually valid. Are the residuals really white noise? Have you overfit the data? Are the assumptions you've made actually justified? Much of modelling turns out to be less about building models than about trying to prove your own model wrong.</p>
+
+        <h2>Notes on the Course Itself</h2>
+        <p>This isn't everything the two modules covered, it's a selection of what I found most worth explaining, kept broad and shallow on purpose. There was also some fundamentals on statistics and regression provided, so the course is more accessible than this writeup may make it out.</p>
+        <p>There was a practical side to both modules, the first in R and the second in Python (though no extensive knowledge is needed). This breaks up the fast theory heavy lectures and lets the ideas sink in.</p>
+        <p>Also, the course actually runs three modules total, not just the two I did; what I've called Module One and Module Two here are really the course's Module Two and Module Three, renamed for simplicity in this writeup.</p>
+        <p>There's also a social side to it I haven't mentioned: you meet interesting people from a lot of different backgrounds/universities all interesting in similar topics, and each module included a social event to the museums in Kensington. Worth knowing about if you're considering applying yourself.</p>
+        <p>Everything above is my own writing and reflection on what I learned attending this in 2026, not official material from Imperial or notes directly from the course. The actual content of the summer school is also not fixed, it's run at the discretion of the Imperial lecturers may well change between years.</p>
+
       </div>
     </article>
   </main>
@@ -50,6 +166,227 @@
 
   <script src="../../bg-stars.js"></script>
   <script src="../../components.js"></script>
+  <script>
+  (function(){
+    // shared seeded RNG so figures are stable across reloads
+    let seed = 42
+    const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff }
+    const gauss = () => Math.sqrt(-2 * Math.log(rnd() + 1e-9)) * Math.cos(2 * Math.PI * rnd())
+
+    function fitCanvas(id) {
+      const c = document.getElementById(id)
+      if (!c) return null
+      const r = c.getBoundingClientRect()
+      c.width = r.width * 2
+      c.height = r.height * 2
+      const g = c.getContext('2d')
+      g.setTransform(2, 0, 0, 2, 0, 0)
+      return [g, r.width, r.height]
+    }
+
+    function grid(g, w, h) {
+      g.strokeStyle = 'rgba(156,112,255,0.08)'
+      g.lineWidth = 1
+      for (let i = 1; i < 10; i++) { const x = (i/10)*w; g.beginPath(); g.moveTo(x,0); g.lineTo(x,h); g.stroke() }
+      for (let i = 1; i < 4; i++) { const y = (i/4)*h; g.beginPath(); g.moveTo(0,y); g.lineTo(w,y); g.stroke() }
+    }
+
+    // ==================== FIGURE 1: AR(1) path + ACF, phi slider ====================
+    const N1 = 300
+    let phi = 0.7
+
+    function genAR1(phiVal) {
+      const x = [0]
+      for (let t = 1; t < N1; t++) x.push(phiVal * x[t-1] + gauss())
+      return x
+    }
+
+    function drawAR1() {
+      const c = document.getElementById('fig-ar1')
+      if (!c) return
+      const r = c.getBoundingClientRect()
+      c.width = r.width * 2
+      c.height = r.height * 2
+      const g = c.getContext('2d')
+      g.setTransform(2, 0, 0, 2, 0, 0)
+      const w = r.width, h = r.height
+
+      seed = 42
+      const x = genAR1(phi)
+
+      g.clearRect(0, 0, w, h)
+
+      const pathW = w * 0.55
+      const acfW = w - pathW - 20
+
+      g.save()
+      grid(g, pathW, h)
+      const pad = 8, lo = Math.min(...x), hi = Math.max(...x)
+      const px = i => pad + (i/(N1-1)) * (pathW - pad*2)
+      const py = v => h - pad - ((v-lo)/(hi-lo)) * (h - pad*2)
+      g.beginPath(); g.moveTo(pad, py(0)); g.lineTo(pathW-pad, py(0))
+      g.strokeStyle = 'rgba(255,255,255,0.08)'; g.lineWidth = 1; g.stroke()
+      g.beginPath()
+      x.forEach((v,i) => i ? g.lineTo(px(i), py(v)) : g.moveTo(px(i), py(v)))
+      g.strokeStyle = '#9c70ff'; g.lineWidth = 1.3
+      g.shadowColor = 'rgba(156,112,255,0.6)'; g.shadowBlur = 5
+      g.stroke(); g.shadowBlur = 0
+      g.restore()
+
+      g.save()
+      g.translate(pathW + 20, 0)
+      grid(g, acfW, h)
+      const mean = x.reduce((a,b)=>a+b,0)/N1
+      const c0 = x.reduce((a,v)=>a+(v-mean)**2,0)/N1
+      const L = 22, acf = []
+      for (let k=0;k<=L;k++){let s=0;for(let t=0;t<N1-k;t++)s+=(x[t]-mean)*(x[t+k]-mean);acf.push((s/N1)/c0)}
+      const apad = 10, base = h - apad
+      const apx = k => apad + (k/L)*(acfW - apad*2)
+      const apy = v => base - v*(h - apad*2)
+      const ci = 1.96/Math.sqrt(N1)
+      g.fillStyle = 'rgba(156,112,255,0.08)'
+      g.fillRect(apad, apy(ci), acfW-apad*2, apy(-ci)-apy(ci))
+      g.beginPath(); g.moveTo(apad,base); g.lineTo(acfW-apad,base)
+      g.strokeStyle = 'rgba(255,255,255,0.1)'; g.lineWidth = 1; g.stroke()
+      acf.forEach((v,k) => {
+        const col = k===0 ? '#ffffff' : '#9c70ff'
+        g.beginPath(); g.moveTo(apx(k),base); g.lineTo(apx(k),apy(v))
+        g.strokeStyle = col; g.lineWidth = 1.6; g.stroke()
+        g.beginPath(); g.arc(apx(k),apy(v),1.8,0,7); g.fillStyle = col; g.fill()
+      })
+      g.restore()
+    }
+
+    const phiSlider = document.getElementById('phi-slider')
+    const phiVal = document.getElementById('phi-val')
+    if (phiSlider) {
+      phiSlider.addEventListener('input', () => {
+        phi = parseFloat(phiSlider.value)
+        phiVal.textContent = phi.toFixed(2)
+        drawAR1()
+      })
+    }
+
+    // ==================== FIGURE 2: trend vs differenced ====================
+    const N2 = 120
+    const rawSeries = (() => {
+      const x = []
+      for (let t = 0; t < N2; t++) x.push(0.06*t + gauss()*1.4)
+      return x
+    })()
+    const diffSeries = rawSeries.slice(1).map((v,i) => v - rawSeries[i])
+
+    function drawSeries(id, data, color) {
+      const r = fitCanvas(id)
+      if (!r) return
+      const [g,w,h] = r
+      g.clearRect(0,0,w,h)
+      grid(g,w,h)
+      const pad = 10, lo = Math.min(...data), hi = Math.max(...data)
+      const px = i => pad + (i/(data.length-1))*(w-pad*2)
+      const py = v => h-pad-((v-lo)/(hi-lo))*(h-pad*2)
+      g.beginPath(); g.moveTo(pad, py(0>lo&&0<hi?0:lo)); g.lineTo(w-pad, py(0>lo&&0<hi?0:lo))
+      g.strokeStyle='rgba(255,255,255,0.06)'; g.lineWidth=1; g.stroke()
+      g.beginPath()
+      data.forEach((v,i)=>i?g.lineTo(px(i),py(v)):g.moveTo(px(i),py(v)))
+      g.strokeStyle=color; g.lineWidth=1.3
+      g.shadowColor=color; g.shadowBlur=4
+      g.stroke(); g.shadowBlur=0
+    }
+
+    const diffCap = document.getElementById('diff-cap')
+    const diffRawBtn = document.getElementById('diff-raw')
+    const diffDiffBtn = document.getElementById('diff-differenced')
+    function showRaw() {
+      drawSeries('fig-diff', rawSeries, '#9c70ff')
+      diffCap.textContent = 'trending series'
+      diffRawBtn.classList.add('active'); diffDiffBtn.classList.remove('active')
+    }
+    function showDiff() {
+      drawSeries('fig-diff', diffSeries, '#4fd66e')
+      diffCap.textContent = 'lag-1 differenced'
+      diffDiffBtn.classList.add('active'); diffRawBtn.classList.remove('active')
+    }
+    if (diffRawBtn) {
+      diffRawBtn.addEventListener('click', showRaw)
+      diffDiffBtn.addEventListener('click', showDiff)
+    }
+
+    // ==================== FIGURE 3: VaR / ES ====================
+    function normPdf(x, mu, sigma) {
+      return Math.exp(-0.5*((x-mu)/sigma)**2) / (sigma*Math.sqrt(2*Math.PI))
+    }
+    function invNorm(p) {
+      const a=[-3.969683028665376e+01,2.209460984245205e+02,-2.759285104469687e+02,1.383577518672690e+02,-3.066479806614716e+01,2.506628277459239e+00]
+      const b=[-5.447609879822406e+01,1.615858368580409e+02,-1.556989798598866e+02,6.680131188771972e+01,-1.328068155288572e+01]
+      const c=[-7.784894002430293e-03,-3.223964580411365e-01,-2.400758277161838e+00,-2.549732539343734e+00,4.374664141464968e+00,2.938163982698783e+00]
+      const d=[7.784695709041462e-03,3.224671290700398e-01,2.445134137142996e+00,3.754408661907416e+00]
+      const plow=0.02425, phigh=1-plow
+      let q,r
+      if (p<plow){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}
+      if (p>phigh){q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}
+      q=p-0.5;r=q*q
+      return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1)
+    }
+
+    function drawVaR(conf) {
+      const r = fitCanvas('fig-var')
+      if (!r) return
+      const [g,w,h] = r
+      g.clearRect(0,0,w,h)
+      grid(g,w,h)
+      const pad = 12
+      const xMin = -4, xMax = 4
+      const px = x => pad + ((x-xMin)/(xMax-xMin))*(w-pad*2)
+      const yMax = normPdf(0,0,1)
+      const py = y => h-pad-(y/yMax)*(h-pad*2)
+
+      const z = invNorm(1-conf)
+
+      g.beginPath()
+      g.moveTo(px(xMin), h-pad)
+      for (let x=xMin;x<=z;x+=0.02) g.lineTo(px(x), py(normPdf(x,0,1)))
+      g.lineTo(px(z), h-pad)
+      g.closePath()
+      g.fillStyle = 'rgba(255,64,64,0.18)'
+      g.fill()
+
+      g.beginPath()
+      for (let x=xMin;x<=xMax;x+=0.02) {
+        const y = py(normPdf(x,0,1))
+        x===xMin ? g.moveTo(px(x),y) : g.lineTo(px(x),y)
+      }
+      g.strokeStyle = '#9c70ff'; g.lineWidth = 1.4
+      g.shadowColor = 'rgba(156,112,255,0.5)'; g.shadowBlur = 4
+      g.stroke(); g.shadowBlur = 0
+
+      g.beginPath()
+      g.moveTo(px(z), h-pad); g.lineTo(px(z), py(normPdf(z,0,1)))
+      g.strokeStyle = '#ff4040'; g.lineWidth = 1.4
+      g.setLineDash([4,3])
+      g.stroke()
+      g.setLineDash([])
+    }
+
+    const confSlider = document.getElementById('conf-slider')
+    const confVal = document.getElementById('conf-val')
+    if (confSlider) {
+      confSlider.addEventListener('input', () => {
+        const c = parseFloat(confSlider.value)
+        confVal.textContent = Math.round(c*100) + '%'
+        drawVaR(c)
+      })
+    }
+
+    function initFigures() {
+      drawAR1()
+      showRaw()
+      drawVaR(0.95)
+    }
+    requestAnimationFrame(() => requestAnimationFrame(initFigures))
+    window.addEventListener('resize', initFigures)
+  })()
+  </script>
 
 </body>
 </html>
