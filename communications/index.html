@@ -109,6 +109,84 @@
       .channel-icon { width: 2.1rem; height: 2.1rem; flex-basis: 2.1rem; }
       .channel-copy { font-size: 1.4rem; padding: 0.35rem 1rem; align-self: center; }
     }
+    .quick-contact {
+      margin-top: 2.8rem;
+      width: 54rem;
+      max-width: 100%;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      margin-top: 1.1rem;
+    }
+    .contact-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .contact-label {
+      font-family: var(--font-ui);
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .contact-input {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      color: var(--text);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 0.7rem 1rem;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.15s;
+    }
+    .contact-input:focus { border-color: var(--purple-border); }
+    .contact-textarea {
+      resize: vertical;
+      min-height: 8rem;
+      line-height: 1.6;
+    }
+    .contact-botcheck {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      height: 0;
+      width: 0;
+    }
+    .contact-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      margin-top: 0.2rem;
+    }
+    .contact-submit {
+      font-family: var(--font-ui);
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--purple);
+      background: none;
+      border: 1px solid currentColor;
+      padding: 0.5rem 1.6rem;
+      cursor: pointer;
+    }
+    .contact-submit:hover:not(:disabled) { background: var(--purple); color: #000; }
+    .contact-submit:disabled { opacity: 0.5; cursor: default; }
+    .contact-status {
+      font-family: var(--font-mono);
+      font-size: 1.2rem;
+      color: var(--text-dim);
+    }
+    .contact-status.ok { color: var(--purple); }
+    .contact-status.err { color: var(--red); }
+    @media (max-width: 600px) {
+      .quick-contact { margin-top: 2rem; }
+      .contact-input { font-size: 1.3rem; padding: 0.6rem 0.8rem; }
+      .contact-submit { font-size: 1.4rem; padding: 0.45rem 1.3rem; }
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -167,6 +245,32 @@
           <span class="channel-ext">&#8599;</span>
         </a>
       </div>
+
+      <div class="quick-contact">
+        <p class="comms-note" style="margin-bottom:0">> or send a message here directly</p>
+        <form id="quick-contact-form" class="contact-form">
+          <input type="hidden" name="access_key" value="c144a0dd-9856-4eef-b95e-96f8c953ad45">
+          <input type="hidden" name="subject" value="New message from jontyali.com">
+          <input type="hidden" name="from_name" value="jontyali.com quick contact">
+          <input type="checkbox" name="botcheck" class="contact-botcheck" tabindex="-1" autocomplete="off">
+          <div class="contact-row">
+            <label class="contact-label" for="cf-name">name</label>
+            <input class="contact-input" id="cf-name" name="name" type="text" required autocomplete="name">
+          </div>
+          <div class="contact-row">
+            <label class="contact-label" for="cf-email">email (i'll reply here)</label>
+            <input class="contact-input" id="cf-email" name="email" type="email" required autocomplete="email">
+          </div>
+          <div class="contact-row">
+            <label class="contact-label" for="cf-message">message</label>
+            <textarea class="contact-input contact-textarea" id="cf-message" name="message" rows="4" required></textarea>
+          </div>
+          <div class="contact-actions">
+            <button type="submit" class="contact-submit">send</button>
+            <span class="contact-status" id="cf-status" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
     </section>
   </main>
 
@@ -181,6 +285,44 @@
         btn.textContent = 'copied'
         setTimeout(() => { btn.textContent = 'copy' }, 1500)
       })
+    })
+
+    const contactForm = document.getElementById('quick-contact-form')
+    const contactStatus = document.getElementById('cf-status')
+    const contactSubmit = contactForm.querySelector('.contact-submit')
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault()
+
+      contactSubmit.disabled = true
+      contactStatus.textContent = 'sending...'
+      contactStatus.className = 'contact-status'
+
+      const payload = Object.fromEntries(new FormData(contactForm))
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(res => res.json().then(json => ({ ok: res.ok, json })))
+        .then(({ ok, json }) => {
+          if (ok && json.success) {
+            contactStatus.textContent = "sent — I'll reply to your email soon"
+            contactStatus.className = 'contact-status ok'
+            contactForm.reset()
+          } else {
+            contactStatus.textContent = json.message || 'something went wrong — try emailing directly'
+            contactStatus.className = 'contact-status err'
+          }
+        })
+        .catch(() => {
+          contactStatus.textContent = 'something went wrong — try emailing directly'
+          contactStatus.className = 'contact-status err'
+        })
+        .finally(() => {
+          contactSubmit.disabled = false
+        })
     })
   </script>
 
