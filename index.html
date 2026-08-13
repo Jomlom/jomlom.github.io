@@ -36,9 +36,10 @@ body{
 }
 
 .crt-panel .crt-name{
-  font-family:var(--font-ui);font-size:8.5rem;line-height:0.9;color:#ffffff;
+  font-family:var(--font-ui);font-size:clamp(4rem,8vw,8.5rem);line-height:0.9;color:#ffffff;
   letter-spacing:0.02em;margin-bottom:1.2rem;opacity:1;animation:none;
   text-shadow:var(--glow-white);
+  white-space:nowrap;
 }
 .crt-tag{
   font-family:var(--font-mono);font-size:1.7rem;color:var(--text-muted);
@@ -48,16 +49,6 @@ body{
 .crt-menu{list-style:none;position:static;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:0.4rem;padding:0;border:0;background:none;backdrop-filter:none}
 
 .crt-item .jump{display:none;margin-left:auto;padding-left:1.2rem;font-size:0.85em;opacity:0.6}
-
-.sim-pause{
-  position:absolute;top:1.2rem;right:1.2rem;z-index:3;
-  display:none;
-  font-family:var(--font-ui);font-size:1.1rem;letter-spacing:0.1em;text-transform:uppercase;
-  color:var(--text-dim);background:rgba(0,0,0,0.3);border:1px solid var(--border);
-  padding:0.25rem 0.7rem;cursor:pointer;opacity:0.55;
-  transition:opacity 0.2s,color 0.2s,border-color 0.2s;
-}
-.sim-pause:hover{opacity:1;color:var(--purple);border-color:var(--purple-border)}
 
 /* one clean switch from desktop row -> full vertical layout, no dimmed in-between state */
 @media (max-width:900px){
@@ -105,7 +96,6 @@ body{
 
 <section class="hero">
   <canvas id="hero-canvas"></canvas>
-  <button id="sim-pause" class="sim-pause" aria-label="pause simulation">pause</button>
   <div class="crt-panel">
     <h1 class="crt-name"><span id="name-text"></span><span id="name-caret" class="name-caret">|</span></h1>
     <div class="crt-tag">maths &amp; physics, durham</div>

@@ -266,20 +266,21 @@ let rotX=0.5,rotY=-1.75,rotVel=0.005
 const ROT_SPEED=0.00006
 window._heroSim = { get rotX(){return rotX}, get rotY(){return rotY}, get fadeAlpha(){return fadeAlpha} }
 
+const PAUSE_KEY='sim-paused'
+
 const heroEl=document.querySelector('.hero')
 let drag=false,lx=0,ly=0
 function inHero(cy){const r=heroEl.getBoundingClientRect();return cy>=r.top&&cy<=r.bottom}
-window.addEventListener('mousedown',e=>{if(!inHero(e.clientY))return;drag=true;lx=e.clientX;ly=e.clientY;e.preventDefault()})
+window.addEventListener('mousedown',e=>{if(paused||!inHero(e.clientY))return;drag=true;lx=e.clientX;ly=e.clientY;e.preventDefault()})
 window.addEventListener('mouseup',()=>drag=false)
-window.addEventListener('mousemove',e=>{if(!drag)return;rotY+=(e.clientX-lx)*.005;lx=e.clientX;rotX+=(e.clientY-ly)*.005;ly=e.clientY})
+window.addEventListener('mousemove',e=>{if(!drag||paused)return;rotY+=(e.clientX-lx)*.005;lx=e.clientX;rotX+=(e.clientY-ly)*.005;ly=e.clientY})
 
-let fadeAlpha=1,fadingOut=false,pendingReset=false,paused=false
-heroEl.addEventListener('dblclick',()=>{fadingOut=true;pendingReset=false})
+let fadeAlpha=1,fadingOut=false,pendingReset=false,paused=localStorage.getItem(PAUSE_KEY)==='true'
+window.addEventListener('heroResetRequest',()=>{fadingOut=true;pendingReset=false})
 
 let frame=0
 function tick(){
-  if(paused)return
-  requestAnimationFrame(tick);frame++
+  frame++
   const w=W(),h=H()
 
   const tvel=drag?0:ROT_SPEED;rotVel+=(tvel-rotVel)*.04;rotY+=rotVel
@@ -323,17 +324,15 @@ function tick(){
   st(compProg,'u_sharp',0,sharpTex);st(compProg,'u_bloom',1,blurTexB)
   u1f(compProg,'u_alpha',fadeAlpha);dq(3)
   gl.disable(gl.BLEND)
+
+  if(!paused)requestAnimationFrame(tick)
 }
 
-const pauseBtn=document.getElementById('sim-pause')
-if(pauseBtn){
-  pauseBtn.style.display='block'
-  pauseBtn.addEventListener('click',()=>{
-    paused=!paused
-    pauseBtn.textContent=paused?'play':'pause'
-    if(!paused)tick()
-  })
-}
+window.addEventListener('simPauseToggle',e=>{
+  paused=e.detail.paused
+  if(!paused)tick()
+})
+
 tick()
 
 })()

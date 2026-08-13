@@ -4,6 +4,8 @@
 // draws background stars everywhere on the page
 // reads rotX and rotY from window._heroSim so stars match the hero exactly
 // on pages without hero-sim, rotates slowly on its own
+//
+// also owns the site-wide pause button: it's the one script guaranteed to
 
 (function () {
 
@@ -11,6 +13,9 @@
   if (!canvas) return
 
   const ctx = canvas.getContext('2d')
+
+  const PAUSE_KEY = 'sim-paused'
+  let paused = localStorage.getItem(PAUSE_KEY) === 'true'
 
   function resize() {
     canvas.width = window.innerWidth
@@ -44,7 +49,7 @@
   }
   genStars()
 
-  // re-randomise the star field when the hero galaxy is reset (double-click)
+  // re-randomise the star field when the hero galaxy is reset (reset button)
   window.addEventListener('heroReset', genStars)
 
   // autonomous rotation used on pages without hero-sim
@@ -55,7 +60,6 @@
   let frame = 0
 
   function tick() {
-    requestAnimationFrame(tick)
     frame++
 
     const w = canvas.width, h = canvas.height
@@ -130,8 +134,41 @@
     }
 
     ctx.globalAlpha = 1
+
+    if (!paused) requestAnimationFrame(tick)
   }
 
   tick()
+
+  const controls = document.createElement('div')
+  controls.className = 'sim-controls'
+  document.body.appendChild(controls)
+
+  if (document.getElementById('hero-canvas')) {
+    const resetBtn = document.createElement('button')
+    resetBtn.id = 'sim-reset'
+    resetBtn.className = 'sim-pause'
+    resetBtn.setAttribute('aria-label', 'reset galaxy simulation')
+    resetBtn.textContent = 'reset'
+    resetBtn.addEventListener('click', () => {
+      window.dispatchEvent(new Event('heroResetRequest'))
+    })
+    controls.appendChild(resetBtn)
+  }
+
+  const pauseBtn = document.createElement('button')
+  pauseBtn.id = 'sim-pause'
+  pauseBtn.className = 'sim-pause'
+  pauseBtn.setAttribute('aria-label', 'pause background animation')
+  pauseBtn.textContent = paused ? 'play' : 'pause'
+  controls.appendChild(pauseBtn)
+
+  pauseBtn.addEventListener('click', () => {
+    paused = !paused
+    localStorage.setItem(PAUSE_KEY, paused)
+    pauseBtn.textContent = paused ? 'play' : 'pause'
+    if (!paused) tick()
+    window.dispatchEvent(new CustomEvent('simPauseToggle', { detail: { paused } }))
+  })
 
 })()
