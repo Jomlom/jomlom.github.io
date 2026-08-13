@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Puzzles &middot; Jonty Ali</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="brand" onclick="showList()">Jonty Ali's Puzzles</a>
+    <button class="toggle" onclick="toggleTheme()" aria-label="Toggle theme" id="tgl">&#9790;</button>
+  </div>
+
+  <!-- LIST -->
+  <div id="list" class="view active">
+    <div class="intro">
+      <h1>Puzzles</h1>
+      <p>A collection of original problems I've created. New ones now and then. Click one to try it.</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card" onclick="showPuzzle('p1')">
+        <div class="art"><img src="two_hourglasses.png" alt=""></div>
+        <div class="card-text">
+          <div class="card-name-row">
+            <p class="card-name">The Unknown Hourglass</p>
+          </div>
+          <p class="card-teaser">You have two hourglasses. One runs for exactly 5 minutes&hellip;</p>
+        </div>
+        <span class="card-num">01</span>
+        <div class="card-arrow">&rarr;</div>
+      </div>
+
+      <div class="card" onclick="showPuzzle('p2')">
+        <div class="art"><img src="water.png" alt=""></div>
+        <div class="card-text">
+          <div class="card-name-row">
+            <p class="card-name">Splitting the Jug</p>
+          </div>
+          <p class="card-teaser">You have as many identical jugs as you like, and unlimited water&hellip;</p>
+        </div>
+        <span class="card-num">02</span>
+        <div class="card-arrow">&rarr;</div>
+      </div>
+
+      <div class="card" onclick="showPuzzle('p3')">
+        <div class="art"><img src="batteries.png" alt=""></div>
+        <div class="card-text">
+          <div class="card-name-row">
+            <p class="card-name">N Batteries, Two Settings</p>
+          </div>
+          <p class="card-teaser">You have n batteries. Each one is either good or bad&hellip;</p>
+        </div>
+        <span class="card-num">03</span>
+        <div class="card-arrow">&rarr;</div>
+      </div>
+
+      <div class="card soon">
+        <div class="art placeholder"><span>&#9633;</span></div>
+        <div class="card-text">
+          <div class="card-name-row">
+            <p class="card-name">More puzzles coming</p>
+          </div>
+          <p class="card-teaser">Check back soon</p>
+        </div>
+      </div>
+
+    </div>
+
+    <details class="drawer contact-box">
+      <summary>Have a question? Contact me <span class="chev">&#9654;</span></summary>
+      <div class="content">
+        <p>If you have an idea or extension answer, think I made a mistake, or just have a question about something, feel free to get in touch!</p>
+        <div class="send-row">
+          <a class="send" href="mailto:contact@jontyali.com">contact@jontyali.com</a>
+          <button type="button" class="copy-btn" data-copy="contact@jontyali.com">copy</button>
+        </div>
+      </div>
+    </details>
+
+    <footer>&copy; Jonty Ali</footer>
+  </div>
+
+  <!-- PUZZLE 01 -->
+  <div id="p1" class="view">
+    <button class="back" onclick="showList()">&larr; all puzzles</button>
+
+    <div class="puzzle-hero">
+      <div class="art"><img src="two_hourglasses.png" alt=""></div>
+      <div>
+        <div class="num">PUZZLE 01</div>
+        <h1>The Unknown Hourglass</h1>
+      </div>
+    </div>
+
+    <div class="body">
+      <p>You have two hourglasses. One runs for exactly 5 minutes. The other runs for some unknown whole number of minutes, call it X, with no markings to tell you how long.</p>
+      <p>You have no clock, no timer, and no other way to measure time. You can see the exact moment an hourglass runs out and flip it, but you cannot judge how much sand is left in one while it is running. A half-empty glass looks like any other.</p>
+      <p class="task">Using only the two hourglasses, how can you find X exactly?</p>
+    </div>
+
+    <div class="drawers">
+
+      <details class="drawer hint">
+        <summary>Hint <span class="chev">&#9654;</span></summary>
+        <div class="content">
+          <p>Start both together and never let either sit empty. Keep it going long enough and a critical moment arrives, one that tells you something you can turn into an equation.</p>
+        </div>
+      </details>
+
+      <details class="drawer answer">
+        <summary>Answer <span class="chev">&#9654;</span></summary>
+        <div class="content">
+          <p>Start both together and flip each one the instant it runs out, keeping a tally of how many times each is flipped. Stop when both run out at the same moment.</p>
+          <p>By then both have run for the same total time, one in 5-minute pieces, the other in X-minute pieces. If the 5-minute glass finished <em>a</em> times and the mystery glass <em>b</em> times, then <span class="eq">5a = bX</span>, so:</p>
+          <p class="eq-big">X = 5a &divide; b</p>
+          <p>For example, say the tallies come out as a = 9 and b = 5. Then:</p>
+          <p class="eq-big">5 &times; a = 5 &times; 9 = 45 minutes elapsed<br>X = 45 &divide; b = 45 &divide; 5 = 9</p>
+          <p>So the mystery hourglass runs for 9 minutes.</p>
+        </div>
+      </details>
+
+      <details class="drawer extension">
+        <summary>Extension <span class="chev">&#9654;</span></summary>
+        <div class="content">
+          <p>Now drop the assumption that X is a whole number. Suppose X can be any positive value at all.</p>
+          <p class="task">Can you still find X exactly? If not, what is the weakest condition X must satisfy for your method to pin it down?</p>
+          <div class="send-row">
+            <a class="send" href="mailto:contact@jontyali.com?subject=Puzzle%2001%20The%20Unknown%20Hourglass">Send me your answer: contact@jontyali.com</a>
+            <button type="button" class="copy-btn" data-copy="contact@jontyali.com">copy</button>
+          </div>
+        </div>
+      </details>
+
+    </div>
+
+    <details class="drawer contact-box">
+      <summary>Have a question? Contact me <span class="chev">&#9654;</span></summary>
+      <div class="content">
+        <p>If you have an idea or extension answer, think I made a mistake, or just have a question about something, feel free to get in touch!</p>
+        <div class="send-row">
+          <a class="send" href="mailto:contact@jontyali.com">contact@jontyali.com</a>
+          <button type="button" class="copy-btn" data-copy="contact@jontyali.com">copy</button>
+        </div>
+      </div>
+    </details>
+
+    <footer>&copy; Jonty Ali</footer>
+  </div>
+
+  <!-- PUZZLE 02 -->
+  <div id="p2" class="view">
+    <button class="back" onclick="showList()">&larr; all puzzles</button>
+
+    <div class="puzzle-hero">
+      <div class="art"><img src="water.png" alt=""></div>
+      <div>
+        <div class="num">PUZZLE 02</div>
+        <h1>Splitting the Jug</h1>
+      </div>
+    </div>
+
+    <div class="body">
+      <p>You have as many identical jugs as you like, and unlimited water. The jugs have no markings, so you cannot measure anything by eye.</p>
+      <p>You can do three things. You can fill a jug to the brim. You can empty a jug completely. And you can connect any group of your jugs so the water flows between them and settles at the same level in each. Jugs can be emptied and reused as many times as you like.</p>
+      <p class="task">You want a jug holding exactly one hundredth of a jug of water. What is the smallest number of jugs you need?</p>
+    </div>
+
+    <div class="drawers">
+
+      <details class="drawer hint">
+        <summary>Hint <span class="chev">&#9654;</span></summary>
+        <div class="content">
+          <p>You do not have to divide by 100 in one go. Break it into its prime factors and divide by each one in turn, emptying and reusing your jugs between steps.</p>
+        </div>
+      </details>
+
+      <details class="drawer answer">
+        <summary>Answer <span class="chev">&#9654;</span></summary>
+        <div class="content">
+          <p class="eq-big">Five</p>
+          <p>To divide an amount by x, put it in one jug, empty x minus 1 others, then connect all x. The water settles evenly, so each holds an x-th of what you started with. Dividing by x needs exactly x jugs.</p>
+          <p>Now write 100 as its prime factors:</p>
+          <p class="eq-big">100 = 2 &times; 2 &times; 5 &times; 5</p>
+          <p>So you never divide by more than 5 at once. Fill a jug, halve it, halve it again, then divide by 5 twice, emptying and reusing jugs between steps. The largest single step needs five jugs.</p>
+          <p>Forget 100 for a moment. For any n, the same idea applies: write n as its prime factors, and the number of jugs you need is the largest one.</p>
+        </div>
+      </details>
+
+    </div>
+
+    <details class="drawer contact-box">
+      <summary>Have a question? Contact me <span class="chev">&#9654;</span></summary>
+      <div class="content">
+        <p>If you have an idea or extension answer, think I made a mistake, or just have a question about something, feel free to get in touch!</p>
+        <div class="send-row">
+          <a class="send" href="mailto:contact@jontyali.com">contact@jontyali.com</a>
+          <button type="button" class="copy-btn" data-copy="contact@jontyali.com">copy</button>
+        </div>
+      </div>
+    </details>
+
+    <footer>&copy; Jonty Ali</footer>
+  </div>
+
+  <!-- PUZZLE 03 -->
+  <div id="p3" class="view">
+    <button class="back" onclick="showList()">&larr; all puzzles</button>
+
+    <div class="puzzle-hero">
+      <div class="art"><img src="batteries.png" alt=""></div>
+      <div>
+        <div class="num">PUZZLE 03</div>
+        <h1>N Batteries, Two Settings</h1>
+      </div>
+    </div>
+
+    <div class="body">
+      <p>You have n batteries, where n is at least 3. Each one is either good or bad, and you have no way to tell just by looking. You have a controller that takes exactly two batteries at a time, and it has two settings.</p>
+      <p>In AND mode, the controller lights up only if both batteries are good.</p>
+      <p>In OR mode, the controller lights up if at least one of the two batteries is good.</p>
+      <p>You can choose which two batteries to test and which setting to use each time, and you can decide your next test based on what happened before.</p>
+      <p class="task">In terms of n, what is the fewest tests you need, in the worst case, to work out the exact status of every single battery?</p>
+    </div>
+
+    <div class="drawers">
+
+      <details class="drawer hint">
+        <summary>Hint <span class="chev">&#9654;</span></summary>
+        <div class="content">
+          <p>Think about what happens the moment you know, for certain, that one particular battery is good or bad. What does that battery let you do to every other battery?</p>
+        </div>
+      </details>
+
+      <details class="drawer answer">
+        <summary>Answer <span class="chev">&#9654;</span></summary>
+        <div class="content">
+          <p class="eq-big">n + 2</p>
+          <p>A single battery of known status turns every other battery into a one-test problem: AND(1, i) reveals i if battery 1 is known good, OR(1, i) reveals i if battery 1 is known bad. So the real cost is pinning down one known battery, and that takes at most 5 tests among the first three.</p>
+          <p>Test AND(1, 2). Light up, both good, 1 test. Test OR(1, 2) next. Fails too, both bad, 2 tests. If AND fails but OR lights up, exactly one of them is good, but not which, so bring in battery 3. AND(1, 3) resolves it in 3 or 4 tests, and if that too is ambiguous, one final test, AND(2, 3), settles it in 5.</p>
+          <p>Every battery after the third costs one more test using that known battery as reference: 5 + (n &minus; 3) = n + 2.</p>
+          <p>Below n = 3 there is no third battery to break the tie, so the ambiguous case can never be resolved.</p>
+        </div>
+      </details>
+
+    </div>
+
+    <details class="drawer contact-box">
+      <summary>Have a question? Contact me <span class="chev">&#9654;</span></summary>
+      <div class="content">
+        <p>If you have an idea or extension answer, think I made a mistake, or just have a question about something, feel free to get in touch!</p>
+        <div class="send-row">
+          <a class="send" href="mailto:contact@jontyali.com">contact@jontyali.com</a>
+          <button type="button" class="copy-btn" data-copy="contact@jontyali.com">copy</button>
+        </div>
+      </div>
+    </details>
+
+    <footer>&copy; Jonty Ali</footer>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

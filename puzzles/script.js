@@ -1,0 +1,28 @@
+var dark = true;
+var views = ['list', 'p1', 'p2', 'p3'];
+
+function toggleTheme() {
+  dark = !dark;
+  document.body.classList.toggle('light', !dark);
+  document.getElementById('tgl').innerHTML = dark ? '&#9790;' : '&#9728;';
+}
+
+function show(id) {
+  views.forEach(function (v) {
+    document.getElementById(v).classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showPuzzle(id) { show(id); }
+function showList() { show('list'); }
+
+document.querySelectorAll('.copy-btn').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    navigator.clipboard.writeText(btn.dataset.copy)
+    var original = btn.textContent
+    btn.textContent = 'copied'
+    setTimeout(function () { btn.textContent = original }, 1500)
+  })
+})
