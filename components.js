@@ -198,6 +198,21 @@ class ProjectIcon extends HTMLElement {
   }
 }
 
+// same idea as ProjectIcon, for writeup article pages — looks for
+// <slug>.png next to the writeup and silently does nothing if it's missing
+class WriteupIcon extends HTMLElement {
+  connectedCallback() {
+    const name = window.location.pathname.split('/').filter(Boolean).pop()
+    const img = new Image()
+    img.onload = () => {
+      img.className = 'card-icon'
+      img.alt = ''
+      this.appendChild(img)
+    }
+    img.src = name + '.png'
+  }
+}
+
 class AIUsage extends HTMLElement {
   connectedCallback() {
     const words = { none: 'NONE', low: 'LOW', high: 'HEAVY' }
@@ -243,6 +258,7 @@ customElements.define('site-nav', SiteNav)
 customElements.define('site-footer', SiteFooter)
 customElements.define('project-gallery', ProjectGallery)
 customElements.define('project-icon', ProjectIcon)
+customElements.define('writeup-icon', WriteupIcon)
 customElements.define('ai-usage', AIUsage)
 
 document.querySelectorAll('.project-status').forEach(el => {

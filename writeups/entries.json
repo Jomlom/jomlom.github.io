@@ -5,7 +5,16 @@
     "type": "notes",
     "date": "2026-08-06",
     "read": 20,
-    "tags": ["time series", "trading", "statistics"],
+    "tags": ["maths", "trading", "statistics"],
     "pdf": true
+  },
+  {
+    "slug": "eclipse",
+    "title": "UK's 2026 Solar Eclipse & the Pinhole Effect",
+    "type": "notes",
+    "date": "2026-08-13",
+    "read": 4,
+    "tags": ["physics", "astronomy"],
+    "pdf": false
   }
 ]

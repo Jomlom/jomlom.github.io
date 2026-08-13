@@ -57,11 +57,11 @@
 .wr-row {
   position: relative;
   display: grid;
-  grid-template-columns: 8.5rem 1fr;
+  grid-template-columns: 9.5rem 1fr;
   gap: 1.5rem;
   border: 1px solid var(--border);
   background: var(--bg2);
-  padding: 1.4rem 1.6rem;
+  padding: 1rem 1.1rem;
   text-decoration: none;
   color: inherit;
   transition: border-color 0.2s, background 0.2s;
@@ -80,7 +80,29 @@
   gap: 0.55rem;
 }
 
-/* optional smaller pdf link, sits in the rail alongside type/date/read */
+.wr-rail-icon {
+  width: 8.5rem;
+  height: 8.5rem;
+  flex: 0 0 8.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.wr-content {
+  border-left: 1px solid var(--border);
+  padding-left: 1.5rem;
+  min-width: 0;
+}
+
+/* tags sit bottom-left, the optional pdf link sits bottom-right, same row */
+.wr-tags-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* optional pdf link, sits at the end of the tags row */
 .wr-pdf-mini {
   display: inline-flex;
   align-items: center;
@@ -94,14 +116,9 @@
   text-decoration: none;
   background: transparent;
   transition: background 0.15s, border-color 0.15s;
+  margin-left: auto;
 }
 .wr-pdf-mini:hover { background: var(--purple-glow); border-color: rgba(156,112,255,0.4); }
-
-.wr-content {
-  border-left: 1px solid var(--border);
-  padding-left: 1.5rem;
-  min-width: 0;
-}
 
 .wr-type {
   font-size: 1.05rem;
@@ -132,8 +149,8 @@
   margin-bottom: 1rem;
 }
 
-.wr-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.wr-tags span {
+.wr-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.wr-tags span:not(.wr-type) {
   font-size: 1.15rem;
   color: var(--text-dim);
   border: 1px solid var(--border);
@@ -151,12 +168,31 @@
 /* article (reading) pages */
 .wr-article { max-width: 720px; margin: 0 auto; padding: 6rem 1.5rem 5rem; }
 
+.wr-article-hero {
+  margin-bottom: 2rem;
+}
+
 .wr-article-top {
   display: flex;
   align-items: center;
   gap: 1.1rem;
-  margin-bottom: 2rem;
 }
+
+/* when an icon actually loaded, put it beside a right-hand column of meta
+   info instead of the plain stacked/row layout used when there's no icon */
+.wr-article-hero:has(.card-icon) {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  margin-bottom: 1.8rem;
+}
+.wr-article-hero:has(.card-icon) .wr-article-top {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.wr-article-hero:has(.card-icon) .wr-pdf { margin-left: 0; }
+.wr-article-hero:has(.card-icon) .wr-read::before { content: none; }
 
 /* optional pdf download link, sits at the end of the article-top meta row */
 .wr-pdf {
@@ -175,6 +211,15 @@
   transition: background 0.15s, border-color 0.15s;
 }
 .wr-pdf:hover { background: var(--purple-glow); border-color: rgba(156,112,255,0.4); }
+
+/* display:contents means an empty writeup-icon (no icon found) takes up
+   no space at all — the hero row above then just shows the plain meta bar */
+writeup-icon { display: contents; }
+writeup-icon .card-icon {
+  display: block;
+  width: clamp(8rem, 18vw, 14rem);
+  height: clamp(8rem, 18vw, 14rem);
+}
 
 .wr-article-title {
   font-size: 3rem;
@@ -208,6 +253,40 @@
 }
 .wr-article-lead a:hover,
 .wr-article-body a:hover { color: #b388ff; text-decoration-color: currentColor; }
+
+.wr-media-row {
+  display: flex;
+  gap: 1.5rem;
+  width: 90%;
+  margin: 2rem auto;
+}
+
+.wr-media {
+  flex: 1;
+  margin: 0;
+}
+
+.wr-media .wr-article-img,
+.wr-media .wr-article-video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.wr-media figcaption {
+  margin-top: 0.6rem;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: var(--text-dim);
+}
+
+.wr-media figcaption a {
+  color: var(--text-dim);
+}
+
+.wr-media figcaption a:hover {
+  color: var(--text);
+}
 
 /* article content blocks */
 .wr-type-deep { color: var(--purple); background: var(--purple-glow); border-color: var(--purple-border); }

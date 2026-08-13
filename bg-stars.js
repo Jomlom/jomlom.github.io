@@ -50,7 +50,7 @@
   // autonomous rotation used on pages without hero-sim
   const AUTO_ROT_X = 0.25
   let autoRotY = -0.75
-  const AUTO_ROT_SPEED = 0.00018
+  const AUTO_ROT_SPEED = 0.00006
 
   let frame = 0
 

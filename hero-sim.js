@@ -263,7 +263,7 @@ loadGalaxy(makeGalaxy())
 
 // camera state - exposed globally for bg-stars.js
 let rotX=0.5,rotY=-1.75,rotVel=0.005
-const ROT_SPEED=0.0002
+const ROT_SPEED=0.00006
 window._heroSim = { get rotX(){return rotX}, get rotY(){return rotY}, get fadeAlpha(){return fadeAlpha} }
 
 const heroEl=document.querySelector('.hero')
