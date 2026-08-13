@@ -11,7 +11,11 @@ function show(id) {
   views.forEach(function (v) {
     document.getElementById(v).classList.remove('active');
   });
-  document.getElementById(id).classList.add('active');
+  var el = document.getElementById(id);
+  el.classList.add('active');
+  el.querySelectorAll('details[open]').forEach(function (d) {
+    d.removeAttribute('open');
+  });
   window.scrollTo(0, 0);
 }
 
