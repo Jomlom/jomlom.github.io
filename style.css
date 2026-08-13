@@ -360,7 +360,7 @@ body{ font-size:var(--fz-base) !important; letter-spacing:0.01em; }
 .crumb .crt-item.home:hover,
 .crt-key.home.selected,
 .crt-key.home:hover,
-.channel.kofi:hover{background:#fff;color:#000}
+.channel.kofi:hover{background:#fff !important;color:#000 !important}
 .crt-item.selected .arrow,
 .crumb .crt-item:hover .arrow,
 .channel:hover .arrow{opacity:1;animation:blockblink 0.8s step-end infinite}
