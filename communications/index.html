@@ -19,6 +19,13 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=Chivo+Mono:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
   <style>
+    .comms-content {
+         fit-content instead of a fixed number so it hugs whatever's actually
+         widest (the email row + its copy button) instead of clipping it */
+      width: fit-content;
+      max-width: 100%;
+      margin: 0 auto;
+    }
     .comms-intro {
       color: var(--text-muted);
       font-size: 1.4rem;
@@ -61,6 +68,31 @@
     .channel.email {
       color: var(--red);
     }
+    .channel.kofi {
+      color: #fff;
+    }
+    .kofi-label-text {
+      position: relative;
+    .kofi-splash {
+      /* taken out of flow entirely so it can never push/move the "Ko-fi" text —
+         purely a decorative overlay sitting just below and to its right */
+      position: absolute;
+      left: 70%;
+      top: 78%;
+      margin-left: 0;
+      white-space: nowrap;
+      pointer-events: none;
+      font-size: 1.05rem;
+      text-transform: none;
+      letter-spacing: 0.02em;
+      transform: rotate(-9deg);
+      transform-origin: left center;
+      animation: featured-pulse-white 4s ease-in-out infinite;
+    }
+    @keyframes featured-pulse-white {
+      0%, 100% { text-shadow: 0 0 6px rgba(255, 255, 255, 0.32); }
+      50%      { text-shadow: 0 0 8px rgba(255, 255, 255, 0.44); }
+    }
     .channel .arrow {
       display: inline-block;
       width: 1.2rem;
@@ -69,11 +101,11 @@
     }
     .channel-icon {
       width: 2.3rem;
-      height: 2.3rem;
-      flex: 0 0 2.3rem;
+      /* full-res icons now, smoothly scaled — no pixel-art constraints needed */
+      width: 36px;
+      height: 36px;
+      flex: 0 0 36px;
       object-fit: contain;
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
     }
     .channel-label {
       flex: 0 0 14rem;
@@ -98,15 +130,20 @@
       background: var(--red);
       color: #000;
     }
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .comms-intro { font-size: 1.25rem; }
       .channels { gap: 0.5rem; }
       .channel-row { flex-direction: column; align-items: stretch; gap: 0.5rem; }
-      .channel { width: 100%; font-size: 1.5rem; gap: 0.8rem; padding: 0.65rem 0.9rem; }
+      .channel { width: auto; font-size: 1.5rem; gap: 0.8rem; padding: 0.65rem 0.9rem; }
       .channel .arrow,
-      .channel-label,
       .channel-ext { display: none; }
-      .channel-icon { width: 2.1rem; height: 2.1rem; flex-basis: 2.1rem; }
+      /* .channel-icon stays at its native 32px 1:1 ratio on mobile too, see base rule */
+      /* mobile shows the channel's title instead of its value — except email,
+         which still needs to show the actual address */
+      .channel-label { display: block; flex: 1; }
+      .channel-value { display: none; }
+      .channel.email .channel-label { display: none; }
+      .channel.email .channel-value { display: block; flex: 1; }
       .channel-copy { font-size: 1.4rem; padding: 0.35rem 1rem; align-self: center; }
     }
     .quick-contact {
@@ -182,7 +219,7 @@
     }
     .contact-status.ok { color: var(--purple); }
     .contact-status.err { color: var(--red); }
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .quick-contact { margin-top: 2rem; }
       .contact-input { font-size: 1.3rem; padding: 0.6rem 0.8rem; }
       .contact-submit { font-size: 1.4rem; padding: 0.45rem 1.3rem; }
@@ -202,7 +239,8 @@
       "email": "mailto:contact@jontyali.com",
       "sameAs": [
         "https://github.com/Jomlom",
-        "https://www.linkedin.com/in/jonty-ali-722b8926a/"
+        "https://www.linkedin.com/in/jonty-ali-722b8926a/",
+        "https://ko-fi.com/jontyali"
       ]
     }
   }
@@ -217,6 +255,7 @@
 
   <main class="page-main">
     <section class="section">
+      <div class="comms-content">
       <p class="comms-intro">> open to conversations about my work, studies, or anything interesting</p>
       <p class="comms-note">> timezone UTC+1</p>
       <div class="channels">
@@ -242,6 +281,13 @@
           <img class="channel-icon" src="github.png" alt="">
           <span class="channel-label">GitHub</span>
           <span class="channel-value">Jomlom</span>
+          <span class="channel-ext">&#8599;</span>
+        </a>
+        <a class="channel kofi" href="https://ko-fi.com/jontyali" target="_blank" rel="noopener me">
+          <span class="arrow">&gt;</span>
+          <img class="channel-icon" src="kofi.png" alt="">
+          <span class="channel-label"><span class="kofi-label-text">Ko-fi<span class="kofi-splash">support me!</span></span></span>
+          <span class="channel-value">jontyali</span>
           <span class="channel-ext">&#8599;</span>
         </a>
       </div>
@@ -271,6 +317,7 @@
           </div>
         </form>
       </div>
+      </div>
     </section>
   </main>
 
@@ -286,6 +333,25 @@
         setTimeout(() => { btn.textContent = 'copy' }, 1500)
       })
     })
+
+    // mobile mode: every channel bar's width should match the email bar
+    // (the longest one) rather than either hugging its own short content
+    // or stretching to the full page width
+    const mobileModeQuery = window.matchMedia('(max-width: 768px)')
+    const emailChannel = document.querySelector('.channel.email')
+    const otherChannels = [...document.querySelectorAll('.channel:not(.email)')]
+
+    function syncChannelWidths() {
+      otherChannels.forEach(c => { c.style.width = '' })
+      if (!mobileModeQuery.matches) return
+      const emailWidth = emailChannel.getBoundingClientRect().width
+      otherChannels.forEach(c => { c.style.width = emailWidth + 'px' })
+    }
+
+    window.addEventListener('resize', syncChannelWidths)
+    window.addEventListener('load', syncChannelWidths)
+    mobileModeQuery.addEventListener('change', syncChannelWidths)
+    syncChannelWidths()
 
     const contactForm = document.getElementById('quick-contact-form')
     const contactStatus = document.getElementById('cf-status')

@@ -359,7 +359,8 @@ body{ font-size:var(--fz-base) !important; letter-spacing:0.01em; }
 .crt-item.home.selected,
 .crumb .crt-item.home:hover,
 .crt-key.home.selected,
-.crt-key.home:hover{background:#fff;color:#000}
+.crt-key.home:hover,
+.channel.kofi:hover{background:#fff;color:#000}
 .crt-item.selected .arrow,
 .crumb .crt-item:hover .arrow,
 .channel:hover .arrow{opacity:1;animation:blockblink 0.8s step-end infinite}
@@ -408,7 +409,7 @@ body{ font-size:var(--fz-base) !important; letter-spacing:0.01em; }
 .crumb-hints a:hover .key{color:var(--purple)}
 .crumb-mobile{display:none}
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   :root {
     --fz-base: 1.05rem;
     --fz-h3-lg: 1.7rem;

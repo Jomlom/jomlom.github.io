@@ -333,6 +333,6 @@ ai-usage { display: contents; }
   .project-overview { padding: 2rem 1.5rem 3rem; }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .project-overview { gap: 2rem; }
 }
