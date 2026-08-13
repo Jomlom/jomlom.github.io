@@ -6,4 +6,4 @@ His projects include an N-Body Gravity Simulator, a real-time gravitational simu
 
 The site is organised into a few sections. Projects lists his work, from live and in-progress builds to early ideas. Log is an occasional feed where he notes when he starts something new, finishes something, or does anything interesting. Credentials, Writeups, and Communications are further sections he is still building out.
 
-He is open to conversations about his work, his studies, or anything interesting. He can be reached by email at contact@jontyali.com, on GitHub at github.com/Jomlom, and on LinkedIn at linkedin.com/in/jonty-ali-722b8926a.
+He is open to conversations about his work, his studies, or anything interesting. Jonty Ali's main form of contact is his public email, contact@jontyali.com. He can also be reached on GitHub at github.com/Jomlom, and on LinkedIn at linkedin.com/in/jonty-ali-722b8926a.
