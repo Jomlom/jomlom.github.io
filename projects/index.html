@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Projects - Jonty Ali" />
-  <meta property="og:description" content="Everything Jonty Ali is building, from live projects and works in progress to ideas he still wants to try, filterable by status and language. Contact: contact@jontyali.com." />
+  <meta property="og:description" content="Everything Jonty Ali is building, from live projects and works in progress to ideas he still wants to try, filterable by status. Contact: contact@jontyali.com." />
   <meta property="og:url" content="https://jontyali.com/projects/" />
   <link rel="canonical" href="https://jontyali.com/projects/" />
   <meta property="og:image" content="https://jontyali.com/favicon.png" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Projects - Jonty Ali" />
-  <meta name="twitter:description" content="Everything Jonty Ali is building, from live projects and works in progress to ideas he still wants to try, filterable by status and language. Contact: contact@jontyali.com." />
+  <meta name="twitter:description" content="Everything Jonty Ali is building, from live projects and works in progress to ideas he still wants to try, filterable by status. Contact: contact@jontyali.com." />
   <meta name="twitter:image" content="https://jontyali.com/favicon.png" />
-  <meta name="description" content="Everything Jonty Ali is building, from live projects and works in progress to ideas he still wants to try, filterable by status and language. Contact: contact@jontyali.com." />
+  <meta name="description" content="Everything Jonty Ali is building, from live projects and works in progress to ideas he still wants to try, filterable by status. Contact: contact@jontyali.com." />
   <title>Projects - Jonty Ali</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&family=DM+Sans:wght@400;500;600;700&family=Chivo+Mono:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -271,16 +271,6 @@
             <button class="filter-pill" data-filter="live">Live</button>
           </div>
         </div>
-        <div class="filter-group">
-          <div class="filter-group-label">Language</div>
-          <div class="filter-pills" id="filter-lang">
-            <button class="filter-pill" data-filter="c++">C++</button>
-            <button class="filter-pill" data-filter="java">Java</button>
-            <button class="filter-pill" data-filter="javascript">JavaScript</button>
-            <button class="filter-pill" data-filter="python">Python</button>
-            <button class="filter-pill" data-filter="gdscript">GDScript</button>
-          </div>
-        </div>
         <button class="view-toggle" id="compact-toggle" aria-label="toggle compact view">
           <span class="toggle-track"><span class="toggle-thumb"></span></span>
           Compact mode
@@ -308,7 +298,6 @@
               I have publicised some of these online which you can try,
               and add new ones occasionally.</p>
             <div class="project-tags">
-              <span>HTML</span>
               <span>Problem Solving</span>
               <span>Maths</span>
             </div>
@@ -328,7 +317,7 @@
               1600 ELO.</p>
             <div class="project-tags">
               <span>C++</span>
-              <span>Game Engine</span>
+              <span>Problem Solving</span>
               <span>Game Theory</span>
             </div>
             <span class="card-arrow">→</span>
@@ -343,9 +332,8 @@
               my friend, where we are actively
               developing a playable demo for a game in Godot.</p>
             <div class="project-tags">
-              <span>GDScript</span>
+              <span>Godot</span>
               <span>Game Dev</span>
-              <span>Computer Graphics</span>
             </div>
             <span class="card-arrow">→</span>
           </a>
@@ -380,8 +368,8 @@
               of this site.</p>
             <div class="project-tags">
               <span>JavaScript</span>
-              <span>Physics Simulation</span>
-              <span>Computer Graphics</span>
+              <span>Maths</span>
+              <span>Physics Sim</span>
             </div>
             <span class="card-arrow">→</span>
           </a>
@@ -412,7 +400,7 @@
                but I'd like to see an engine I create predict or fool me and my friends.</p>
             <div class="project-tags">
               <span>C++</span>
-              <span>Game Engine</span>
+              <span>Problem Solving</span>
               <span>Game Theory</span>
             </div>
             <span class="card-arrow">→</span>
@@ -428,7 +416,8 @@
               the visual results and the physics.</p>
             <div class="project-tags">
               <span>Python</span>
-              <span>Physics Simulation</span>
+              <span>Maths</span>
+              <span>Physics Sim</span>
             </div>
           </div>
         </div>
@@ -442,7 +431,8 @@
               I want to do properly with path tracing.</p>
             <div class="project-tags">
               <span>C++</span>
-              <span>Computer Graphics</span>
+              <span>Maths</span>
+              <span>Physics Sim</span>
             </div>
           </div>
         </div>
@@ -523,18 +513,16 @@
     })
     msnry.layout()
 
-    // filtering - reads from card tags and status element directly
-    const activeFilters = { status: null, lang: null }
+    // filtering - reads from the status element directly
+    const activeFilters = { status: null }
     let pendingFilter = null
     let filterTimer = null
 
     function computeVisible() {
       return allProjects.map(entry => {
         const status = getCardStatus(entry)
-        const tags = getCardTags(entry)
         const statusOk = !activeFilters.status || status === activeFilters.status
-        const langOk = !activeFilters.lang || tags.includes(activeFilters.lang)
-        return { entry, visible: statusOk && langOk }
+        return { entry, visible: statusOk }
       })
     }
 
@@ -612,7 +600,6 @@
     }
 
     bindPills('filter-status', 'status')
-    bindPills('filter-lang', 'lang')
   </script>
 
   <site-footer></site-footer>
