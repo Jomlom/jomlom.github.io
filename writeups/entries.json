@@ -5,7 +5,7 @@
     "type": "notes",
     "date": "2026-08-06",
     "read": 20,
-    "tags": ["maths", "trading", "statistics"],
+    "tags": ["Maths", "Trading", "Statistics"],
     "pdf": true
   },
   {
@@ -14,7 +14,7 @@
     "type": "notes",
     "date": "2026-08-13",
     "read": 4,
-    "tags": ["physics", "astronomy"],
+    "tags": ["Physics", "Astronomy"],
     "pdf": false
   }
 ]
