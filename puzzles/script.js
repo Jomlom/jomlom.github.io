@@ -1,5 +1,5 @@
 var dark = true;
-var views = ['list', 'p1', 'p2', 'p3'];
+var views = ['list', 'p1', 'p2', 'p3', 'p4'];
 
 function toggleTheme() {
   dark = !dark;

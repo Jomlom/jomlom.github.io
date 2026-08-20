@@ -59,6 +59,18 @@
         <div class="card-arrow">&rarr;</div>
       </div>
 
+      <div class="card" onclick="showPuzzle('p4')">
+        <div class="art placeholder2"><span>&#9861;</span></div>
+        <div class="card-text">
+          <div class="card-name-row">
+            <p class="card-name">Die vs Die+1</p>
+          </div>
+          <p class="card-teaser">You and a friend each roll a fair n-sided die, but you always&hellip;</p>
+        </div>
+        <span class="card-num">04</span>
+        <div class="card-arrow">&rarr;</div>
+      </div>
+
       <div class="card soon">
         <div class="art placeholder"><span>&#9633;</span></div>
         <div class="card-text">
@@ -244,6 +256,70 @@
           <p>Test AND(1, 2). Light up, both good, 1 test. Test OR(1, 2) next. Fails too, both bad, 2 tests. If AND fails but OR lights up, exactly one of them is good, but not which, so bring in battery 3. AND(1, 3) resolves it in 3 or 4 tests, and if that too is ambiguous, one final test, AND(2, 3), settles it in 5.</p>
           <p>Every battery after the third costs one more test using that known battery as reference: 5 + (n &minus; 3) = n + 2.</p>
           <p>Below n = 3 there is no third battery to break the tie, so the ambiguous case can never be resolved.</p>
+        </div>
+      </details>
+
+    </div>
+
+    <details class="drawer contact-box">
+      <summary>Have a question? Contact me <span class="chev">&#9654;</span></summary>
+      <div class="content">
+        <p>If you have an idea or extension answer, think I made a mistake, or just have a question about something, feel free to get in touch!</p>
+        <div class="send-row">
+          <a class="send" href="mailto:contact@jontyali.com">contact@jontyali.com</a>
+          <button type="button" class="copy-btn" data-copy="contact@jontyali.com">copy</button>
+        </div>
+      </div>
+    </details>
+
+    <footer>&copy; Jonty Ali</footer>
+  </div>
+
+  <!-- PUZZLE 04 -->
+  <div id="p4" class="view">
+    <button class="back" onclick="showList()">&larr; all puzzles</button>
+
+    <div class="puzzle-hero">
+      <div class="art placeholder2"><span>&#9861;</span></div>
+      <div>
+        <div class="num">PUZZLE 04</div>
+        <h1>Die vs Die+1</h1>
+      </div>
+    </div>
+
+    <div class="body">
+      <p>You and a friend each roll a fair n-sided die, but you always add 1 to your roll. Higher total wins, and ties go to them. The loser pays the winner whatever the loser rolled, your +1 included if that's you.</p>
+      <p class="task">In terms of n, how much would you pay to play one round?</p>
+    </div>
+
+    <div class="drawers">
+
+      <details class="drawer hint">
+        <summary>Hint <span class="chev">&#9654;</span></summary>
+        <div class="content">
+          <p>Your +1 wins you more rounds, but makes your losses bigger too. Compare this to the a plain, fair version of the game and see how it differs.</p>
+        </div>
+      </details>
+
+      <details class="drawer answer">
+        <summary>Answer <span class="chev">&#9654;</span></summary>
+        <div class="content">
+          <p class="eq-big">1/n</p>
+          <p>Here are two clear ways to get there.</p>
+          <p><strong>Method 1: condition and iterate</strong></p>
+          <p>Fix your roll at <em>a</em>. Their roll <em>b</em> is uniform over 1 to n.</p>
+          <p>You win whenever <em>b</em> &le; <em>a</em>, with probability a/n, and given a win, <em>b</em> is equally likely to be anything from 1 to <em>a</em>, so you collect (a+1)/2 on average. You lose whenever <em>b</em> &ge; a+1, with probability (n&minus;a)/n, and pay a+1 every time.</p>
+          <p>Your expected gain given this roll is:</p>
+          <p class="eq-big">E(a) = (a/n) &times; (a+1)/2 &minus; ((n&minus;a)/n) &times; (a+1)</p>
+          <p>Expanding gives E(a) = 3a&sup2;/2n &minus; a + 3a/2n &minus; 1. Sum this over every <em>a</em> from 1 to n using the standard formulas &Sigma;a = n(n+1)/2 and &Sigma;a&sup2; = n(n+1)(2n+1)/6. Term by term: 3a&sup2;/2n sums to n&sup2;/2 + 3n/4 + 1/4, &minus;a sums to &minus;n(n+1)/2, 3a/2n sums to 3n/4 + 3/4, and &minus;1 added n times gives &minus;n. Add these four together and every n-dependent piece cancels, leaving exactly 1.</p>
+          <p>That sum of 1 still needs dividing by n once more, since <em>a</em> itself is one of n equally likely rolls, giving the final average:</p>
+          <p class="eq-big">EV = 1/n</p>
+          <p><strong>Method 2: find the deviation from a fair game</strong></p>
+          <p>Picture a deliberately fair reference game first: no bonus, so both totals are just <em>a</em> and <em>b</em>. Whoever rolls strictly higher wins and collects the loser's roll, and a tie pays nobody. Swap the labels "you" and "them" and the rules read identically, so by symmetry this game is worth exactly 0 to either player.</p>
+          <p>Now turn on your bonus and track exactly what changes. Your total becomes a+1, so you win whenever a+1 &gt; b, which for whole numbers is the same as a &ge; b, against the reference's strict a &gt; b. The only pairs where the two conditions disagree are the old ties, a = b. In the reference these paid nobody; now you win them outright and collect the roll, averaging (n+1)/2. That happens with probability 1/n, worth (n+1)/2n.</p>
+          <p>Everything else you lose on, meaning a &lt; b, exactly as in the reference. The bonus creates a new kind of tie here too, since your total can now match theirs at a+1 = b, and the rule still says a tie goes to them. But that's just b = a+1, already inside a &lt; b, so it was always part of your losses, not a separate case. The only thing the bonus changes on this whole set is the amount: you now pay a+1 instead of a, one extra unit every time, whether the loss was a total-tie or not. That costs (n&minus;1)/2n, since the loss set has probability (n&minus;1)/2n.</p>
+          <p>So the only two real changes from the fair reference are the stolen ties and the taxed losses. Add them to the reference's 0:</p>
+          <p class="eq-big">(n+1)/2n &minus; (n&minus;1)/2n = 1/n</p>
         </div>
       </details>
 
