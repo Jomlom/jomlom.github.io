@@ -1,5 +1,7 @@
 var dark = true;
 var views = ['list', 'p1', 'p2', 'p3', 'p4'];
+var puzzleIds = ['p1', 'p2', 'p3', 'p4'];
+var currentView = 'list';
 
 function toggleTheme() {
   dark = !dark;
@@ -17,6 +19,14 @@ function show(id) {
     d.removeAttribute('open');
   });
   window.scrollTo(0, 0);
+  if (puzzleIds.indexOf(currentView) !== -1) {
+    PuzzleAnalytics.cancelAttemptTimer();
+  }
+  currentView = id;
+  if (puzzleIds.indexOf(id) !== -1) {
+    PuzzleAnalytics.startAttemptTimer(id);
+    PuzzleAnalytics.renderCount(id, document.getElementById('attempts-' + id));
+  }
 }
 
 function showPuzzle(id) { show(id); }
