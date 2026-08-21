@@ -3,7 +3,7 @@
 var PuzzleAnalytics = (function () {
   var API_BASE = 'https://api.jontyali.com';
   var ANON_ID_KEY = 'jontyali_anon_id';
-  var ATTEMPT_DELAY_MS = 20000;
+  var ATTEMPT_DELAY_MS = 10000;
 
   var anonId = null;
   var pendingAttemptTimer = null;

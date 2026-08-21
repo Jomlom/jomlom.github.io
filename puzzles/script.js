@@ -32,6 +32,10 @@ function show(id) {
 function showPuzzle(id) { show(id); }
 function showList() { show('list'); }
 
+puzzleIds.forEach(function (id) {
+  PuzzleAnalytics.renderCount(id, document.getElementById('card-attempts-' + id));
+});
+
 document.querySelectorAll('.copy-btn').forEach(function (btn) {
   btn.addEventListener('click', function () {
     navigator.clipboard.writeText(btn.dataset.copy)
